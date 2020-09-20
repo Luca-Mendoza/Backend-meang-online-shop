@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ],
 
     /* Basic Options */
     // "incremental": true,                   /* Enable incremental compilation */
