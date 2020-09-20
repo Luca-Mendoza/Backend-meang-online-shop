@@ -4,24 +4,35 @@ import express from "express";
 import cors from "cors"; /*CORS es un paquete node.js para proporcionar un middleware Connect / Express que se puede usar para habilitar CORS con varias opciones.*/
 import compression from "compression";
 import { createServer } from "http";
+import environment from './config/environments';
 
+// Configuracion de las variables del entorno (Lecturas)
+if (process.env.NODE_ENV !== 'production') {
+    const env = environment;
+    console.log(env);
+}
 
-const app = express();
+async function init() {
+    const app = express();
 
-app.use('*', cors());
+    app.use('*', cors());
 
-app.use(compression());
+    app.use(compression());
 
-app.get('/', (_, res) => {
-    res.send('APU MEANG - Oline Shop Start');
-});
+    app.get('/', (_, res) => {
+        res.send('APU MEANG - Oline Shop Start');
+    });
 
-const httoServer = createServer(app);
+    const httoServer = createServer(app);
+    const PORT = process.env.PORT || 2002;
 
-httoServer.listen(
-    {
-        port: 2002
-    },
-    () => console.log('http://localhost:2002 API MEANG - Online Shop Start')
-);
+    httoServer.listen(
+        {
+            port: PORT
+        },
+        () => console.log(`http://localhost:${PORT} API MEANG - Online Shop Start`)
+    );
+}
+
+init();
 
