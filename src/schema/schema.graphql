@@ -17,12 +17,12 @@ type User {
     name: String!,
     "Apellido de pila"
     lastname: String!,
-    "Email único"
+    "Correo electrónico único"
     email: String!,
-    "Contraseña del usuario"
+    "Contraseña del usuario asociado a la cuenta"
     password: String!,
-    ""
+    "Fecha de registro en la base de datos"
     registerDate: String!,
-    "Cumpleaño del Usuario"
+    "Fecha de nacimiento - Solo mayores de 18 años"
     brithday: String!
 }
