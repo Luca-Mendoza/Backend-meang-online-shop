@@ -3,8 +3,12 @@
 import express from 'express';
 import cors from 'cors'; /*CORS es un paquete node.js para proporcionar un middleware Connect / Express que se puede usar para habilitar CORS con varias opciones.*/
 import compression from 'compression';
-import { createServer } from 'http';
 import environment from './config/environments';
+import schema from './schema';
+import expressPlayground from 'graphql-playground-middleware-express';
+import { createServer, Server } from 'http';
+import { ApolloServer } from 'apollo-server-express';
+
 
 // Configuracion de las variables del entorno (Lecturas)
 if (process.env.NODE_ENV !== 'production') {
@@ -19,9 +23,16 @@ async function init() {
 
     app.use(compression());
 
-    app.get('/', (_, res) => {
-        res.send('APU MEANG - Oline Shop Start');
+    const server = new ApolloServer({
+        schema,
+        introspection: true
     });
+
+    server.applyMiddleware({app});
+
+    app.get('/', expressPlayground({
+        endpoint: '/graphql'
+    }));
 
     const httoServer = createServer(app);
     const PORT = process.env.PORT || 2002;
