@@ -4,10 +4,10 @@ type Query {
     users: [User!]!,
 }
 """
-Vamos a especificar la información detallada del usuario.
-Vamos a tener en cuenta:
-email: usuario del cliente de la base de datos.
-Fecha de nacimiento y registro en formato ISO
+    * Vamos a especificar la información detallada del usuario.
+    * Vamos a tener en cuenta:
+    * email: usuario del cliente de la base de datos.
+    * Fecha de nacimiento y registro en formato ISO
 """
 
 type User {
