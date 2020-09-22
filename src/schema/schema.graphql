@@ -13,9 +13,9 @@ Fecha de nacimiento y registro en formato ISO
 type User {
     "Identificador único"
     id: ID!,
-    "Nombre de pila"
+    "Nombre/s de pila"
     name: String!,
-    "Apellido de pila"
+    "Apellido/s de pila"
     lastname: String!,
     "Correo electrónico único"
     email: String!,
