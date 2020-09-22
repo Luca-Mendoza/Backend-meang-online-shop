@@ -8,6 +8,7 @@ import schema from './schema';
 import expressPlayground from 'graphql-playground-middleware-express';
 import { createServer, Server } from 'http';
 import { ApolloServer } from 'apollo-server-express';
+import Database from './lib/database';
 
 
 // Configuracion de las variables del entorno (Lecturas)
@@ -23,9 +24,16 @@ async function init() {
 
     app.use(compression());
 
+    const database = new Database();
+
+    const db = await database.init();
+
+    const context = { db };
+
     const server = new ApolloServer({
         schema,
-        introspection: true
+        introspection: true,
+        context
     });
 
     server.applyMiddleware({app});
