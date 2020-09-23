@@ -27,10 +27,18 @@ const resolversQuery: IResolvers = {
             console.log(info);
             */
             try {
-                return await db.collection(COLLECTIONS.USERS).find().toArray();
+                return {
+                    status: true,
+                    message: 'Lista de usuario cargada correctamente',
+                    users: await db.collection(COLLECTIONS.USERS).find().toArray()
+                };
             } catch (error) {
                 console.log(error);
-                return [];
+                return {
+                    status: false,
+                    message: 'Error al cargar los Usuarios',
+                    users: []
+                };
             };
         }
     }

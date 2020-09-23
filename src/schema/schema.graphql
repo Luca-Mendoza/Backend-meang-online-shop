@@ -1,11 +1,27 @@
 " Definiciones de los tipos de raíz "
 type Query {
         "Lista de usuarios registrados en la Base de datos (Clientes / Admins)"
-    users: [User!]!,
+    users: ResultUsers
 }
 "OPCIONES DE ESCRITURA : AÑADIR / ACTUALIZAR / ELIMINAR"
 type Mutation {
     register(user: UserInput!): User
+}
+" Interfaces para especificar las propiedades obligatorias en la respuestas "
+interface  Result {
+    "Estado de la operació "
+    status: Boolean!
+    " Mensaje de la operación para dar feedback "
+    message: String!
+}
+
+type ResultUsers implements Result {
+        "Estado de la operació "
+    status: Boolean!
+    " Mensaje de la operación para dar feedback "
+    message: String!
+        "Lista de usuarios registrados en la Base de datos (Clientes / Admins)"
+    users: [User!]!
 }
 
 """
