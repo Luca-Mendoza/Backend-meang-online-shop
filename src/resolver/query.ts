@@ -1,3 +1,4 @@
+import { COLLECTIONS } from '../config/constants';
 import { IResolvers } from 'graphql-tools';
 
 /**
@@ -18,24 +19,19 @@ import { IResolvers } from 'graphql-tools';
  */
 const resolversQuery: IResolvers = {
     Query: {
-        users(root, args, context, info) {
+        async users(_, __, { db }) {
             /**
             console.log(root);
             console.log(args);
             console.log(context);
             console.log(info);
             */
-            return [
-                {
-                    id: 1,
-                    name: '',
-                    lastname: '',
-                    email: '',
-                    password: '',
-                    registerDate: '',
-                    brithday: ''
-                }
-            ];
+            try {
+                return await db.collection(COLLECTIONS.USERS).find().toArray();
+            } catch (error) {
+                console.log(error);
+                return [];
+            };
         }
     }
 
