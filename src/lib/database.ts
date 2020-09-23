@@ -20,7 +20,7 @@ class Database {
         if(client.isConnected()){
             console.log('=============================DATABASE=============================');
             console.log(`STATUS: ${chalk.greenBright('ONLINE')}`);
-            console.log(`STATUS: ${chalk.greenBright(db.databaseName)}`);
+            console.log(`DATABASE: ${chalk.greenBright(db.databaseName)}`);
         }
     }
 }

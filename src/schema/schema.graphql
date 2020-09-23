@@ -5,7 +5,7 @@ type Query {
 }
 "OPCIONES DE ESCRITURA : AÑADIR / ACTUALIZAR / ELIMINAR"
 type Mutation {
-    register(user: UserInput!): Boolean
+    register(user: UserInput!): User
 }
 
 """
@@ -57,7 +57,7 @@ input  UserInput {
     "Permisos del Usuario"
     role: Role=CLIENT
 }
-
+" Tipos de usuarios que tenemos - Permisos de los usuarios "
 enum Role {
     CLIENT
     ADMIN
