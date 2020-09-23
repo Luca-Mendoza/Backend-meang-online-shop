@@ -1,15 +1,16 @@
-import { COLLECTIONS } from './../config/constants';
+import { COLLECTIONS } from '../config/constants';
 import { IResolvers } from 'graphql-tools';
 
 const resolversMutation: IResolvers = {
     Mutation: {
-      async  register(_, { user }, { db }) {
+        async register(_, { user }, { db }) {
             // Comprobar el Último usuarios registrado para asignar ID
             const lastUser = await db.collection(COLLECTIONS.USERS).
-                                        find().
-                                        limit().
-                                        sort({ registerDate: -1}).toArray();
-            if( lastUser.length === 0) {
+                find().
+                limit(1).
+                sort({ registerDate: -1 }).toArray();
+
+            if (lastUser.length === 0) {
                 user.id = 1;
             } else {
                 user.id = lastUser[0].id + 1;
@@ -21,9 +22,9 @@ const resolversMutation: IResolvers = {
                 collection(COLLECTIONS.USERS).
                 insertOne(user).then(
                     async () => {
-                    return user;
+                        return user;
                     }
-                ).carch((err: Error) => {
+                ).catch((err: Error) => {
                     console.log(err.message);
                     return null;
                 });

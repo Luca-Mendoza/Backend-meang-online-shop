@@ -22,6 +22,7 @@ class Database {
             console.log(`STATUS: ${chalk.greenBright('ONLINE')}`);
             console.log(`DATABASE: ${chalk.greenBright(db.databaseName)}`);
         }
+        return db;
     }
 }
 
