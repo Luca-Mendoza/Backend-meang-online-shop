@@ -30,7 +30,10 @@ const resolversQuery: IResolvers = {
                 return {
                     status: true,
                     message: 'Lista de usuario cargada correctamente',
-                    users: await db.collection(COLLECTIONS.USERS).find().toArray()
+                    users: await db
+                        .collection(COLLECTIONS.USERS)
+                        .find()
+                        .toArray()
                 };
             } catch (error) {
                 console.log(error);
@@ -39,9 +42,31 @@ const resolversQuery: IResolvers = {
                     message: 'Error al cargar los Usuarios',
                     users: []
                 };
-            };
+            }
+        },
+
+        async login(_, { email, password }, { db }) {
+            try {
+                const user = await db
+                    .collection(COLLECTIONS.USERS)
+                    .findOne({ email, password });
+                return {
+                    status: true,
+                    message: (user === null)
+                        ? 'Password y usuario no correctos, sesión no iniciada '
+                        : 'Lista de usuario cargada correctamente',
+                    user
+                };
+            } catch (error) {
+                console.log(error);
+                return {
+                    status: false,
+                    message: 'Error al cargar el usuario. Comprueba que tiene correctamente todo',
+                    user: null,
+                }
+            }
         }
-    }
+    },
 
 };
 
