@@ -31,8 +31,8 @@ type ResultLogin implements Result {
     status: Boolean!
     "Mensaje de la operación para dar feedback"
     message: String!
-    "Información del usuario logueado"
-    user: User
+    "Información del token del usuario logueado"
+    token: String
 }
 
 """

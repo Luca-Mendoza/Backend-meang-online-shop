@@ -8,7 +8,7 @@ export const SECRET_KET = process.env.SECRET || 'LucaMendozaCursoGrophQLTiendaOn
 
 export enum COLLECTIONS {
     USERS='users'
-};
+}
 
 export enum MESSAGES {
     TOKE_VERICATION_FAILED = 'Token no valido, inicia sesion de nuevo'
