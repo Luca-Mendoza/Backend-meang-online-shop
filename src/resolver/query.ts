@@ -67,14 +67,17 @@ const resolversQuery: IResolvers = {
                     message: (user === null)
                         ? 'Password y usuario no correctos, sesión no iniciada '
                         : 'Usuarios cargada correctamente',
-                    toke: new JWT().sign({ user })
+                    token: (user === null)
+                        ? null
+                        : new JWT().sign({ user }),
+                    
                 };
             } catch (error) {
                 console.log(error);
                 return {
                     status: false,
                     message: 'Error al cargar el usuario. Comprueba que tiene correctamente todo',
-                    user: null,
+                    token: null,
                 }
             }
         }
