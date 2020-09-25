@@ -62,6 +62,11 @@ const resolversQuery: IResolvers = {
                 const user = await db
                     .collection(COLLECTIONS.USERS)
                     .findOne({ email, password });
+                    if(user != null){
+                        delete user.password;
+                        delete user.brithday;
+                        delete user.registerDate;
+                    }
                 return {
                     status: true,
                     message: (user === null)
