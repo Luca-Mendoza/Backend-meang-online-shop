@@ -1,6 +1,7 @@
 import { COLLECTIONS } from '../config/constants';
 import { IResolvers } from 'graphql-tools';
 import JWT from '../lib/jwt';
+import bcrypt from 'bcrypt';
 
 /**
  *  "Identificador único"
@@ -48,10 +49,10 @@ const resolversQuery: IResolvers = {
 
         async login(_, { email, password }, { db }) {
             try {
-                const emailVerification = await db
+                const user = await db
                     .collection(COLLECTIONS.USERS)
                     .findOne({ email });
-                if (emailVerification === null) {
+                if (user === null) {
                     return {
                         status: false,
                         message: 'Usuario no existe',
@@ -59,23 +60,22 @@ const resolversQuery: IResolvers = {
                     };
                 }
 
-                const user = await db
-                    .collection(COLLECTIONS.USERS)
-                    .findOne({ email, password });
-                    if(user != null){
-                        delete user.password;
-                        delete user.brithday;
-                        delete user.registerDate;
-                    }
+               const passwordCheck = bcrypt.compareSync(password, user.password); // true
+
+                if (passwordCheck != null) {
+                    delete user.password;
+                    delete user.brithday;
+                    delete user.registerDate;
+                }
                 return {
                     status: true,
-                    message: (user === null)
+                    message: !passwordCheck 
                         ? 'Password y usuario no correctos, sesión no iniciada '
                         : 'Usuarios cargada correctamente',
-                    token: (user === null)
+                    token: !passwordCheck
                         ? null
                         : new JWT().sign({ user }),
-                    
+
                 };
             } catch (error) {
                 console.log(error);
