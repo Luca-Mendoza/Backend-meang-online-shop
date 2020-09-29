@@ -1,5 +1,6 @@
 import { COLLECTIONS } from '../config/constants';
 import { IResolvers } from 'graphql-tools';
+import bcrypt from 'bcrypt';
 
 const resolversMutation: IResolvers = {
     Mutation: {
@@ -17,6 +18,8 @@ const resolversMutation: IResolvers = {
             }
             // Asignar la fecha en formato ISO en la propiedad registerDate
             user.registerDate = new Date().toISOString();
+            // Encriptar password
+            user.password = bcrypt.hashSync(user.password, 10);
             // Guardad el documento (registro) en la colección
             return await db.
                 collection(COLLECTIONS.USERS).
