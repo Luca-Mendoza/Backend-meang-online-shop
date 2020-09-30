@@ -4,6 +4,8 @@ type Query {
     users: ResultUsers
         "Para inicializar sesión de usuario"
     login(email: String!, password: String!) : ResultLogin
+    "Autenticarnos mediante token"
+    me : ResultUser
 }
 "OPCIONES DE ESCRITURA : AÑADIR / ACTUALIZAR / ELIMINAR"
 type Mutation {

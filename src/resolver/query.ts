@@ -60,7 +60,7 @@ const resolversQuery: IResolvers = {
                     };
                 }
 
-               const passwordCheck = bcrypt.compareSync(password, user.password); // true
+                const passwordCheck = bcrypt.compareSync(password, user.password); // true
 
                 if (passwordCheck != null) {
                     delete user.password;
@@ -69,7 +69,7 @@ const resolversQuery: IResolvers = {
                 }
                 return {
                     status: true,
-                    message: !passwordCheck 
+                    message: !passwordCheck
                         ? 'Password y usuario no correctos, sesión no iniciada '
                         : 'Usuarios cargada correctamente',
                     token: !passwordCheck
@@ -83,8 +83,11 @@ const resolversQuery: IResolvers = {
                     status: false,
                     message: 'Error al cargar el usuario. Comprueba que tiene correctamente todo',
                     token: null,
-                }
+                };
             }
+        },
+        me(_, __, { token }) {
+            return;
         }
     },
 
