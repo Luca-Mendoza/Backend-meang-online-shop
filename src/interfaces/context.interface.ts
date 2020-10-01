@@ -5,7 +5,7 @@ export interface Icontext {
 
 interface Irequest {
     headers: {
-        authorization : string;
+        authorization: string;
     };
 }
 
