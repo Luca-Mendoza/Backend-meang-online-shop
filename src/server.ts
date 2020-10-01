@@ -1,3 +1,4 @@
+import { Icontext } from './interfaces/context.interface';
 /*Creación del servidor Node Express con ajustes básicos y visualizar*/
 
 import express from 'express';
@@ -28,7 +29,10 @@ async function init() {
 
     const db = await database.init();
 
-    const context = { db };
+    const context = async ({ req, connection }: Icontext) => {
+        const token = (req) ? req.headers.authorization : connection.authorization;
+        return { db, token };
+    };
 
     const server = new ApolloServer({
         schema,
@@ -36,7 +40,7 @@ async function init() {
         context
     });
 
-    server.applyMiddleware({app});
+    server.applyMiddleware({ app });
 
     app.get('/', expressPlayground({
         endpoint: '/graphql'
