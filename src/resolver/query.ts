@@ -1,3 +1,4 @@
+import { MESSAGES } from './../config/constants';
 import { COLLECTIONS } from '../config/constants';
 import { IResolvers } from 'graphql-tools';
 import JWT from '../lib/jwt';
@@ -88,7 +89,19 @@ const resolversQuery: IResolvers = {
         },
         me(_, __, { token }) {
             console.log(token);
-            return;
+            let info = new JWT().verify(token);
+            if(info === MESSAGES.TOKE_VERICATION_FAILED){
+                return {
+                    status:false,
+                    message: info,
+                    user: null
+                };
+            }
+            return {
+                status: true,
+                message: 'Usuario autenticado correctamente mediante el token',
+                user: Object.values(info)[0]
+            };
         }
     },
 
