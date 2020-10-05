@@ -1,8 +1,8 @@
-import { COLLECTIONS } from '../config/constants';
+import { COLLECTIONS } from '../../config/constants';
 import { IResolvers } from 'graphql-tools';
 import bcrypt from 'bcrypt';
 
-const resolversMutation: IResolvers = {
+const resolversUserMutation: IResolvers = {
     Mutation: {
         async register(_, { user }, { db }) {
             // Comprobar el Último usuarios registrado para asignar ID
@@ -35,4 +35,4 @@ const resolversMutation: IResolvers = {
     }
 };
 
-export default resolversMutation;
+export default resolversUserMutation;
