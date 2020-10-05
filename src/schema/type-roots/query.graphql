@@ -4,7 +4,9 @@ type Query {
 	"Lista de usuarios registrados en la Base de datos (Clientes / Admins)"
 	users: ResultUsers
 	"Para inicializar sesión de usuario"
-	login(email: String!, password: String!) : ResultLogin
+	login(email: String!, password: String!): ResultLogin
 	"Autenticarnos mediante token"
-	me : ResultUser
+	me: ResultUser
+	"Mostrar losta de productos"
+	products: Boolean
 }

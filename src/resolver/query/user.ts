@@ -1,7 +1,7 @@
-import { MESSAGES } from './../config/constants';
-import { COLLECTIONS } from '../config/constants';
+import { MESSAGES } from '.././../config/constants';
+import { COLLECTIONS } from '../../config/constants';
 import { IResolvers } from 'graphql-tools';
-import JWT from '../lib/jwt';
+import JWT from '../../lib/jwt';
 import bcrypt from 'bcrypt';
 
 /**
@@ -20,7 +20,7 @@ import bcrypt from 'bcrypt';
     "Fecha de nacimiento - Solo mayores de 18 años"
     brithday: String!
  */
-const resolversQuery: IResolvers = {
+const resolversUserQuery: IResolvers = {
     Query: {
         async users(_, __, { db }) {
             /**
@@ -102,9 +102,10 @@ const resolversQuery: IResolvers = {
                 message: 'Usuario autenticado correctamente mediante el token',
                 user: Object.values(info)[0]
             };
-        }
+        },
+
     },
 
 };
 
-export default resolversQuery;
+export default resolversUserQuery;
