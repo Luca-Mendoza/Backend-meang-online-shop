@@ -1,4 +1,4 @@
-import { Db, DBRef } from 'mongodb';
+import { Db } from 'mongodb';
 
 /**
  * Obtener el Id que vamos a utilizar en el nuevo usuario
@@ -17,7 +17,7 @@ export const asignDocumentId = async (
         .collection(collection)
         .find()
         .limit(1)
-        .sort({ sort })
+        .sort( sort )
         .toArray();
     if (lastElement.length === 0) {
         return 1;

@@ -1,8 +1,8 @@
 import { findOneElement, findElements } from './../../lib/db-operations';
-import { COLLECTIONS } from './../../config/constants';
+import { COLLECTIONS, EXPIRETIME } from './../../config/constants';
 import { MESSAGES } from '.././../config/constants';
 import { IResolvers } from 'graphql-tools';
-import JWT from '../../lib/jwt';
+import JWT from './../../lib/jwt';
 import bcrypt from 'bcrypt';
 
 /**
@@ -71,7 +71,7 @@ const resolversUserQuery: IResolvers = {
                         : 'Usuarios cargada correctamente',
                     token: !passwordCheck
                         ? null
-                        : new JWT().sign({ user }),
+                        : new JWT().sign({ user }, EXPIRETIME.H24),
 
                 };
             } catch (error) {
