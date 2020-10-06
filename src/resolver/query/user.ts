@@ -1,4 +1,4 @@
-import { findOneElement } from './../../lib/db-operations';
+import { findOneElement, findElements } from './../../lib/db-operations';
 import { COLLECTIONS } from './../../config/constants';
 import { MESSAGES } from '.././../config/constants';
 import { IResolvers } from 'graphql-tools';
@@ -34,10 +34,7 @@ const resolversUserQuery: IResolvers = {
                 return {
                     status: true,
                     message: 'Lista de usuario cargada correctamente',
-                    users: await db
-                        .collection(COLLECTIONS.USERS)
-                        .find()
-                        .toArray()
+                    users: await findElements(db, COLLECTIONS.USERS),
                 };
             } catch (error) {
                 console.log(error);

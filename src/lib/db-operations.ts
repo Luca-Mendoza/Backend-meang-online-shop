@@ -59,3 +59,14 @@ export const insertManyElement = async (
         .insertMany(documents);
 
 };
+
+export const findElements = async (
+    database: Db,
+    collection: string,
+    filter: object = {}
+) => {
+    return await database
+        .collection(collection)
+        .find(filter)
+        .toArray();
+};
