@@ -1,6 +1,6 @@
 {
   "name": "backend-meag",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Proyecto Backend API GraphQL Tienda Online - MAN+G",
   "main": "build/serve.js",
   "scripts": {
