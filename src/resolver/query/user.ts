@@ -1,5 +1,6 @@
+import { findOneElement } from './../../lib/db-operations';
+import { COLLECTIONS } from './../../config/constants';
 import { MESSAGES } from '.././../config/constants';
-import { COLLECTIONS } from '../../config/constants';
 import { IResolvers } from 'graphql-tools';
 import JWT from '../../lib/jwt';
 import bcrypt from 'bcrypt';
@@ -50,9 +51,7 @@ const resolversUserQuery: IResolvers = {
 
         async login(_, { email, password }, { db }) {
             try {
-                const user = await db
-                    .collection(COLLECTIONS.USERS)
-                    .findOne({ email });
+                const user = await findOneElement(db, COLLECTIONS.USERS, { email});
                 if (user === null) {
                     return {
                         status: false,
