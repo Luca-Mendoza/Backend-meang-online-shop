@@ -1,5 +1,5 @@
 import { COLLECTIONS } from './../../config/constants';
-import { asignDocumentId, findOneElement } from './../../lib/db-operations';
+import { asignDocumentId, findOneElement, insertOneElement } from './../../lib/db-operations';
 import { IResolvers } from 'graphql-tools';
 import bcrypt from 'bcrypt';
 const resolversUserMutation: IResolvers = {
@@ -16,15 +16,13 @@ const resolversUserMutation: IResolvers = {
             }
 
             // COmprobar el último usuario registrado para asignar ID
-            user.id = await asignDocumentId(db, COLLECTIONS.USERS, { registerDate: 1 });
+            user.id = await asignDocumentId(db, COLLECTIONS.USERS, { registerDate: -1 });
             // Asignar la fecha en formato ISO en la propiedad registerDate
             user.registerDate = new Date().toISOString();
             // Encriptar password
             user.password = bcrypt.hashSync(user.password, 10);
             // Guardar el documento (registro) en la colección
-            return await db
-                .collection(COLLECTIONS.USERS)
-                .insertOne(user)
+            return await insertOneElement(db, COLLECTIONS.USERS, user)
                 .then(async () => {
                     return {
                         status: true,

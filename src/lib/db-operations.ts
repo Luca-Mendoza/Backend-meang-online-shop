@@ -1,4 +1,4 @@
-import { Db } from 'mongodb';
+import { Db, DBRef } from 'mongodb';
 
 /**
  * Obtener el Id que vamos a utilizar en el nuevo usuario
@@ -35,4 +35,27 @@ export const findOneElement = async (
     return database
         .collection(collection)
         .findOne(filter);
+};
+
+
+export const insertOneElement = async (
+    database: Db,
+    collection: string,
+    document: object
+) => {
+    return await database
+        .collection(collection)
+        .insertOne(document);
+
+};
+
+export const insertManyElement = async (
+    database: Db,
+    collection: string,
+    documents: Array<object>
+) => {
+    return await database
+        .collection(collection)
+        .insertMany(documents);
+
 };
