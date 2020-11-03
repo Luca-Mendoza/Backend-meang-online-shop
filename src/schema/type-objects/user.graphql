@@ -19,7 +19,7 @@ type User {
     "Fecha de registro en la base de datos"
     registerDate: String!
     "Fecha de nacimiento - Solo mayores de 18 años"
-    brithday: String!
+    birthday: String!
     "Permisos del Usuario"
     role: Role!
 

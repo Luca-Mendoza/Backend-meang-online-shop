@@ -61,17 +61,18 @@ const resolversUserQuery: IResolvers = {
 
                 if (passwordCheck != null) {
                     delete user.password;
-                    delete user.brithday;
+                    delete user.birthday;
                     delete user.registerDate;
                 }
                 return {
                     status: true,
                     message: !passwordCheck
                         ? 'Password y usuario no correctos, sesión no iniciada '
-                        : 'Usuarios cargada correctamente',
+                        : 'Usuario cargado correctamente',
                     token: !passwordCheck
                         ? null
                         : new JWT().sign({ user }, EXPIRETIME.H24),
+                        user
 
                 };
             } catch (error) {

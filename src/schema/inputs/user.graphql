@@ -15,7 +15,7 @@ input  UserInput {
     "Contraseña del usuario asociado a la cuenta"
     password: String!
     "Fecha de nacimiento - Solo mayores de 18 años"
-    brithday: String!
+    birthday: String!
     "Permisos del Usuario"
     role: Role=CLIENT
 }
