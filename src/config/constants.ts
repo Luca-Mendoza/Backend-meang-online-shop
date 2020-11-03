@@ -7,7 +7,8 @@ if (process.env.NODE_ENV !== 'production') {
 export const SECRET_KET = process.env.SECRET || 'LucaMendozaCursoGrophQLTiendaOnliine';
 
 export enum COLLECTIONS {
-    USERS='users'
+    USERS='users',
+    GENRES = 'genres'
 }
 
 export enum MESSAGES {

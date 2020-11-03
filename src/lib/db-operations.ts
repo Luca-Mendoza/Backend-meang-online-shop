@@ -6,7 +6,7 @@ import { Db } from 'mongodb';
  * @param collection Collección donde queremos buscar el último elemento
  * @param sort Como queremos ordenarlo { <propiedad>: -1 }
  */
-
+/**Asignar Documento del ID */
 export const asignDocumentId = async (
     database: Db,
     collection: string,
@@ -17,7 +17,7 @@ export const asignDocumentId = async (
         .collection(collection)
         .find()
         .limit(1)
-        .sort( sort )
+        .sort(sort)
         .toArray();
     if (lastElement.length === 0) {
         return 1;
@@ -26,7 +26,7 @@ export const asignDocumentId = async (
     }
 };
 
-
+/**Buscar un Elemento */
 export const findOneElement = async (
     database: Db,
     collection: string,
@@ -37,7 +37,7 @@ export const findOneElement = async (
         .findOne(filter);
 };
 
-
+/**Insertar un Elemento */
 export const insertOneElement = async (
     database: Db,
     collection: string,
@@ -49,6 +49,7 @@ export const insertOneElement = async (
 
 };
 
+/**Insertar varios  Elemento */
 export const insertManyElement = async (
     database: Db,
     collection: string,
@@ -60,6 +61,7 @@ export const insertManyElement = async (
 
 };
 
+/**Buscar varios Elemento */
 export const findElements = async (
     database: Db,
     collection: string,
