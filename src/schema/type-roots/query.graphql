@@ -9,4 +9,6 @@ type Query {
 	me: ResultUser
 	"Obtener la lista de los generos / status"
 	genres: ResultGenre
+	"Obtener Item del genero  seleccionado / status"
+	genre(id: ID!): ResultGenre
 }
