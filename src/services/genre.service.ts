@@ -13,6 +13,14 @@ class GenresService extends ResolversOperationsService {
         const result = await this.list(COLLECTIONS.GENRES, 'géneros');
         return { status: result.status, message: result.message, genres: result.items };
     }
+    /** Obteniendo los dato de genero desde el servicio desde los servicios Resolverts
+     * si es true o false 
+     * o si no existe y esta todo correcto
+     */
+    async details(){
+        const result = await this.get(COLLECTIONS.GENRES);
+        return { status: result.status, message: result.message, genre: result.item };
+    }
 }
 
 export default GenresService;
