@@ -1,13 +1,13 @@
+import { IContextData } from '../interfaces/context-data.interface';
+import ResolversOperationsService from './resolvers-operations.service';
+
 class GenresService extends ResolversOperationsService {
-    constructor(root: object, variables: object, context: object) {
-        super(root,variables,context);
-   
+    constructor(root: object, variables: object, context: IContextData) {
+        super(root, variables, context);
     }
 
     // Listar información
-    protected list(collection: string, listElement: string){
-        
-    }
+ 
 
     // Obtener detalles del item
 
@@ -17,3 +17,5 @@ class GenresService extends ResolversOperationsService {
 
     // Eliminar item
 }
+
+export default GenresService;
