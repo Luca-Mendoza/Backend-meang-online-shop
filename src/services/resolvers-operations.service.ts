@@ -1,4 +1,3 @@
-import { COLLECTIONS } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
 import { findElements } from '../lib/db-operations';
 class ResolversOperationsService {
@@ -19,19 +18,19 @@ class ResolversOperationsService {
             return {
                 status: true,
                 message: `Lista de ${listElement} correctamente cargada`,
-                genres: await findElements(this.context.db, collection)
+                items: await findElements(this.context.db, collection)
             };
         } catch (error) {
             return {
                 status: false,
                 message: `Lista de ${listElement} no cargada: ${error}`,
-                genres: null
+                items: null
             };
         }
 
     }
 
-}
+
 
     // Obtener detalles del item
 
