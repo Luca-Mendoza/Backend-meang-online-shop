@@ -1,4 +1,5 @@
 "OPCIONES DE ESCRITURA : AÑADIR / ACTUALIZAR / ELIMINAR"
 type Mutation {
 	register(user: UserInput!): ResultUser
+	addGenre(genre: String!): ResultGenre
 }
