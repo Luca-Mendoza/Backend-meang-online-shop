@@ -1,3 +1,4 @@
+import { insertOneElement } from './../lib/db-operations';
 import { IContextData } from '../interfaces/context-data.interface';
 import { IVariables } from '../interfaces/variables.interface';
 import { findElements, findOneElement } from '../lib/db-operations';
@@ -63,11 +64,38 @@ class ResolversOperationsService {
                 status: false,
                 message: `Error inesperado al queres cargar los detalles de ${collectionLabel}`,
                 item: null
-            }
+            };
         }
     }
 
     // Añadir item
+    protected async add(collection: string, document: object, item: string) {
+        try {
+            return await insertOneElement(this.context.db, collection, document).then(
+                res => {
+                    if (res.result.ok === 1) {
+                        return {
+                            status: true,
+                            message: `Añadido correctamente inesperado el ${item}`,
+                            item: document
+                        };
+                    }
+                    return {
+                        status: false,
+                        message: `No se a insertar el ${item}`,
+                        item: null
+                    };
+                }
+            );
+
+        } catch (error) {
+            return {
+                status: false,
+                message: `Errror inesperado al insertar el ${item}`,
+                item: null
+            };
+        }
+    }
 
     // Modificar item
 

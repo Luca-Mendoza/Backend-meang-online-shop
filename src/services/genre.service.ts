@@ -21,6 +21,15 @@ class GenresService extends ResolversOperationsService {
         const result = await this.get(COLLECTIONS.GENRES);
         return { status: result.status, message: result.message, genre: result.item };
     }
+
+    async insert(){
+        const result = await this.add(COLLECTIONS.GENRES, {
+            id: '85',
+            name: 'Realidad virtual',
+            slug: 'realidad-virtual'
+        }, 'género');
+        return { status: result.status, message: result.message, genre: result.item };
+    }
 }
 
 export default GenresService;
