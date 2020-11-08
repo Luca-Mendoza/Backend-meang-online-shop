@@ -9,7 +9,7 @@ class GenresService extends ResolversOperationsService {
     /** Obteniendo los datos de generos desde el servicio desde los servicios Resolverts
      * si es true o false 
      */
-    async items(){
+    async items() {
         const result = await this.list(COLLECTIONS.GENRES, 'géneros');
         return { status: result.status, message: result.message, genres: result.items };
     }
@@ -17,18 +17,39 @@ class GenresService extends ResolversOperationsService {
      * si es true o false 
      * o si no existe y esta todo correcto
      */
-    async details(){
+    async details() {
         const result = await this.get(COLLECTIONS.GENRES);
         return { status: result.status, message: result.message, genre: result.item };
     }
 
-    async insert(){
+    async insert() {
+       const genre = this.getVariables().genre;
+        // Comprueba que no está en blanco ni es indefinido
+        if (!this.checkData(genre || '')){
+            return {
+                status: false,
+                message: 'El género no se ha especificado correctamente',
+                genre: null
+            };
+
+        }
+        // Comprueva que no existe
+
+        // Si valida la opciones anteriores, venir aquí y crear el documento
+        const genreOnject = {
+            id: '',
+            name: '',
+            slug: ''
+        };
         const result = await this.add(COLLECTIONS.GENRES, {
             id: '85',
             name: 'Realidad virtual',
             slug: 'realidad-virtual'
         }, 'género');
         return { status: result.status, message: result.message, genre: result.item };
+    }
+    private checkData(value: string) {
+        return (value === '' || value === undefined) ? false : true;
     }
 }
 
