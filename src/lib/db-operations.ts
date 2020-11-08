@@ -20,10 +20,9 @@ export const asignDocumentId = async (
         .sort(sort)
         .toArray();
     if (lastElement.length === 0) {
-        return 1;
-    } else {
-        return lastElement[0].id + 1;
-    }
+        return '1';
+    } 
+    return String(+lastElement[0].id + 1);
 };
 
 /**Buscar un Elemento */

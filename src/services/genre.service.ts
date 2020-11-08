@@ -1,7 +1,8 @@
-import { findOneElement } from './../lib/db-operations';
+import { asignDocumentId, findOneElement } from './../lib/db-operations';
 import { COLLECTIONS } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
 import ResolversOperationsService from './resolvers-operations.service';
+import slugify from 'slugify';
 
 class GenresService extends ResolversOperationsService {
     collection = COLLECTIONS.GENRES;
@@ -44,16 +45,12 @@ class GenresService extends ResolversOperationsService {
         }
 
         // Si valida la opciones anteriores, venir aquí y crear el documento
-        const genreOnject = {
-            id: '',
-            name: '',
-            slug: ''
+        const genreObject = {
+            id: await asignDocumentId(this.getDb(), this.collection, {id: -1}),
+            name: genre,
+            slug: slugify(genre || '', {lower: true})
         };
-        const result = await this.add(this.collection, {
-            id: '85',
-            name: 'Realidad virtual',
-            slug: 'realidad-virtual'
-        }, 'género');
+        const result = await this.add(this.collection, genreObject, 'género');
         return { status: result.status, message: result.message, genre: result.item };
     }
 
