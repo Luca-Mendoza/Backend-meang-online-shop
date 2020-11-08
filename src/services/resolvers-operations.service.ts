@@ -2,6 +2,7 @@ import { insertOneElement } from './../lib/db-operations';
 import { IContextData } from '../interfaces/context-data.interface';
 import { IVariables } from '../interfaces/variables.interface';
 import { findElements, findOneElement } from '../lib/db-operations';
+import { Db } from 'mongodb';
 class ResolversOperationsService {
 
     private root: object;
@@ -13,6 +14,10 @@ class ResolversOperationsService {
         this.variables = variables;
         this.context = context;
     }
+
+    // Acede a los datos de la base de datos MongoDB
+    protected getDb(): Db {return this.context.db;}
+    // Acede a los datos de las Interfaz de las Variables 
     protected getVariables(): IVariables { return this.variables; }
 
     // Listar información
