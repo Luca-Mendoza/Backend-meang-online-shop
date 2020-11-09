@@ -6,7 +6,11 @@ const resolversGenreMutation: IResolvers = {
         addGenre(_, variables, context){
             // Añadimos la llamada al servicio
             return new GenresService(_, variables, context).insert();
-        }
+        },
+        updateGenre(_, variables, context){
+            // Añadimos la llamada al servicio
+            return new GenresService(_, variables, context).modify();
+        } 
     }
 };
 

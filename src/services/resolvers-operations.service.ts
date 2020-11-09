@@ -3,6 +3,7 @@ import { IContextData } from '../interfaces/context-data.interface';
 import { IVariables } from '../interfaces/variables.interface';
 import { findElements, findOneElement } from '../lib/db-operations';
 import { Db } from 'mongodb';
+import { async } from '@angular/core/testing';
 class ResolversOperationsService {
 
     private root: object;
@@ -104,6 +105,8 @@ class ResolversOperationsService {
     }
 
     // Modificar item
+
+    protected async update(collection: string, filter: object, objectUpdate: object, item: string) {}
 
     // Eliminar item
 }
