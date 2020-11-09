@@ -3,7 +3,6 @@ import { COLLECTIONS } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
 import ResolversOperationsService from './resolvers-operations.service';
 import slugify from 'slugify';
-import { async } from '@angular/core/testing';
 
 class GenresService extends ResolversOperationsService {
     collection = COLLECTIONS.GENRES;
@@ -54,7 +53,13 @@ class GenresService extends ResolversOperationsService {
         const result = await this.add(this.collection, genreObject, 'género');
         return { status: result.status, message: result.message, genre: result.item };
     }
-    async modify(){}
+    async modify(){
+        const id = { id: '85'};
+        const objectUpdate = { name: ' Shooter plataforma', slug: 'shooter-plataforma'};
+
+        const result = await this.update(this.collection, id, objectUpdate, 'genero');
+        return { status: result.status, message: result.message, genre: result.item };
+    }
 
 
 

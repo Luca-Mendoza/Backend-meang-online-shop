@@ -3,7 +3,6 @@ import { IContextData } from '../interfaces/context-data.interface';
 import { IVariables } from '../interfaces/variables.interface';
 import { findElements, findOneElement } from '../lib/db-operations';
 import { Db } from 'mongodb';
-import { async } from '@angular/core/testing';
 class ResolversOperationsService {
 
     private root: object;
@@ -106,7 +105,37 @@ class ResolversOperationsService {
 
     // Modificar item
 
-    protected async update(collection: string, filter: object, objectUpdate: object, item: string) {}
+    protected async update(collection: string, filter: object, objectUpdate: object, item: string) {
+
+        try {
+            return await this.getDb().collection(collection).updateOne(
+                filter,
+                {$set: objectUpdate}
+            ).then(
+                res => {
+                    if(res.result.nModified === 1 && res.result.ok) {
+                        return {
+                            status: true,
+                            message: `Elemento del ${item} actualizado correctamente.`,
+                            item: Object.assign({}, filter, objectUpdate)
+                        };
+                    }
+                    return {
+                        status: false,
+                        message: `Elemento del ${item} no se ha actualizado. Comprueba que estás filtrando correctamente`,
+                        item: null
+                    };
+                }
+            );
+        } catch (error) {
+            return {
+                status: false,
+                message: `Erorr inesperado al actualizar el ${item}`,
+                item: null
+            }
+
+        }
+    }
 
     // Eliminar item
 }
