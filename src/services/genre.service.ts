@@ -85,6 +85,11 @@ class GenresService extends ResolversOperationsService {
 
     }
 
+
+    async delete() {
+
+    }
+
     // Funciones 
     private async checkData(value: string) {
         return (value === '' || value === undefined) ? false : true;

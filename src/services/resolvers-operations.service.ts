@@ -140,6 +140,10 @@ class ResolversOperationsService {
     }
 
     // Eliminar item
+
+    protected async del(collection: string, filter: object, item: string) {
+
+    }
 }
 
 export default ResolversOperationsService;
