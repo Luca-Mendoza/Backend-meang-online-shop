@@ -4,6 +4,7 @@ import { MESSAGES } from '.././../config/constants';
 import { IResolvers } from 'graphql-tools';
 import JWT from './../../lib/jwt';
 import bcrypt from 'bcrypt';
+import UsersService from '../../services/users.service';
 
 /**
  *  "Identificador único"
@@ -23,27 +24,14 @@ import bcrypt from 'bcrypt';
  */
 const resolversUserQuery: IResolvers = {
     Query: {
-        async users(_, __, { db }) {
+        async users(_, __, context) {
             /**
             console.log(root);
             console.log(args);
             console.log(context);
             console.log(info);
             */
-            try {
-                return {
-                    status: true,
-                    message: 'Lista de usuario cargada correctamente',
-                    users: await findElements(db, COLLECTIONS.USERS),
-                };
-            } catch (error) {
-                console.log(error);
-                return {
-                    status: false,
-                    message: 'Error al cargar los Usuarios',
-                    users: []
-                };
-            }
+           return new UsersService(_,__, context).items();
         },
 
         async login(_, { email, password }, { db }) {
