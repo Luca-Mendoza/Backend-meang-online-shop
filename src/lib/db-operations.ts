@@ -21,7 +21,7 @@ export const asignDocumentId = async (
         .toArray();
     if (lastElement.length === 0) {
         return '1';
-    } 
+    }
     return String(+lastElement[0].id + 1);
 };
 
@@ -57,6 +57,23 @@ export const insertManyElement = async (
     return await database
         .collection(collection)
         .insertMany(documents);
+
+};
+
+/**Actualizar un Elemento */
+export const updateOneElement = async (
+    database: Db,
+    collection: string,
+    filter: object,
+    updateObject: object
+
+) => {
+    return await database
+        .collection(collection)
+        .updateOne(
+            filter,
+            { $set: updateObject }
+        );
 
 };
 
