@@ -1,7 +1,6 @@
-import { insertOneElement, updateOneElement } from './../lib/db-operations';
 import { IContextData } from '../interfaces/context-data.interface';
 import { IVariables } from '../interfaces/variables.interface';
-import { findElements, findOneElement } from '../lib/db-operations';
+import { findElements, findOneElement, deleteOneElement, insertOneElement, updateOneElement } from '../lib/db-operations';
 import { Db } from 'mongodb';
 class ResolversOperationsService {
 
@@ -16,7 +15,7 @@ class ResolversOperationsService {
     }
 
     // Acede a los datos de la base de datos MongoDB
-    protected getDb(): Db {return this.context.db;}
+    protected getDb(): Db { return this.context.db; }
     // Acede a los datos de las Interfaz de las Variables 
     protected getVariables(): IVariables { return this.variables; }
 
@@ -115,7 +114,7 @@ class ResolversOperationsService {
                 objectUpdate
             ).then(
                 res => {
-                    if(res.result.nModified === 1 && res.result.ok) {
+                    if (res.result.nModified === 1 && res.result.ok) {
                         return {
                             status: true,
                             message: `Elemento del ${item} actualizado correctamente.`,
@@ -142,7 +141,7 @@ class ResolversOperationsService {
     // Eliminar item
     protected async del(collection: string, filter: object, item: string) {
         try {
-            return await this.getDb().collection(collection).deleteOne(filter).then(
+            return await deleteOneElement(this.getDb(), collection, filter).then(
                 res => {
                     if (res.deletedCount === 1) {
                         return {
@@ -156,7 +155,7 @@ class ResolversOperationsService {
                     };
                 }
             );
-        } catch(error) {
+        } catch (error) {
             return {
                 status: false,
                 message: `Error inesperado al eliminar el ${item}.`,

@@ -77,6 +77,18 @@ export const updateOneElement = async (
 
 };
 
+/** Eliminar un Elemento */
+export const deleteOneElement = async (
+    database: Db,
+    collection: string,
+    filter: object = {}
+) => {
+    return await database
+        .collection(collection)
+        .deleteOne(filter);
+       
+};
+
 /**Buscar varios Elemento */
 export const findElements = async (
     database: Db,
