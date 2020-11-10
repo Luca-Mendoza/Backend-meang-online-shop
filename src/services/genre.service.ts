@@ -36,7 +36,7 @@ class GenresService extends ResolversOperationsService {
             };
         }
         // Comprueva que no existe
-        if (await this.checkInDatabase(genre || '')){
+        if (await this.checkInDatabase(genre || '')) {
             return {
                 status: false,
                 message: 'Elgénero existe en la base de datos, intentar con otro género',
@@ -46,30 +46,52 @@ class GenresService extends ResolversOperationsService {
 
         // Si valida la opciones anteriores, venir aquí y crear el documento
         const genreObject = {
-            id: await asignDocumentId(this.getDb(), this.collection, {id: -1}),
+            id: await asignDocumentId(this.getDb(), this.collection, { id: -1 }),
             name: genre,
-            slug: slugify(genre || '', {lower: true})
+            slug: slugify(genre || '', { lower: true })
         };
         const result = await this.add(this.collection, genreObject, 'género');
         return { status: result.status, message: result.message, genre: result.item };
     }
-    async modify(){
-        const id = { id: '85'};
-        const objectUpdate = { name: ' Shooter plataforma', slug: 'shooter-plataforma'};
 
-        const result = await this.update(this.collection, id, objectUpdate, 'genero');
+    async modify() {
+        const id = this.getVariables().id;
+        const genre = this.getVariables().genre;
+        // Comprobar que el ID  es correcto
+        if (!this.checkData(String(id) || '')) {
+            return {
+                status: false,
+                message: 'El Id del  género  no se ha especificado correctamente',
+                genre: null
+            };
+        }
+        if (!this.checkData(genre || '')) {
+            return {
+                status: false,
+                message: 'El género no se ha especificado correctamente',
+                genre: null
+            };
+        }
+        const objectUpdate = {
+            name: genre,
+            slug: slugify(genre || '', { lower: true })
+        };
+        
+
+
+        const result = await this.update(this.collection, { id }, objectUpdate, 'genero');
         return { status: result.status, message: result.message, genre: result.item };
+
+
     }
 
-
-
     // Funciones 
-    private checkData(value: string) {
+    private async checkData(value: string) {
         return (value === '' || value === undefined) ? false : true;
     }
     // comprobar si existe un Item 
     private async checkInDatabase(value: string) {
-        return await findOneElement(this.getDb(), this.collection, { 
+        return await findOneElement(this.getDb(), this.collection, {
             name: value
         });
     }
