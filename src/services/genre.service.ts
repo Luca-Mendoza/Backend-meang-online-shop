@@ -76,7 +76,7 @@ class GenresService extends ResolversOperationsService {
             name: genre,
             slug: slugify(genre || '', { lower: true })
         };
-        
+
 
 
         const result = await this.update(this.collection, { id }, objectUpdate, 'genero');
@@ -87,6 +87,17 @@ class GenresService extends ResolversOperationsService {
 
 
     async delete() {
+        const id = this.getVariables().id;
+        if (!this.checkData(String(id) || '')) {
+            return {
+                status: false,
+                message: 'El ID del género no se ha especificado correctamente.',
+                genre: null
+            };
+        }
+
+        const result = await this.del(this.collection, { id }, 'genero');
+        return { status: result.status, message: result.message };
 
     }
 
