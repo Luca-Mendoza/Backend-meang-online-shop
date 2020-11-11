@@ -1,6 +1,12 @@
 import { IContextData } from '../interfaces/context-data.interface';
 import { IVariables } from '../interfaces/variables.interface';
-import { findElements, findOneElement, deleteOneElement, insertOneElement, updateOneElement } from '../lib/db-operations';
+import {
+    findElements,
+    findOneElement,
+    deleteOneElement,
+    insertOneElement,
+    updateOneElement
+} from '../lib/db-operations';
 import { Db } from 'mongodb';
 class ResolversOperationsService {
 

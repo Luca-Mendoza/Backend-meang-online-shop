@@ -1,7 +1,7 @@
 import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
 import ResolversOperationsService from './resolvers-operations.service';
-import { findOneElement } from '../lib/db-operations';
+import { asignDocumentId, findOneElement, insertOneElement } from '../lib/db-operations';
 import bcrypt from 'bcrypt';
 import JWT from '../lib/jwt';
 
@@ -23,9 +23,9 @@ class UsersService extends ResolversOperationsService {
     // Autenticarnos
     async auth() {
         let info = new JWT().verify(this.getContext().token!);
-        if(info === MESSAGES.TOKE_VERICATION_FAILED){
+        if (info === MESSAGES.TOKE_VERICATION_FAILED) {
             return {
-                status:false,
+                status: false,
                 message: info,
                 user: null
             };
@@ -40,7 +40,7 @@ class UsersService extends ResolversOperationsService {
     // Iniciar sesión
     async login() {
         try {
-            const variables  = this.getVariables().user;
+            const variables = this.getVariables().user;
             const user = await findOneElement(this.getDb(), this.collection, { email: variables?.email });
             if (user === null) {
                 return {
@@ -66,9 +66,9 @@ class UsersService extends ResolversOperationsService {
                     ? null
                     : new JWT().sign({ user }, EXPIRETIME.H24),
                 user:
-                !passwordCheck
-                    ? null
-                    : user,
+                    !passwordCheck
+                        ? null
+                        : user,
 
             };
         } catch (error) {
@@ -81,5 +81,44 @@ class UsersService extends ResolversOperationsService {
         }
     }
     // Registrar un usuario
+
+    async register() {
+        const user = this.getVariables().user;
+
+        // Comprobar que user no es null 
+        if ( user === null ){
+            return {
+                status: false,
+                message: 'Usuario no definido, procura definirlo',
+                user: null
+            };
+        }
+
+        // Comprobar que el usuario no existe
+        const userCheck = await findOneElement(this.getDb(), this.collection, { email: user?.email });
+        if (userCheck !== null) {
+            return {
+                status: false,
+                message: `El email ${user?.email} está registrado y no puedes registrarte con este email`,
+                user: null
+            };
+        }
+
+        // COmprobar el último usuario registrado para asignar ID
+        user!.id = await asignDocumentId(this.getDb(), this.collection, { registerDate: -1 });
+        // Asignar la fecha en formato ISO en la propiedad registerDate
+        user!.registerDate = new Date().toISOString();
+        // Encriptar password
+        user!.password = bcrypt.hashSync(user?.password, 10);
+        // Guardar el documento (registro) en la colección utilizandola funcion del servicio padre
+        const result = await this.add(this.collection, user || {}, 'usuario');
+        // Guardar el documento (registro) en la colección
+        return {
+            status: result.status,
+            message: result.message,
+            user: result.item
+        };
+        
+    }
 }
 export default UsersService;
