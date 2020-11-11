@@ -1,4 +1,4 @@
-import { COLLECTIONS, EXPIRETIME } from '../config/constants';
+import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
 import ResolversOperationsService from './resolvers-operations.service';
 import { findOneElement } from '../lib/db-operations';
@@ -21,6 +21,21 @@ class UsersService extends ResolversOperationsService {
     }
 
     // Autenticarnos
+    async auth() {
+        let info = new JWT().verify(this.getContext().token!);
+        if(info === MESSAGES.TOKE_VERICATION_FAILED){
+            return {
+                status:false,
+                message: info,
+                user: null
+            };
+        }
+        return {
+            status: true,
+            message: 'Usuario autenticado correctamente mediante el token',
+            user: Object.values(info)[0]
+        };
+    }
 
     // Iniciar sesión
     async login() {

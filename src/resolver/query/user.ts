@@ -38,20 +38,8 @@ const resolversUserQuery: IResolvers = {
             return new UsersService(_,{user: {email, password} }, context).login();
         },
         me(_, __, { token }) {
-            console.log(token);
-            let info = new JWT().verify(token);
-            if(info === MESSAGES.TOKE_VERICATION_FAILED){
-                return {
-                    status:false,
-                    message: info,
-                    user: null
-                };
-            }
-            return {
-                status: true,
-                message: 'Usuario autenticado correctamente mediante el token',
-                user: Object.values(info)[0]
-            };
+            //console.log(token);
+            return new UsersService(_,__, {token}).auth();
         },
 
     },

@@ -13,9 +13,14 @@ class ResolversOperationsService {
         this.variables = variables;
         this.context = context;
     }
-
+    // Acede a los datos de IContextData
+    protected getContext(): IContextData {
+        return this.context;
+    }
     // Acede a los datos de la base de datos MongoDB
-    protected getDb(): Db { return this.context.db; }
+    protected getDb(): Db {
+        return this.context.db!;
+    }
     // Acede a los datos de las Interfaz de las Variables 
     protected getVariables(): IVariables { return this.variables; }
 
@@ -25,7 +30,7 @@ class ResolversOperationsService {
             return {
                 status: true,
                 message: `Lista de ${listElement} correctamente cargada`,
-                items: await findElements(this.context.db, collection)
+                items: await findElements(this.getDb(), collection)
             };
         } catch (error) {
             return {
@@ -44,7 +49,7 @@ class ResolversOperationsService {
         const collectionLabel = collection.toLocaleLowerCase();
 
         try { // Respuesta correcta
-            return await findOneElement(this.context.db, collection, { id: this.variables.id }).then(
+            return await findOneElement(this.getDb(), collection, { id: this.variables.id }).then(
                 result => {
                     // Encuentra información
                     if (result) {
@@ -76,7 +81,7 @@ class ResolversOperationsService {
     // Añadir item
     protected async add(collection: string, document: object, item: string) {
         try {
-            return await insertOneElement(this.context.db, collection, document).then(
+            return await insertOneElement(this.getDb(), collection, document).then(
                 res => {
                     if (res.result.ok === 1) {
                         return {
