@@ -93,9 +93,9 @@ class UsersService extends ResolversOperationsService {
             };
         }
         // Comprobar que user.password no es null 
-        if (user?.password === null || 
+        if (user?.password === null ||
             user?.password === undefined ||
-            user?.password === '' ) {
+            user?.password === '') {
             return {
                 status: false,
                 message: 'Usuario si password correcto, procura definirlo',
@@ -154,6 +154,26 @@ class UsersService extends ResolversOperationsService {
             user: result.item
         };
 
+    }
+    // Borrar el usuario seleccionado
+    async delete() {
+
+        // Obtener la informacion de ID del usuario
+        const id = this.getVariables().id;
+
+        // Comprobar que user no es null 
+        if (id === undefined || '') {
+            return {
+                status: false,
+                message: 'Identificador del usuario no definido, procura definirlo',
+                user: null
+            };
+        }
+        const result = await this.del(this.collection, {id}, 'usuario');
+        return {
+            status: result.status,
+            message: result.message
+        };
     }
 }
 export default UsersService;
