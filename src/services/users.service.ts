@@ -81,15 +81,24 @@ class UsersService extends ResolversOperationsService {
         }
     }
     // Registrar un usuario
-
     async register() {
         const user = this.getVariables().user;
 
         // Comprobar que user no es null 
-        if ( user === null ){
+        if (user === null) {
             return {
                 status: false,
                 message: 'Usuario no definido, procura definirlo',
+                user: null
+            };
+        }
+        // Comprobar que user.password no es null 
+        if (user?.password === null || 
+            user?.password === undefined ||
+            user?.password === '' ) {
+            return {
+                status: false,
+                message: 'Usuario si password correcto, procura definirlo',
                 user: null
             };
         }
@@ -118,7 +127,33 @@ class UsersService extends ResolversOperationsService {
             message: result.message,
             user: result.item
         };
-        
+
+    }
+    // Modificar un Usuario
+    async modify() {
+
+        // Obtener la informacion del Usuario
+        const user = this.getVariables().user;
+
+        // Comprobar que user no es null 
+        if (user === null) {
+            return {
+                status: false,
+                message: 'Usuario no definido, procura definirlo',
+                user: null
+            };
+        }
+        // Obtener id necesario para actualizar el usuario
+        const filter = { id: user?.id };
+        // llamda a update servicio para hacer la actualizaciones dentro de los resolver
+        const result = await this.update(this.collection, filter, user || {}, 'usuario');
+        // obteniendo resultado
+        return {
+            status: result.status,
+            message: result.message,
+            user: result.item
+        };
+
     }
 }
 export default UsersService;

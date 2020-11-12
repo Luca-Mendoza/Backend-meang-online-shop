@@ -134,7 +134,7 @@ class ResolversOperationsService {
                     }
                     return {
                         status: false,
-                        message: `Elemento del ${item} no se ha actualizado. Comprueba que estás filtrando correctamente`,
+                        message: `Elemento del ${item} no se ha actualizado. Comprueba que estás filtrando correctamente o simplemente que no hay nada que actualizar.`,
                         item: null
                     };
                 }

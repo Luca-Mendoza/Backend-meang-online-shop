@@ -13,7 +13,7 @@ input  UserInput {
     "Correo electrónico único"
     email: String!
     "Contraseña del usuario asociado a la cuenta"
-    password: String!
+    password: String
     "Fecha de nacimiento - Solo mayores de 18 años"
     birthday: String!
     "Permisos del Usuario"
