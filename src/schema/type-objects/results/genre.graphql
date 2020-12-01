@@ -1,4 +1,6 @@
 type ResultGenre implements Result {
+	"Obteniendo la informacion de Resultado de paginacion Items"
+	info: ResultInfo
 	"Estado de la operació "
 	status: Boolean!
 	" Mensaje de la operación para dar feedback "

@@ -8,8 +8,9 @@ const resolversGenreQuery: IResolvers = {
         /**
         * Obteniendo status, message, items del servicio genres
         */
-        async genres(_, __, { db }) {
-            return new GenresService(_, __, { db }).items();
+        async genres(_, { page, itemsPage }, { db }) {
+            console.log(page, itemsPage);
+            return new GenresService(_, {}, { db }).items();
         },
         /**
          * Obteniendo status, message, item del servicio genre
