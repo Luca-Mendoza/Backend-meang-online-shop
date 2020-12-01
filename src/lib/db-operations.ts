@@ -101,7 +101,7 @@ export const findElements = async (
         .toArray();
 };
 
-/** Contar los documentos que hay dentro de una collection */
+/** Contar los documentos que hay dentro de  una collection */
 export const countElements = async (
     database: Db,
     collection: string,
