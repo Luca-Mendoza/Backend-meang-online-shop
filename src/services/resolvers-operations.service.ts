@@ -34,15 +34,21 @@ class ResolversOperationsService {
     // Listar información
     protected async list(collection: string, listElement: string, pages: number = 1, itemsPage: number = 20) {
         try {
-            const paginationData = await pagination(this.getDb(), collection, pages, itemsPage );
-            console.log( paginationData );
+            const paginationData = await pagination(this.getDb(), collection, pages, itemsPage);
             return {
+                info: {
+                    page: paginationData.page,
+                    pages: paginationData.pages,
+                    itemsPage: paginationData.itemsPage,
+                    total: paginationData.total
+                },
                 status: true,
                 message: `Lista de ${listElement} correctamente cargada`,
-                items: await findElements(this.getDb(), collection)
+                items: await findElements(this.getDb(), collection, {}, paginationData)
             };
         } catch (error) {
             return {
+                info: null,
                 status: false,
                 message: `Lista de ${listElement} no cargada: ${error}`,
                 items: null

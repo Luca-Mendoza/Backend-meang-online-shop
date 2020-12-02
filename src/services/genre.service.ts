@@ -16,7 +16,7 @@ class GenresService extends ResolversOperationsService {
         const page = this.getVariables().pagination?.page;
         const itemsPage = this.getVariables().pagination?.itemsPage;
         const result = await this.list(this.collection, 'géneros', page, itemsPage);
-        return { status: result.status, message: result.message, genres: result.items };
+        return { info: result.info, status: result.status, message: result.message, genres: result.items };
     }
     /** Obteniendo los dato de genero desde el servicio desde los servicios Resolverts
      * si es true o false 
