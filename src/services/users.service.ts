@@ -1,12 +1,13 @@
-import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../config/constants';
-import { IContextData } from '../interfaces/context-data.interface';
-import ResolversOperationsService from './resolvers-operations.service';
-import { asignDocumentId, findOneElement, insertOneElement } from '../lib/db-operations';
-import bcrypt from 'bcrypt';
-import JWT from '../lib/jwt';
-
-
-
+import { COLLECTIONS, EXPIRETIME, MESSAGES } from "../config/constants";
+import { IContextData } from "../interfaces/context-data.interface";
+import ResolversOperationsService from "./resolvers-operations.service";
+import {
+    asignDocumentId,
+    findOneElement,
+    insertOneElement,
+} from "../lib/db-operations";
+import bcrypt from "bcrypt";
+import JWT from "../lib/jwt";
 
 class UsersService extends ResolversOperationsService {
     private collection = COLLECTIONS.USERS;
@@ -16,8 +17,15 @@ class UsersService extends ResolversOperationsService {
 
     // Lista de usuarios
     async items() {
-        const result = await this.list(this.collection, 'usuarios');
-        return { status: result.status, message: result.message, users: result.items };
+        const page = this.getVariables().pagination?.page;
+        const itemsPage = this.getVariables().pagination?.itemsPage;
+        const result = await this.list(this.collection, 'usuarios', page, itemsPage);
+        return {
+            info: result.info,
+            status: result.status,
+            message: result.message,
+            users: result.items,
+        };
     }
 
     // Autenticarnos
@@ -27,13 +35,13 @@ class UsersService extends ResolversOperationsService {
             return {
                 status: false,
                 message: info,
-                user: null
+                user: null,
             };
         }
         return {
             status: true,
-            message: 'Usuario autenticado correctamente mediante el token',
-            user: Object.values(info)[0]
+            message: "Usuario autenticado correctamente mediante el token",
+            user: Object.values(info)[0],
         };
     }
 
@@ -41,16 +49,21 @@ class UsersService extends ResolversOperationsService {
     async login() {
         try {
             const variables = this.getVariables().user;
-            const user = await findOneElement(this.getDb(), this.collection, { email: variables?.email });
+            const user = await findOneElement(this.getDb(), this.collection, {
+                email: variables?.email,
+            });
             if (user === null) {
                 return {
                     status: false,
-                    message: 'Usuario no existe',
-                    token: null
+                    message: "Usuario no existe",
+                    token: null,
                 };
             }
 
-            const passwordCheck = bcrypt.compareSync(variables?.password, user.password); // true
+            const passwordCheck = bcrypt.compareSync(
+                variables?.password,
+                user.password
+            ); // true
 
             if (passwordCheck != null) {
                 delete user.password;
@@ -60,22 +73,17 @@ class UsersService extends ResolversOperationsService {
             return {
                 status: passwordCheck,
                 message: !passwordCheck
-                    ? 'Password y usuario no correctos, sesión no iniciada '
-                    : 'Usuario cargado correctamente',
-                token: !passwordCheck
-                    ? null
-                    : new JWT().sign({ user }, EXPIRETIME.H24),
-                user:
-                    !passwordCheck
-                        ? null
-                        : user,
-
+                    ? "Password y usuario no correctos, sesión no iniciada "
+                    : "Usuario cargado correctamente",
+                token: !passwordCheck ? null : new JWT().sign({ user }, EXPIRETIME.H24),
+                user: !passwordCheck ? null : user,
             };
         } catch (error) {
             console.log(error);
             return {
                 status: false,
-                message: 'Error al cargar el usuario. Comprueba que tiene correctamente todo',
+                message:
+                    "Error al cargar el usuario. Comprueba que tiene correctamente todo",
                 token: null,
             };
         }
@@ -84,95 +92,102 @@ class UsersService extends ResolversOperationsService {
     async register() {
         const user = this.getVariables().user;
 
-        // Comprobar que user no es null 
+        // Comprobar que user no es null
         if (user === null) {
             return {
                 status: false,
-                message: 'Usuario no definido, procura definirlo',
-                user: null
+                message: "Usuario no definido, procura definirlo",
+                user: null,
             };
         }
-        // Comprobar que user.password no es null 
-        if (user?.password === null ||
+        // Comprobar que user.password no es null
+        if (
+            user?.password === null ||
             user?.password === undefined ||
-            user?.password === '') {
+            user?.password === ""
+        ) {
             return {
                 status: false,
-                message: 'Usuario si password correcto, procura definirlo',
-                user: null
+                message: "Usuario si password correcto, procura definirlo",
+                user: null,
             };
         }
 
         // Comprobar que el usuario no existe
-        const userCheck = await findOneElement(this.getDb(), this.collection, { email: user?.email });
+        const userCheck = await findOneElement(this.getDb(), this.collection, {
+            email: user?.email,
+        });
         if (userCheck !== null) {
             return {
                 status: false,
                 message: `El email ${user?.email} está registrado y no puedes registrarte con este email`,
-                user: null
+                user: null,
             };
         }
 
         // COmprobar el último usuario registrado para asignar ID
-        user!.id = await asignDocumentId(this.getDb(), this.collection, { registerDate: -1 });
+        user!.id = await asignDocumentId(this.getDb(), this.collection, {
+            registerDate: -1,
+        });
         // Asignar la fecha en formato ISO en la propiedad registerDate
         user!.registerDate = new Date().toISOString();
         // Encriptar password
         user!.password = bcrypt.hashSync(user?.password, 10);
         // Guardar el documento (registro) en la colección utilizandola funcion del servicio padre
-        const result = await this.add(this.collection, user || {}, 'usuario');
+        const result = await this.add(this.collection, user || {}, "usuario");
         // Guardar el documento (registro) en la colección
         return {
             status: result.status,
             message: result.message,
-            user: result.item
+            user: result.item,
         };
-
     }
     // Modificar un Usuario
     async modify() {
-
         // Obtener la informacion del Usuario
         const user = this.getVariables().user;
 
-        // Comprobar que user no es null 
+        // Comprobar que user no es null
         if (user === null) {
             return {
                 status: false,
-                message: 'Usuario no definido, procura definirlo',
-                user: null
+                message: "Usuario no definido, procura definirlo",
+                user: null,
             };
         }
         // Obtener id necesario para actualizar el usuario
         const filter = { id: user?.id };
         // llamda a update servicio para hacer la actualizaciones dentro de los resolver
-        const result = await this.update(this.collection, filter, user || {}, 'usuario');
+        const result = await this.update(
+            this.collection,
+            filter,
+            user || {},
+            "usuario"
+        );
         // obteniendo resultado
         return {
             status: result.status,
             message: result.message,
-            user: result.item
+            user: result.item,
         };
-
     }
     // Borrar el usuario seleccionado
     async delete() {
-
         // Obtener la informacion de ID del usuario
         const id = this.getVariables().id;
 
-        // Comprobar que user no es null 
-        if (id === undefined || '') {
+        // Comprobar que user no es null
+        if (id === undefined || "") {
             return {
                 status: false,
-                message: 'Identificador del usuario no definido, procura definirlo',
-                user: null
+                message: "Identificador del usuario no definido, procura definirlo",
+                user: null,
             };
         }
-        const result = await this.del(this.collection, {id}, 'usuario');
+        const result = await this.del(this.collection, { id }, "usuario");
         return {
             status: result.status,
-            message: result.message
+            message: result.message,
         };
     }
 }
