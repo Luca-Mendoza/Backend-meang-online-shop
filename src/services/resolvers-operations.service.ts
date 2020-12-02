@@ -8,6 +8,7 @@ import {
     updateOneElement
 } from '../lib/db-operations';
 import { Db } from 'mongodb';
+import { pagination } from '../lib/pagination';
 class ResolversOperationsService {
 
     private root: object;
@@ -31,8 +32,10 @@ class ResolversOperationsService {
     protected getVariables(): IVariables { return this.variables; }
 
     // Listar información
-    protected async list(collection: string, listElement: string) {
+    protected async list(collection: string, listElement: string, pages: number = 1, itemsPage: number = 20) {
         try {
+            const paginationData = await pagination(this.getDb(), collection, pages, itemsPage );
+            console.log( paginationData );
             return {
                 status: true,
                 message: `Lista de ${listElement} correctamente cargada`,
