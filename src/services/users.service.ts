@@ -1,13 +1,13 @@
-import { COLLECTIONS, EXPIRETIME, MESSAGES } from "../config/constants";
-import { IContextData } from "../interfaces/context-data.interface";
-import ResolversOperationsService from "./resolvers-operations.service";
+import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../config/constants';
+import { IContextData } from '../interfaces/context-data.interface';
+import ResolversOperationsService from './resolvers-operations.service';
 import {
     asignDocumentId,
     findOneElement,
     insertOneElement,
-} from "../lib/db-operations";
-import bcrypt from "bcrypt";
-import JWT from "../lib/jwt";
+} from '../lib/db-operations';
+import bcrypt from 'bcrypt';
+import JWT from '../lib/jwt';
 
 class UsersService extends ResolversOperationsService {
     private collection = COLLECTIONS.USERS;
@@ -40,7 +40,7 @@ class UsersService extends ResolversOperationsService {
         }
         return {
             status: true,
-            message: "Usuario autenticado correctamente mediante el token",
+            message: 'Usuario autenticado correctamente mediante el token',
             user: Object.values(info)[0],
         };
     }
@@ -55,7 +55,7 @@ class UsersService extends ResolversOperationsService {
             if (user === null) {
                 return {
                     status: false,
-                    message: "Usuario no existe",
+                    message: 'Usuario no existe',
                     token: null,
                 };
             }
@@ -73,8 +73,8 @@ class UsersService extends ResolversOperationsService {
             return {
                 status: passwordCheck,
                 message: !passwordCheck
-                    ? "Password y usuario no correctos, sesión no iniciada "
-                    : "Usuario cargado correctamente",
+                    ? 'Password y usuario no correctos, sesión no iniciada '
+                    : 'Usuario cargado correctamente',
                 token: !passwordCheck ? null : new JWT().sign({ user }, EXPIRETIME.H24),
                 user: !passwordCheck ? null : user,
             };
@@ -83,7 +83,7 @@ class UsersService extends ResolversOperationsService {
             return {
                 status: false,
                 message:
-                    "Error al cargar el usuario. Comprueba que tiene correctamente todo",
+                    'Error al cargar el usuario. Comprueba que tiene correctamente todo',
                 token: null,
             };
         }
@@ -96,7 +96,7 @@ class UsersService extends ResolversOperationsService {
         if (user === null) {
             return {
                 status: false,
-                message: "Usuario no definido, procura definirlo",
+                message: 'Usuario no definido, procura definirlo',
                 user: null,
             };
         }
@@ -104,11 +104,11 @@ class UsersService extends ResolversOperationsService {
         if (
             user?.password === null ||
             user?.password === undefined ||
-            user?.password === ""
+            user?.password === ''
         ) {
             return {
                 status: false,
-                message: "Usuario si password correcto, procura definirlo",
+                message: 'Usuario si password correcto, procura definirlo',
                 user: null,
             };
         }
@@ -134,7 +134,7 @@ class UsersService extends ResolversOperationsService {
         // Encriptar password
         user!.password = bcrypt.hashSync(user?.password, 10);
         // Guardar el documento (registro) en la colección utilizandola funcion del servicio padre
-        const result = await this.add(this.collection, user || {}, "usuario");
+        const result = await this.add(this.collection, user || {}, 'usuario');
         // Guardar el documento (registro) en la colección
         return {
             status: result.status,
@@ -151,7 +151,7 @@ class UsersService extends ResolversOperationsService {
         if (user === null) {
             return {
                 status: false,
-                message: "Usuario no definido, procura definirlo",
+                message: 'Usuario no definido, procura definirlo',
                 user: null,
             };
         }
@@ -162,7 +162,7 @@ class UsersService extends ResolversOperationsService {
             this.collection,
             filter,
             user || {},
-            "usuario"
+            'usuario'
         );
         // obteniendo resultado
         return {
@@ -177,14 +177,14 @@ class UsersService extends ResolversOperationsService {
         const id = this.getVariables().id;
 
         // Comprobar que user no es null
-        if (id === undefined || "") {
+        if (id === undefined || '') {
             return {
                 status: false,
-                message: "Identificador del usuario no definido, procura definirlo",
+                message: 'Identificador del usuario no definido, procura definirlo',
                 user: null,
             };
         }
-        const result = await this.del(this.collection, { id }, "usuario");
+        const result = await this.del(this.collection, { id }, 'usuario');
         return {
             status: result.status,
             message: result.message,
