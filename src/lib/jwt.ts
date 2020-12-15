@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 
 
 
+
 class JWT {
     private secretKey = SECRET_KET as string;
     // Informacion del payload con fecha de caducidad 24 horas por defecto
