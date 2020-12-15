@@ -5,7 +5,8 @@ export async function pagination(
     db: Db,
     collection: string,
     page: number = 1,
-    itemsPage: number = 20
+    itemsPage: number = 20,
+    filter: object = {}
 ) {
     // Comprobar el numero de items por pagina
     if (itemsPage < 1 || itemsPage > 20) {
@@ -18,7 +19,7 @@ export async function pagination(
     }
 
     // Obtener el numero total de una collection
-    const total = await countElements(db, collection);
+    const total = await countElements(db, collection, filter);
     // Número de pagimnas totales
     const pages = Math.ceil(total / itemsPage);
 

@@ -113,7 +113,7 @@ class GenresService extends ResolversOperationsService {
             };
         }
 
-        const result = await this.update(this.collection, { id }, { active: false }, 'genero');
+        const result = await this.update(this.collection, { id }, { active: false }, 'género');
         return {
             status: result.status,
             message: (result.message) ? 'Bloqueado correctamente' : 'No se ha bloqueado comprobarlo por favor'

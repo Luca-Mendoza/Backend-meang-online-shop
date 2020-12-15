@@ -99,6 +99,10 @@ export const findElements = async (
 };
 
 /** Contar los documentos que hay dentro de  una collection */
-export const countElements = async (database: Db, collection: string) => {
-  return await database.collection(collection).countDocuments();
+export const countElements = async (
+  database: Db, 
+  collection: string,
+  filter: object = {}
+  ) => {
+  return await database.collection(collection).countDocuments(filter);
 };
