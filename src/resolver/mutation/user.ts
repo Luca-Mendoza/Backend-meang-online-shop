@@ -12,7 +12,7 @@ const resolversUserMutation: IResolvers = {
         deleteUser(_, { id }, context) {
             return new UsersService(_, { id }, context).delete();
         },
-        blockGenre(_, { id }, context) {
+        blockUser(_, { id }, context) {
             return new UsersService(_, { id }, context).block();
         }
     },
