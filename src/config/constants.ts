@@ -8,7 +8,8 @@ export const SECRET_KET = process.env.SECRET || 'LucaMendozaCursoGrophQLTiendaOn
 
 export enum COLLECTIONS {
     USERS='users',
-    GENRES = 'genres'
+    GENRES = 'genres',
+    TAGS = 'tags'
 }
 
 export enum MESSAGES {
