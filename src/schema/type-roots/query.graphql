@@ -1,14 +1,21 @@
 " Definiciones de los tipos de raíz "
 
 type Query {
+
 	"Lista de usuarios registrados en la Base de datos (Clientes / Admins)"
 	users(page: Int = 1, itemsPage: Int = 20): ResultUsers
 	"Para inicializar sesión de usuario"
 	login(email: String!, password: String!): ResultLogin
 	"Autenticarnos mediante token"
 	me: ResultUser
+
 	"Obtener la lista de los generos / status"
 	genres (page: Int = 1, itemsPage: Int = 20): ResultGenre
 	"Obtener Item del genero  seleccionado / status"
 	genre(id: ID!): ResultGenre
+
+    "Lista de etiquetas (tags)"
+    tags (page: Int = 1, itemsPage: Int = 20): ResultTag
+    "Item del género seleccionado"
+    tag(id: ID!): ResultTag
 }
