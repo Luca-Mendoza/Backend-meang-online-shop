@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import nodemailer from 'nodemailer';
 
 
@@ -15,5 +16,11 @@ export const transport = nodemailer.createTransport(
 
 
 transport.verify().then(() => {
-    console.log('Conexion del encio de email correcto');
+    console.log('=============================NODEMAILER CONFIG=============================');
+    console.log(`STATUS: ${chalk.greenBright('ONLINE')}`);
+    console.log(`MESSAGE: ${chalk.greenBright('MAILER CONNECT')}`);
+}).catch( error => {
+    console.log('=============================NODEMAILER CONFIG=============================');
+    console.log(`STATUS: ${chalk.greenBright('OFFLINE')}`);
+    console.log(`MESSAGE: ${chalk.greenBright(error)}`);
 });
