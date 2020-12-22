@@ -18,4 +18,8 @@ type Mutation {
 	updateTag(id: ID!, tag: String!): ResultTag
 	deleteTag(id: ID!): ResultTag
 	blockTag(id: ID!): ResultTag
+
+	"Apartado Mailer - Envio de emails autimático"
+	sendEmail:  String
+
 }
