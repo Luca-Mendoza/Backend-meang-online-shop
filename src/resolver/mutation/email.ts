@@ -28,11 +28,13 @@ const resolversEmailMutation: IResolvers = {
                 });
             });
         },
+
+
         async activeUserEmail(_, { id, email }) {
-            // Añadimos la llamada al servicio
-            console.log(email);
             // Información para que el usuario pueda activar la cuenta - tiempo 1hs
-            const toke = new JWT().sign({id, email}, EXPIRETIME.H1);
+            const toke = new JWT().sign({user: {id, email}}, EXPIRETIME.H1);
+            // Informacion del HTML con el link para activar la cuenta
+            const html = `Para activar la cuenta haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/active/${toke}">Click aquí</a>`;
             return new Promise((resolve, reject) => {
 
                 transport.sendMail({
@@ -40,14 +42,14 @@ const resolversEmailMutation: IResolvers = {
                     to: email, // list of receivers
                     subject: 'Activar usuario', // Subject line---
                     //text: `Hola`, // plain text body
-                    html: email.html, // html body
+                    html
                 }, (error, _) => {
                     (error) ? reject({
                         status: false,
                         messge: error
                     }) : resolve({
                         status: true,
-                        message: 'Email correctamente enviado a' + email.to,
+                        message: 'Email correctamente enviado a' + email,
                         email
                     });
                 });
