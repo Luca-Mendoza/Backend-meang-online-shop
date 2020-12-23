@@ -21,5 +21,7 @@ type Mutation {
 
 	"Apartado Mailer - Envio de emails autimático"
 	sendEmail(mail: MailInput!): ResultMail
+	activeUserEmail(id: ID!, email: String!): ResultMail
+
 
 }
