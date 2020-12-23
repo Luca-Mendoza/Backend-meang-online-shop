@@ -3,19 +3,26 @@ import { transport } from '../../config/mailer';
 
 const resolversEmailMutation: IResolvers = {
     Mutation: {
-        async sendEmail() {
+        async sendEmail(_, { mail }) {
             // Añadimos la llamada al servicio
-
+            console.log(mail);
             return new Promise((resolve, reject) => {
-                
+
                 transport.sendMail({
                     from: '"🌹🍀🌹🌼🍀🌸<🥀Los.Jazmines🌷🍀🌼🌸> 🌹🍀" <floreria01.los.jazmines@gmail.com>', // sender address
-                    to: 'mendozaluca34@gmail.com', // list of receivers
-                    subject: 'Hello ✔', // Subject line
+                    to: mail.to, // list of receivers
+                    subject: mail.subject, // Subject line---
                     //text: `Hola`, // plain text body
-                    html: '<b>Hello world?</b>', // html body
+                    html: mail.html, // html body
                 }, (error, _) => {
-                    (error) ? reject(error) :  resolve('Email correctamente enviado');
+                    (error) ? reject({
+                        status: false,
+                        messge: error
+                    }) : resolve({
+                        status: true,
+                        message: 'Email correctamente enviado a' + mail.to,
+                        mail
+                    });
                 });
             });
         }

@@ -20,6 +20,6 @@ type Mutation {
 	blockTag(id: ID!): ResultTag
 
 	"Apartado Mailer - Envio de emails autimático"
-	sendEmail:  String
+	sendEmail(mail: MailInput!): ResultMail
 
 }
