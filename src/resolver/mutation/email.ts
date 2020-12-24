@@ -3,6 +3,7 @@ import { IResolvers } from 'apollo-server-express';
 import { EXPIRETIME } from '../../config/constants';
 import { transport } from '../../config/mailer';
 import JWT from '../../lib/jwt';
+import UsersService from '../../services/users.service';
 
 const resolversEmailMutation: IResolvers = {
 
@@ -67,10 +68,11 @@ const resolversEmailMutation: IResolvers = {
             // Si el token es valido, asignamos la información
             const user = Object.values(checkToken)[0];
             console.log(user, { id, birthday, password });
-            return {
+           /**  return {
                 status: true,
                 message: 'Preparado para activar el Usuario'
-            };
+            }; */
+            return new UsersService(_, {id, birthday, password}, {token, db}).unblock(true);
         }
     },
 };

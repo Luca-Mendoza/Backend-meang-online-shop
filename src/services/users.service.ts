@@ -190,8 +190,8 @@ class UsersService extends ResolversOperationsService {
             message: result.message,
         };
     }
-    // Bloquear Usuario 
-    async block() {
+    // Desbloquear y Bloquear Usuario 
+    async unblock(unblock: Boolean) {
         const id = this.getVariables().id;
         if (!this.checkData(String(id) || '')) {
             return {
@@ -201,10 +201,11 @@ class UsersService extends ResolversOperationsService {
             };
         }
 
-        const result = await this.update(this.collection, { id }, { active: false }, 'usuario');
+        const result = await this.update(this.collection, { id }, { active: unblock }, 'usuario');
+        const action = (unblock) ? 'Desbloqueado' : 'Bloqueado';
         return {
             status: result.status,
-            message: (result.message) ? 'Bloqueado correctamente' : 'No se ha bloqueado comprobarlo por favor'
+            message: (result.message) ? `${action} correctamente` : `No se ha  ${action.toLocaleLowerCase()} comprobarlo por favor`
         };
 
     }
