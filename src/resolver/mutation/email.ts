@@ -5,6 +5,7 @@ import { EXPIRETIME } from '../../config/constants';
 import { transport } from '../../config/mailer';
 import JWT from '../../lib/jwt';
 import UsersService from '../../services/users.service';
+import { Console } from 'console';
 
 const resolversEmailMutation: IResolvers = {
 
@@ -34,9 +35,9 @@ const resolversEmailMutation: IResolvers = {
         },
         async activeUserEmail(_, { id, email }) {
             // Información para que el usuario pueda activar la cuenta - tiempo 1hs
-            const toke = new JWT().sign({ user: { id, email } }, EXPIRETIME.H1);
+            const token = new JWT().sign({ user: { id, email } }, EXPIRETIME.H1);
             // Informacion del HTML con el link para activar la cuenta
-            const html = `Para activar la cuenta haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/active/${toke}">Click aquí</a>`;
+            const html = `Para activar la cuenta haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/active/${token}">Click aquí</a>`;
             return new Promise((resolve, reject) => {
 
                 transport.sendMail({
@@ -80,16 +81,39 @@ const resolversEmailMutation: IResolvers = {
             const user = await findOneElement(db, COLLECTIONS.USERS, { email });
             console.log(user);
             //Si usuario es indefinido mandamos un mensaje que no existe el usuario
-            if (user === undefined) {
+            if (user === undefined || user === null) {
                 return {
                     status: false,
                     message: `Usuario con el email ${email} no existe.`
                 };
             }
-            return {
-                status: true,
-                message: `Usuario con el email ${email} EXISTE.`
+            const newUser = {
+                id: user.id,
+                email
             };
+            const token = new JWT().sign({ user: newUser }, EXPIRETIME.M15);
+
+            // Informacion del HTML con el link para activar la cuenta
+            const html = `Para cambiar de contraseña haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/reset/${token}">Click aquí</a>`;
+            return new Promise((resolve, reject) => {
+
+                transport.sendMail({
+                    from: '"🌹🍀🌹🌼🍀🌸<🥀Los.Jazmines🌷🍀🌼🌸> 🌹🍀" <floreria01.los.jazmines@gmail.com>', // sender address
+                    to: email, // list of receivers
+                    subject: 'Petición para cambiar de contraseña', // Subject line---
+                    //text: `Hola`, // plain text body
+                    html
+                }, (error, _) => {
+                    (error) ? reject({
+                        status: false,
+                        messge: error
+                    }) : resolve({
+                        status: true,
+                        message: 'Email correctamente enviado a' + email,
+                        email
+                    });
+                });
+            });
 
         }
     },
