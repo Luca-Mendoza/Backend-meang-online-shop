@@ -1,4 +1,5 @@
-import { MESSAGES } from './../../config/constants';
+import { findOneElement } from './../../lib/db-operations';
+import { MESSAGES, COLLECTIONS } from './../../config/constants';
 import { IResolvers } from 'apollo-server-express';
 import { EXPIRETIME } from '../../config/constants';
 import { transport } from '../../config/mailer';
@@ -68,11 +69,28 @@ const resolversEmailMutation: IResolvers = {
             // Si el token es valido, asignamos la información
             const user = Object.values(checkToken)[0];
             console.log(user, { id, birthday, password });
-           /**  return {
+            /**  return {
+                 status: true,
+                 message: 'Preparado para activar el Usuario'
+             }; */
+            return new UsersService(_, { id, user: { birthday, password } }, { token, db }).unblock(true);
+        },
+        async resetPassword(_, { email }, { db }) {
+            //Coger información del usuario
+            const user = await findOneElement(db, COLLECTIONS.USERS, { email });
+            console.log(user);
+            //Si usuario es indefinido mandamos un mensaje que no existe el usuario
+            if (user === undefined) {
+                return {
+                    status: false,
+                    message: `Usuario con el email ${email} no existe.`
+                };
+            }
+            return {
                 status: true,
-                message: 'Preparado para activar el Usuario'
-            }; */
-            return new UsersService(_, {id, user: {birthday, password}}, {token, db}).unblock(true);
+                message: `Usuario con el email ${email} EXISTE.`
+            };
+
         }
     },
 };
