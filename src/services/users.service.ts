@@ -193,6 +193,7 @@ class UsersService extends ResolversOperationsService {
     // Desbloquear y Bloquear Usuario 
     async unblock(unblock: Boolean) {
         const id = this.getVariables().id;
+        const user = this.getVariables().user;
         if (!this.checkData(String(id) || '')) {
             return {
                 status: false,
@@ -200,8 +201,24 @@ class UsersService extends ResolversOperationsService {
                 genre: null
             };
         }
-
-        const result = await this.update(this.collection, { id }, { active: unblock }, 'usuario');
+        if (user?.password === '1234') {
+            return {
+                status: false,
+                message: 'En este caso no podemos activar porque no has cambiado el password'
+            };
+        }
+        let update = { active: unblock };
+        if (unblock) {
+            update = Object.assign(
+                {},
+                { active: true },
+                {
+                    birthday: user?.birthday,
+                    password: bcrypt.hashSync(user?.password, 10)
+                });
+        }
+        console.log(update);
+        const result = await this.update(this.collection, { id }, update, 'usuario');
         const action = (unblock) ? 'Desbloqueado' : 'Bloqueado';
         return {
             status: result.status,

@@ -72,7 +72,7 @@ const resolversEmailMutation: IResolvers = {
                 status: true,
                 message: 'Preparado para activar el Usuario'
             }; */
-            return new UsersService(_, {id, birthday, password}, {token, db}).unblock(true);
+            return new UsersService(_, {id, user: {birthday, password}}, {token, db}).unblock(true);
         }
     },
 };
