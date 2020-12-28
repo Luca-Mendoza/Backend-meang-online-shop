@@ -1,11 +1,11 @@
-import { findOneElement } from './../../lib/db-operations';
+import { findOneElement, updateOneElement } from './../../lib/db-operations';
 import { MESSAGES, COLLECTIONS } from './../../config/constants';
 import { IResolvers } from 'apollo-server-express';
 import { EXPIRETIME } from '../../config/constants';
 import { transport } from '../../config/mailer';
 import JWT from '../../lib/jwt';
 import UsersService from '../../services/users.service';
-import { Console } from 'console';
+import bcrypt from 'bcrypt';
 
 const resolversEmailMutation: IResolvers = {
 
@@ -114,13 +114,52 @@ const resolversEmailMutation: IResolvers = {
                 };
             }
             // Comprobar el id es correcto: no inddefinido y no en blanco
+            if (id === undefined || id === '') {
+                return {
+                    status: false,
+                    message: 'El ID necesita una información correcta'
+                };
+            }
             // Comprobar el password es correcto: no inddefinido y no en blanco
+            if (password === undefined || password === '') {
+                return {
+                    status: false,
+                    message: 'El password necesita una información correcta'
+                };
+            }
             // Encriptar el password
+            password = bcrypt.hashSync(password, 10);
             // Actualizar el id seleccionado de la colección usuarios
+            return await updateOneElement(
+                db,
+                COLLECTIONS.USERS,
+                { id },
+                { password }
+            ).then(
+                res => {
+                    if (res.result.nModified === 1 && res.result.ok) {
+                        return {
+                            status: true,
+                            message: `Contraseña cambiada correctamente.`
+                        };
+                    }
+                    return {
+                        status: false,
+                        message: `Contraseña no actualizada por no encontrar el usuario o por no sufir cambios`
+                    };
+                }
+            ).catch(
+                error => {
+                    return {
+                        status: false,
+                        message: `Contraseña no actualizada: ${error}`
+                    };
+                }
+            );
 
             return {
                 status: true,
-                message: 'Token, correcto podremos seguir.'
+                message: `${password} correcto.`
             };
         }
     },
