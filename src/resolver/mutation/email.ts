@@ -60,20 +60,8 @@ const resolversEmailMutation: IResolvers = {
         },
         async activeUserAction(_, { id, birthday, password }, { token, db }) {
             // Verificar el token
-            const checkToken = new JWT().verify(token);
-            if (checkToken === MESSAGES.TOKE_VERICATION_FAILED) {
-                return {
-                    status: false,
-                    message: 'El periodo para activar el usuario ha finalizado. Contacta con el Administrador para mas información.',
-                };
-            }
             // Si el token es valido, asignamos la información
-            const user = Object.values(checkToken)[0];
-            console.log(user, { id, birthday, password });
-            /**  return {
-                 status: true,
-                 message: 'Preparado para activar el Usuario'
-             }; */
+            verifyToken(token, id);
             return new UsersService(_, { id, user: { birthday, password } }, { token, db }).unblock(true);
         },
         async resetPassword(_, { email }, { db }) {
@@ -115,8 +103,46 @@ const resolversEmailMutation: IResolvers = {
                 });
             });
 
+        },
+        async changePassword(_, { id, password }, { token, db }) {
+            // Verificar token
+            const verify = verifyToken(token, id);
+            if (verify?.status === false) {
+                return {
+                    status: false,
+                    message: verify.message
+                };
+            }
+            // Comprobar el id es correcto: no inddefinido y no en blanco
+            // Comprobar el password es correcto: no inddefinido y no en blanco
+            // Encriptar el password
+            // Actualizar el id seleccionado de la colección usuarios
+
+            return {
+                status: true,
+                message: 'Token, correcto podremos seguir.'
+            };
         }
     },
 };
 
+function verifyToken(token: string, id: string) {
+    // Verificar el token
+    const checkToken = new JWT().verify(token);
+    if (checkToken === MESSAGES.TOKE_VERICATION_FAILED) {
+        return {
+            status: false,
+            message: 'El periodo para activar el usuario ha finalizado. Contacta con el Administrador para mas información.',
+        };
+    }
+    // Si el token es valido, asignamos la información
+    const user = Object.values(checkToken)[0];
+    if (user.id !== id) {
+        return {
+            status: false,
+            message: 'El usuario del token no corresponde al añadido en el argumento'
+        };
+    }
+
+}
 export default resolversEmailMutation;
