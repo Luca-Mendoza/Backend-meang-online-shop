@@ -6,64 +6,44 @@ import { transport } from '../../config/mailer';
 import JWT from '../../lib/jwt';
 import UsersService from '../../services/users.service';
 import bcrypt from 'bcrypt';
+import MailService from '../../services/email.service';
 
 const resolversEmailMutation: IResolvers = {
 
     Mutation: {
+        // Enviar un Email - pasamos información del receptor - asunto - información del contenido del correo (env-instruciones)
         async sendEmail(_, { mail }) {
             // Añadimos la llamada al servicio
-            console.log(mail);
-            return new Promise((resolve, reject) => {
-
-                transport.sendMail({
-                    from: '"🌹🍀🌹🌼🍀🌸<🥀Los.Jazmines🌷🍀🌼🌸> 🌹🍀" <floreria01.los.jazmines@gmail.com>', // sender address
-                    to: mail.to, // list of receivers
-                    subject: mail.subject, // Subject line---
-                    //text: `Hola`, // plain text body
-                    html: mail.html, // html body
-                }, (error, _) => {
-                    (error) ? reject({
-                        status: false,
-                        messge: error
-                    }) : resolve({
-                        status: true,
-                        message: 'Email correctamente enviado a' + mail.to,
-                        mail
-                    });
-                });
-            });
+            return new MailService().send(mail);
         },
+        // Intruciones - Activar el Usuario (env- instrciones para activar el usuario)
         async activeUserEmail(_, { id, email }) {
             // Información para que el usuario pueda activar la cuenta - tiempo 1hs
             const token = new JWT().sign({ user: { id, email } }, EXPIRETIME.H1);
             // Informacion del HTML con el link para activar la cuenta
             const html = `Para activar la cuenta haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/active/${token}">Click aquí</a>`;
-            return new Promise((resolve, reject) => {
-
-                transport.sendMail({
-                    from: '"🌹🍀🌹🌼🍀🌸<🥀Los.Jazmines🌷🍀🌼🌸> 🌹🍀" <floreria01.los.jazmines@gmail.com>', // sender address
-                    to: email, // list of receivers
-                    subject: 'Activar usuario', // Subject line---
-                    //text: `Hola`, // plain text body
-                    html
-                }, (error, _) => {
-                    (error) ? reject({
-                        status: false,
-                        messge: error
-                    }) : resolve({
-                        status: true,
-                        message: 'Email correctamente enviado a' + email,
-                        email
-                    });
-                });
-            });
+            // Tomando parametros nesezarios para activar el unsuario y enviar email
+            const mail = {
+                subject: 'Activar usuario',
+                to: email,
+                html
+            };
+            return new MailService().send(mail);
         },
+        // activeUserAction() ACTIVA EL USUARIO SELECCIONADO
         async activeUserAction(_, { id, birthday, password }, { token, db }) {
             // Verificar el token
+            const verify = verifyToken(token, id);
+            if (verify?.status === false) {
+                return {
+                    status: false,
+                    message: verify.message
+                };
+            }
             // Si el token es valido, asignamos la información
-            verifyToken(token, id);
             return new UsersService(_, { id, user: { birthday, password } }, { token, db }).unblock(true);
         },
+        // resetPassword() RESETEA PASSWORD DEL USUARIO SELECCIONADO
         async resetPassword(_, { email }, { db }) {
             //Coger información del usuario
             const user = await findOneElement(db, COLLECTIONS.USERS, { email });
@@ -83,27 +63,14 @@ const resolversEmailMutation: IResolvers = {
 
             // Informacion del HTML con el link para activar la cuenta
             const html = `Para cambiar de contraseña haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/reset/${token}">Click aquí</a>`;
-            return new Promise((resolve, reject) => {
-
-                transport.sendMail({
-                    from: '"🌹🍀🌹🌼🍀🌸<🥀Los.Jazmines🌷🍀🌼🌸> 🌹🍀" <floreria01.los.jazmines@gmail.com>', // sender address
-                    to: email, // list of receivers
-                    subject: 'Petición para cambiar de contraseña', // Subject line---
-                    //text: `Hola`, // plain text body
-                    html
-                }, (error, _) => {
-                    (error) ? reject({
-                        status: false,
-                        messge: error
-                    }) : resolve({
-                        status: true,
-                        message: 'Email correctamente enviado a' + email,
-                        email
-                    });
-                });
-            });
-
+            const mail = {
+                to: email,
+                subject: 'Petición para cambiar de contraseña',
+                html
+            };
+            return new MailService().send(mail);
         },
+        // changePassword() CAMBIAR PASSWORD DEL USUARIO SELECCIONADO
         async changePassword(_, { id, password }, { token, db }) {
             // Verificar token
             const verify = verifyToken(token, id);
