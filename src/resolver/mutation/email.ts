@@ -7,6 +7,7 @@ import JWT from '../../lib/jwt';
 import UsersService from '../../services/users.service';
 import bcrypt from 'bcrypt';
 import MailService from '../../services/email.service';
+import PasswordService from '../../services/password.service';
 
 const resolversEmailMutation: IResolvers = {
 
@@ -36,30 +37,7 @@ const resolversEmailMutation: IResolvers = {
         },
         // resetPassword() RESETEA PASSWORD DEL USUARIO SELECCIONADO
         async resetPassword(_, { email }, { db }) {
-            //Coger información del usuario
-            const user = await findOneElement(db, COLLECTIONS.USERS, { email });
-            console.log(user);
-            //Si usuario es indefinido mandamos un mensaje que no existe el usuario
-            if (user === undefined || user === null) {
-                return {
-                    status: false,
-                    message: `Usuario con el email ${email} no existe.`
-                };
-            }
-            const newUser = {
-                id: user.id,
-                email
-            };
-            const token = new JWT().sign({ user: newUser }, EXPIRETIME.M15);
-
-            // Informacion del HTML con el link para activar la cuenta
-            const html = `Para cambiar de contraseña haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/reset/${token}">Click aquí</a>`;
-            const mail = {
-                to: email,
-                subject: 'Petición para cambiar de contraseña',
-                html
-            };
-            return new MailService().send(mail);
+            return new PasswordService(_, { user: { email } }, {db}).SendEmail();
         },
         // changePassword() CAMBIAR PASSWORD DEL USUARIO SELECCIONADO
         async changePassword(_, { id, password }, { token, db }) {
