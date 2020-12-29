@@ -13,22 +13,13 @@ const resolversEmailMutation: IResolvers = {
     Mutation: {
         // Enviar un Email - pasamos información del receptor - asunto - información del contenido del correo (env-instruciones)
         async sendEmail(_, { mail }) {
-            // Añadimos la llamada al servicio
+            // Añadimos la llamada al servicio para enviar un mail
             return new MailService().send(mail);
         },
         // Intruciones - Activar el Usuario (env- instrciones para activar el usuario)
         async activeUserEmail(_, { id, email }) {
             // Información para que el usuario pueda activar la cuenta - tiempo 1hs
-            const token = new JWT().sign({ user: { id, email } }, EXPIRETIME.H1);
-            // Informacion del HTML con el link para activar la cuenta
-            const html = `Para activar la cuenta haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/active/${token}">Click aquí</a>`;
-            // Tomando parametros nesezarios para activar el unsuario y enviar email
-            const mail = {
-                subject: 'Activar usuario',
-                to: email,
-                html
-            };
-            return new MailService().send(mail);
+            return new UsersService(_, { user: { id, email } }, {}).active();
         },
         // activeUserAction() ACTIVA EL USUARIO SELECCIONADO
         async activeUserAction(_, { id, birthday, password }, { token, db }) {

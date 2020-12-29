@@ -8,6 +8,7 @@ import {
 } from '../lib/db-operations';
 import bcrypt from 'bcrypt';
 import JWT from '../lib/jwt';
+import MailService from './email.service';
 
 class UsersService extends ResolversOperationsService {
     private collection = COLLECTIONS.USERS;
@@ -225,6 +226,29 @@ class UsersService extends ResolversOperationsService {
             message: (result.message) ? `${action} correctamente` : `No se ha  ${action.toLocaleLowerCase()} comprobarlo por favor`
         };
 
+    }
+    // Activar Usuario
+    async active() {
+        const id = this.getVariables().user?.id;
+        const email = this.getVariables().user?.email || '';
+        // comprobar el Email sea correcto y no ste vacío
+        if(email === undefined || email === '') {
+            return {
+                status: false,
+                message: 'El email no se ha definido correctamente.'
+            };
+        }
+        // Información para que el usuario pueda activar la cuenta - tiempo 1hs
+        const token = new JWT().sign({user: {id, email}}, EXPIRETIME.H1);
+        // Informacion del HTML con el link para activar la cuenta
+        const html = `Para activar la cuenta haz click sobre esto: <a href="${process.env.CLIENT_URL}/#/active/${token}">Click aquí</a>`;
+        // Tomando parametros nesezarios para activar el unsuario y enviar email
+        const mail = {
+            subject: 'Activar usuario',
+            to: email,
+            html
+        };
+        return new MailService().send(mail);
     }
     // Funciones 
     private async checkData(value: string) {
