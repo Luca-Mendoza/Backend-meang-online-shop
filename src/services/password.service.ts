@@ -1,9 +1,10 @@
 import { COLLECTIONS, EXPIRETIME } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
-import { findOneElement } from '../lib/db-operations';
+import { findOneElement, updateOneElement } from '../lib/db-operations';
 import JWT from '../lib/jwt';
 import MailService from './email.service';
 import ResolversOperationsService from './resolvers-operations.service';
+import bcrypt from 'bcrypt';
 
 
 
@@ -48,6 +49,38 @@ class PasswordService extends ResolversOperationsService {
         return new MailService().send(mail);
     }
 
+    async chenge() {
+        const id = this.getVariables().user?.id;
+        let password = this.getVariables().user?.password;
+        // Comprobar el id es correcto: no inddefinido y no en blanco
+        if (id === undefined || id === '') {
+            return {
+                status: false,
+                message: 'El ID necesita una información correcta'
+            };
+        }
+        // Comprobar el password es correcto: no inddefinido y no en blanco
+        if (password === undefined || password === '' || password === '1234') {
+            return {
+                status: false,
+                message: 'El password necesita una información correcta'
+            };
+        }
+        // Encriptar el password
+        password = bcrypt.hashSync(password, 10);
+        // Actualizar el id seleccionado de la colección usuarios
+        const result = await this.update(
+            COLLECTIONS.USERS,
+            { id },
+            { password },
+            'users'
+        );
+
+        return {
+            status: result.status,
+            message: (result.status) ? 'Contraseña cambiada correctamente' : result.message
+        };
+    }
 }
 
 export default PasswordService;

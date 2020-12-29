@@ -37,7 +37,7 @@ const resolversEmailMutation: IResolvers = {
         },
         // resetPassword() RESETEA PASSWORD DEL USUARIO SELECCIONADO
         async resetPassword(_, { email }, { db }) {
-            return new PasswordService(_, { user: { email } }, {db}).SendEmail();
+            return new PasswordService(_, { user: { email } }, { db }).SendEmail();
         },
         // changePassword() CAMBIAR PASSWORD DEL USUARIO SELECCIONADO
         async changePassword(_, { id, password }, { token, db }) {
@@ -49,54 +49,7 @@ const resolversEmailMutation: IResolvers = {
                     message: verify.message
                 };
             }
-            // Comprobar el id es correcto: no inddefinido y no en blanco
-            if (id === undefined || id === '') {
-                return {
-                    status: false,
-                    message: 'El ID necesita una información correcta'
-                };
-            }
-            // Comprobar el password es correcto: no inddefinido y no en blanco
-            if (password === undefined || password === '') {
-                return {
-                    status: false,
-                    message: 'El password necesita una información correcta'
-                };
-            }
-            // Encriptar el password
-            password = bcrypt.hashSync(password, 10);
-            // Actualizar el id seleccionado de la colección usuarios
-            return await updateOneElement(
-                db,
-                COLLECTIONS.USERS,
-                { id },
-                { password }
-            ).then(
-                res => {
-                    if (res.result.nModified === 1 && res.result.ok) {
-                        return {
-                            status: true,
-                            message: `Contraseña cambiada correctamente.`
-                        };
-                    }
-                    return {
-                        status: false,
-                        message: `Contraseña no actualizada por no encontrar el usuario o por no sufir cambios`
-                    };
-                }
-            ).catch(
-                error => {
-                    return {
-                        status: false,
-                        message: `Contraseña no actualizada: ${error}`
-                    };
-                }
-            );
-
-            return {
-                status: true,
-                message: `${password} correcto.`
-            };
+            return new PasswordService(_, { user: { id, password } }, { db }).chenge();
         }
     },
 };
