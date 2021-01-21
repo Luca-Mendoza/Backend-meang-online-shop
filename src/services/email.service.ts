@@ -19,7 +19,7 @@ class MailService {
                     messge: error
                 }) : resolve({
                     status: true,
-                    message: 'Email correctamente enviado a' + mail.to,
+                    message: 'Email correctamente enviado a ' + mail.to,
                     mail
                 });
             });

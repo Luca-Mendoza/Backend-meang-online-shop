@@ -1,4 +1,4 @@
-import { COLLECTIONS, EXPIRETIME, MESSAGES } from '../config/constants';
+import { ACTIVE_VALUES_FILTER, COLLECTIONS, EXPIRETIME, MESSAGES } from '../config/constants';
 import { IContextData } from '../interfaces/context-data.interface';
 import ResolversOperationsService from './resolvers-operations.service';
 import {
@@ -17,7 +17,8 @@ class UsersService extends ResolversOperationsService {
     }
 
     // Lista de usuarios
-    async items() {
+    async items(active: string = ACTIVE_VALUES_FILTER.ACTIVE) {
+        console.log('service', active)
         const page = this.getVariables().pagination?.page;
         const itemsPage = this.getVariables().pagination?.itemsPage;
         const result = await this.list(this.collection, 'usuarios', page, itemsPage);
@@ -192,7 +193,7 @@ class UsersService extends ResolversOperationsService {
         };
     }
     // Desbloquear y Bloquear Usuario 
-    async unblock(unblock: Boolean) {
+    async unblock(unblock: boolean) {
         const id = this.getVariables().id;
         const user = this.getVariables().user;
         if (!this.checkData(String(id) || '')) {
