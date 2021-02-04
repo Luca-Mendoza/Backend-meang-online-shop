@@ -5,7 +5,14 @@ type Mutation {
 	register(user: UserInput!): ResultUser
 	updateUser(user: UserInput!): ResultUser
 	deleteUser(id: ID!): ResultUser
-	blockUser(id: ID!): ResultUser
+	blockUser(
+		"ID unico del usuario"
+		id: ID!,
+		"Argumento para especificar si queremos desbloquear o bloquear"
+		unblock: Boolean = false,
+		"Especificando la procedencia de la petición para la modificación"
+		admin: Boolean = false
+		): ResultUser
 
 	"Apartado de operaciones donde trabajamos con los géneros"
 	addGenre(genre: String!): ResultGenre

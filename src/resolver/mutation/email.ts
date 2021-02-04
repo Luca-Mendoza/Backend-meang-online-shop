@@ -33,7 +33,7 @@ const resolversEmailMutation: IResolvers = {
                 };
             }
             // Si el token es valido, asignamos la información
-            return new UsersService(_, { id, user: { birthday, password } }, { token, db }).unblock(true);
+            return new UsersService(_, { id, user: { birthday, password } }, { token, db }).unblock(true, false);
         },
         // resetPassword() RESETEA PASSWORD DEL USUARIO SELECCIONADO
         async resetPassword(_, { email }, { db }) {
