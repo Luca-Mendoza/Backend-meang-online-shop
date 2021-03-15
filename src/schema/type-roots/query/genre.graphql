@@ -1,0 +1,12 @@
+type Query {
+  "Obtener la lista de los generos / status"
+  genres(
+    "Página seleccionada para acceder a ella"
+    page: Int = 1
+    "Géneros de los juegos que se obtendrán por página"
+    itemsPage: Int = 20
+  ): ResultGenre
+
+  "Obtener Item del genero  seleccionado / status"
+  genre("Identificador del género seleccionado" id: ID!): ResultGenre
+}

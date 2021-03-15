@@ -1,0 +1,41 @@
+"Apartado Mailer - Envio de emails autimático"
+type Mutation {
+	"""
+	Acción que usaremos para enviar correos electrónicos con la
+	siguiente información dentro del **MailInput**:
+	* from:  Correo electrónico del emisor (ya configurado)
+	* to:    Correo electrónico del receptor
+	* subject:  Asunto del correo electrónico
+	* html:  Contenido del correo electrónico en formato HTML
+	"""
+	sendEmail(mail: MailInput!): ResultMail
+	"""
+	Acción que permitirá enviar el usuario seleccionado la información necesaria
+	para poder activar el usuario, añadiendo su fecha de nacimiento y su password
+	ya que esta acción se va a utilizar cuando creamos el usuario desde el panel
+	de administración
+	"""
+	activeUserEmail(id: ID!, email: String!): ResultMail
+	"""
+	Acción en el que el usuario tiene que activar el usuario añadiendo
+	su fecha de nacimiento y un nuevo password, para poder acceder a las
+	comprar y otras opciones
+	"""
+	activeUserAction(id: ID!, birthday: String!, password: String!): ResultMail
+	"""
+	Acción para hacer la petición del cambio de password de un usuario existente
+	en la base de datos con el objetivo de resetear y añadir la nueva informacion.
+	El cambio de la contraseña se dará por elolvido de ella o simplemente por cambiarla.
+	"""
+	resetPassword(
+		"Email del usuario que queremos cambiarle el password"
+		email: String!
+	): ResultMail
+	"""
+	Acción para cambiar la información del password del usuario que pasemos con
+	su **ID** de usuario, ya que  hemos solicitado anteriosmente desde **resetPassword(<email>)**
+	las intrucciones para el cambio de contraseña
+	por el olvido de ella o simplemente por hacer un cambio a una más fiable.
+	"""
+	changePassword(id: ID!, password: String!): ResultUser
+}

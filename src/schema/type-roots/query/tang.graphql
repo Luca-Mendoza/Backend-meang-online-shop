@@ -1,0 +1,11 @@
+type Query {
+  "Lista de etiquetas (tags)"
+  tags(
+    "Página seleccionada para acceder a ella"
+    page: Int = 1
+    "Tang (etiquetas) que se obtendrán por página"
+    itemsPage: Int = 20
+  ): ResultTag
+  "Item de etiqueta seleccionada"
+  tag("Identificador de la etiqueta seleccionada" id: ID!): ResultTag
+}

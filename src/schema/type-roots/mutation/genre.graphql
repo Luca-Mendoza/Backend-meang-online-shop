@@ -1,0 +1,23 @@
+"Apartado de operaciones donde trabajamos con los géneros"
+type Mutation {
+	"""
+	Nombre del género que vamos a añadir
+	"""
+	addGenre(genre: String!): ResultGenre
+	"""
+	Para actualizar la información del género especificado con el ID
+	y así tener la información actualizada a nuestro gusto con el
+	nuevo género
+	"""
+	updateGenre(id: ID!, genre: String!): ResultGenre
+	"""
+	Para borrar el género. Esta acción no la usaremos, en sulugar para
+	hacer desaparecer un item correcto, usaremos la función de bloquear
+	"""
+	deleteGenre(id: ID!): ResultGenre
+	"""
+	Para bloquear (desativar) el género y clasificarlo como "inactivo" y
+	no poder utulizarlo
+	"""
+	blockGenre(id: ID!): ResultGenre
+}
