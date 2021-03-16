@@ -23,28 +23,34 @@ import UsersService from '../../services/users.service';
     brithday: String!
  */
 const resolversUserQuery: IResolvers = {
-    Query: {
-        async users(_, {page, itemsPage, active}, context) {
-            /**
+	Query: {
+		async users(_, { page, itemsPage, active }, context) {
+			/**
             console.log(root);
             console.log(args);
             console.log(context);
             console.log(info);
             */
-           console.log(active);
-           return new UsersService(_, { pagination: {page, itemsPage} }, context).items(active);
-        },
+			//console.log(active);
+			return new UsersService(
+				_,
+				{ pagination: { page, itemsPage } },
+				context,
+			).items(active);
+		},
 
-        async login(_, { email, password }, context) {
-            return new UsersService(_,{user: {email, password} }, context).login();
-        },
-        me(_, __, { token }) {
-            //console.log(token);
-            return new UsersService(_,__, {token}).auth();
-        },
-
-    },
-
+		async login(_, { email, password }, context) {
+			return new UsersService(
+				_,
+				{ user: { email, password } },
+				context,
+			).login();
+		},
+		me(_, __, { token }) {
+			//console.log(token);
+			return new UsersService(_, __, { token }).auth();
+		},
+	},
 };
 
 export default resolversUserQuery;

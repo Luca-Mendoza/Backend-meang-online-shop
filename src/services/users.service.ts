@@ -18,23 +18,29 @@ class UsersService extends ResolversOperationsService {
 
     // Lista de usuarios
     async items(active: string = ACTIVE_VALUES_FILTER.ACTIVE) {
-        console.log('service', active);
-        let filter: object = {active: {$ne: false}};
-        if(active == ACTIVE_VALUES_FILTER.ALL){
-            filter = {};
-        } else if (active === ACTIVE_VALUES_FILTER.INACTIVE) {
-            filter = {active : false};
-        }
-        const page = this.getVariables().pagination?.page;
-        const itemsPage = this.getVariables().pagination?.itemsPage;
-        const result = await this.list(this.collection, 'usuarios', page, itemsPage, filter);
-        return {
-            info: result.info,
-            status: result.status,
-            message: result.message,
-            users: result.items,
-        };
-    }
+		//console.log('service', active);
+		let filter: object = { active: { $ne: false } };
+		if (active == ACTIVE_VALUES_FILTER.ALL) {
+			filter = {};
+		} else if (active === ACTIVE_VALUES_FILTER.INACTIVE) {
+			filter = { active: false };
+		}
+		const page = this.getVariables().pagination?.page;
+		const itemsPage = this.getVariables().pagination?.itemsPage;
+		const result = await this.list(
+			this.collection,
+			'usuarios',
+			page,
+			itemsPage,
+			filter,
+		);
+		return {
+			info: result.info,
+			status: result.status,
+			message: result.message,
+			users: result.items,
+		};
+	}
 
     // Autenticarnos
     async auth() {
