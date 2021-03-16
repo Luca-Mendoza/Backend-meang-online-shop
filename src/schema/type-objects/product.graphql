@@ -1,0 +1,8 @@
+type Product {
+	id: ID!
+	name: String!
+	slug: String!
+	active: Boolean!
+	released: String!
+	img: String!
+}
