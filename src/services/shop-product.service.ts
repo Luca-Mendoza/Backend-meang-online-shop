@@ -1,10 +1,17 @@
-import { ACTIVE_VALUES_FILTER, COLLECTIONS } from './../config/constants';
+import {
+	ACTIVE_VALUES_FILTER,
+	COLLECTIONS,
+} from './../config/constants';
 import ResolversOperationsService from './resolvers-operations.service';
 
 class ShopProductsService extends ResolversOperationsService {
 	collection = COLLECTIONS.SHOP_PRODUCT;
 
-	constructor(root: object, variables: object, context: object) {
+	constructor(
+		root: object,
+		variables: object,
+		context: object,
+	) {
 		super(root, variables, context);
 	}
 	//Lista de productos
@@ -22,12 +29,16 @@ class ShopProductsService extends ResolversOperationsService {
 			filter = { active: false };
 		}
 		if (platform !== '' && platform !== undefined) {
-			filter = { ...filter, ...{ platform_id: platform } };
+			filter = {
+				...filter,
+				...{ platform_id: platform },
+			};
 		}
 		// Obtenemos el valor de la página
 		const page = this.getVariables().pagination?.page;
 		//Obtenemos los items por página
-		const itemsPage = this.getVariables().pagination?.itemsPage;
+		const itemsPage = this.getVariables().pagination
+			?.itemsPage;
 		// Obtenemos el resultado llamamos a la función "list"
 		const result = await this.list(
 			// Obtenemos la colección de Shop-Products
