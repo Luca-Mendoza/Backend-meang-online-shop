@@ -10,6 +10,17 @@ const resolversShopProductsQuery: IResolvers = {
 				context,
 			).items(active);
 		},
+		async shopProductsPlatforms(
+			_,
+			{ page, itemsPage, active, platform },
+			context,
+		) {
+			return new ShopProductsService(
+				_,
+				{ pagination: { page, itemsPage } },
+				context,
+			).items(active, platform);
+		},
 	},
 };
 

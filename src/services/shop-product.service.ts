@@ -8,7 +8,10 @@ class ShopProductsService extends ResolversOperationsService {
 		super(root, variables, context);
 	}
 	//Lista de productos
-	async items(active: string = ACTIVE_VALUES_FILTER.ACTIVE) {
+	async items(
+		active: string = ACTIVE_VALUES_FILTER.ACTIVE,
+		platform: string = '',
+	) {
 		//Filtrado de dato que muestre todo lo que tienen activos
 		let filter: object = { active: { $ne: false } };
 		// si queremos mostrar todos deja el filtro vacíon
@@ -17,6 +20,9 @@ class ShopProductsService extends ResolversOperationsService {
 		} //mostrar los inactivos
 		else if (active === ACTIVE_VALUES_FILTER.INACTIVE) {
 			filter = { active: false };
+		}
+		if (platform !== '' && platform !== undefined) {
+			filter = { ...filter, ...{ platform_id: platform } };
 		}
 		// Obtenemos el valor de la página
 		const page = this.getVariables().pagination?.page;

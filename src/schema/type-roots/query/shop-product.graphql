@@ -9,9 +9,15 @@ type Query {
 		active: ActiveFilterEnum = ACTIVE
 	): ResultShopProduct
 
-	"Obtener Item del producto  seleccionado / status"
-	shopProduct(
-		"Identificador del género seleccionado"
-		id: ID!
+	"Obtener Item del producto  seleccionado por Plataforma/ "
+	shopProductsPlatforms(
+		"Página seleccionada para acceder a ella"
+		page: Int = 1
+		"Products de la tienda (juegos) que se obtendrán por página"
+		itemsPage: Int = 20
+		"Especificar el estado del producto que queremos mostrar"
+		active: ActiveFilterEnum = ACTIVE
+		"Especificar el de la plataforma seleccionada"
+		platform: ID!
 	): ResultShopProduct
 }
