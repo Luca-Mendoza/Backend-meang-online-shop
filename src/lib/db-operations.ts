@@ -119,13 +119,16 @@ export const countElements = async (
 		.countDocuments(filter);
 };
 
-/** para obtener items aleatorios */
+/**
+ *  para obtener items aleatorios teniendo encuenta un filtro y
+ *  teniendo encuenta cuantos elementos queremos obtener
+ */
 export const randomItems = async (
 	database: Db,
 	collection: string,
 	filter: object = {},
 	items: number = 10,
-) => {
+): Promise<Array<object>> => {
 	return new Promise(async (resolve) => {
 		const pipeline = [
 			{ $match: filter }, //Busca todos los elementos que coincidan con ese filtro

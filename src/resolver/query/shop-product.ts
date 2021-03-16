@@ -3,7 +3,11 @@ import ShopProductsService from '../../services/shop-product.service';
 
 const resolversShopProductsQuery: IResolvers = {
 	Query: {
-		async shopProducts(_, { page, itemsPage, active }, context) {
+		async shopProducts(
+			_,
+			{ page, itemsPage, active },
+			context,
+		) {
 			return new ShopProductsService(
 				_,
 				{ pagination: { page, itemsPage } },
@@ -12,14 +16,14 @@ const resolversShopProductsQuery: IResolvers = {
 		},
 		async shopProductsPlatforms(
 			_,
-			{ page, itemsPage, active, platform },
+			{ page, itemsPage, active, platform, random },
 			context,
 		) {
 			return new ShopProductsService(
 				_,
 				{ pagination: { page, itemsPage } },
 				context,
-			).items(active, platform);
+			).items(active, platform, random);
 		},
 	},
 };

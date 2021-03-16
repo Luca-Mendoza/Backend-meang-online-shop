@@ -19,5 +19,7 @@ type Query {
 		active: ActiveFilterEnum = ACTIVE
 		"Especificar el de la plataforma seleccionada"
 		platform: ID!
+		"Seleccionar los elementos de manera aleatoria"
+		random: Boolean = false
 	): ResultShopProduct
 }

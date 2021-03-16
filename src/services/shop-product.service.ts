@@ -1,3 +1,4 @@
+import { randomItems } from './../lib/db-operations';
 import {
 	ACTIVE_VALUES_FILTER,
 	COLLECTIONS,
@@ -18,6 +19,7 @@ class ShopProductsService extends ResolversOperationsService {
 	async items(
 		active: string = ACTIVE_VALUES_FILTER.ACTIVE,
 		platform: string = '',
+		random: boolean = false,
 	) {
 		//Filtrado de dato que muestre todo lo que tienen activos
 		let filter: object = { active: { $ne: false } };
@@ -39,24 +41,59 @@ class ShopProductsService extends ResolversOperationsService {
 		//Obtenemos los items por página
 		const itemsPage = this.getVariables().pagination
 			?.itemsPage;
-		// Obtenemos el resultado llamamos a la función "list"
-		const result = await this.list(
-			// Obtenemos la colección de Shop-Products
-			this.collection,
-			// menssaje personalizado
-			'productos de la tienda',
-			// pagina
-			page,
-			//itemd de los pagina
-			itemsPage,
-			// filtro
-			filter,
+		// Obtener el sistema de paginacion por defecto normalmente
+		if (!random) {
+			// Obtenemos el resultado llamamos a la función "list"
+			const result = await this.list(
+				// Obtenemos la colección de Shop-Products
+				this.collection,
+				// menssaje personalizado
+				'productos de la tienda',
+				// pagina
+				page,
+				//itemd de los pagina
+				itemsPage,
+				// filtro
+				filter,
+			);
+			return {
+				info: result.info,
+				status: result.status,
+				message: result.message,
+				shopProducts: result.items,
+			};
+		}
+		/**
+		 * Aplicando el filtrado para obtener un conjunto de dato
+		 * aplicanto el n° de items paraobtener de manera aleatoria
+		 * lo que nesecitamos conjugado al sistema de paginación
+		 * */
+		const result: Array<object> = await randomItems(
+			this.getDb(), //obtener de referencia la base de dato
+			this.collection, //ontenemos la collecion shop-product
+			filter, // filtro de la funcion
+			itemsPage, // items por pagina
 		);
+		if (result.length === 0 || result.length !== itemsPage) {
+			return {
+				info: { page: 1, pages: 1, itemsPage, total: 0 },
+				status: false,
+				message:
+					'La información que hemos pedido no se ha obtenido tal y como deseabamos',
+				shopProducts: [],
+			};
+		}
 		return {
-			info: result.info,
-			status: result.status,
-			message: result.message,
-			shopProducts: result.items,
+			info: {
+				page: 1,
+				pages: 1,
+				itemsPage,
+				total: itemsPage,
+			},
+			status: true,
+			message:
+				'La información que hemos pedido se ha obtenido tal y como deseabamos',
+			shopProducts: result,
 		};
 	}
 }
