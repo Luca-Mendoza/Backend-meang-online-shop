@@ -74,6 +74,7 @@ class ShopProductsService extends ResolversOperationsService {
 			filter, // filtro de la funcion
 			itemsPage, // items por pagina
 		);
+		// funcion para verificar que la informacion es distinta a la que emos especificado
 		if (result.length === 0 || result.length !== itemsPage) {
 			return {
 				info: { page: 1, pages: 1, itemsPage, total: 0 },
@@ -83,6 +84,7 @@ class ShopProductsService extends ResolversOperationsService {
 				shopProducts: [],
 			};
 		}
+		// si se cumple la condicion especificada retornara  result correctamente
 		return {
 			info: {
 				page: 1,

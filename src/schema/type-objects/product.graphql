@@ -2,7 +2,27 @@ type Product {
 	id: ID!
 	name: String!
 	slug: String!
-	active: Boolean!
 	released: String!
 	img: String!
+	clip: Clip
+	rating: Rating
+	screenshoot: [String!]!
+}
+
+type Clip {
+	clips: ClipQuality
+	video: String
+	preview: String
+}
+type ClipQuality {
+	low: String!
+	medium: String!
+	full: String!
+}
+
+type Rating {
+	"Cantidad de valoraciones realizada"
+	count: Int!
+	"Valor medio de las valoraciones"
+	value: Float!
 }
