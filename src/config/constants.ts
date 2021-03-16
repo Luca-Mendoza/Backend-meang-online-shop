@@ -12,6 +12,8 @@ export enum COLLECTIONS {
 	GENRES = 'genres',
 	TAGS = 'tags',
 	SHOP_PRODUCT = 'products_platforms',
+	PRODUCTS = 'products',
+	PLATFORMS = 'platforms',
 }
 
 export enum MESSAGES {
