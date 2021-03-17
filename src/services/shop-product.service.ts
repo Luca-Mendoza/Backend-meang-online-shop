@@ -20,6 +20,7 @@ class ShopProductsService extends ResolversOperationsService {
 		active: string = ACTIVE_VALUES_FILTER.ACTIVE,
 		platform: string = '',
 		random: boolean = false,
+		otherFilters: object = {},
 	) {
 		//Filtrado de dato que muestre todo lo que tienen activos
 		let filter: object = { active: { $ne: false } };
@@ -29,11 +30,17 @@ class ShopProductsService extends ResolversOperationsService {
 		} //mostrar los inactivos
 		else if (active === ACTIVE_VALUES_FILTER.INACTIVE) {
 			filter = { active: false };
-		}
+		} // Mostrar de que plataforma son los productos
 		if (platform !== '' && platform !== undefined) {
 			filter = {
 				...filter,
 				...{ platform_id: platform },
+			};
+		}  // añadimos filtro de oferta y stock
+		if (otherFilters !== {} && otherFilters !== undefined) {
+			filter = {
+				...filter,
+				...otherFilters,
 			};
 		}
 		// Obtenemos el valor de la página
