@@ -51,7 +51,6 @@ const resolversShopProductsQuery: IResolvers = {
 			} else if (lastUnits > 0 && topPrice <= 10) {
 				otherFilters = { stock: { $lte: lastUnits } };
 			}
-			console.log(otherFilters);
 			return new ShopProductsService(
 				_,
 				{ pagination: { page, itemsPage } },
