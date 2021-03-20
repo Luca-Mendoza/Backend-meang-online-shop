@@ -18,7 +18,7 @@ class ShopProductsService extends ResolversOperationsService {
 	//Lista de productos
 	async items(
 		active: string = ACTIVE_VALUES_FILTER.ACTIVE,
-		platform: string = '',
+		platform: Array<string> = ['-1'],
 		random: boolean = false,
 		otherFilters: object = {},
 	) {
@@ -31,12 +31,12 @@ class ShopProductsService extends ResolversOperationsService {
 		else if (active === ACTIVE_VALUES_FILTER.INACTIVE) {
 			filter = { active: false };
 		} // Mostrar de que plataforma son los productos
-		if (platform !== '' && platform !== undefined) {
+		if (platform !== ['-1'] && platform !== undefined) {
 			filter = {
 				...filter,
-				...{ platform_id: platform },
+				...{ platform_id: { $in: platform } },
 			};
-		}  // añadimos filtro de oferta y stock
+		} // añadimos filtro de oferta y stock
 		if (otherFilters !== {} && otherFilters !== undefined) {
 			filter = {
 				...filter,
