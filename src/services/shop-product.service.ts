@@ -31,7 +31,7 @@ class ShopProductsService extends ResolversOperationsService {
 		else if (active === ACTIVE_VALUES_FILTER.INACTIVE) {
 			filter = { active: false };
 		} // Mostrar de que plataforma son los productos
-		if (platform !== ['-1'] && platform !== undefined) {
+		if (platform[0] !== '-1' && platform !== undefined) {
 			filter = {
 				...filter,
 				...{ platform_id: { $in: platform } },
