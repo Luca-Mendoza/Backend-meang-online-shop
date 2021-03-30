@@ -38,4 +38,6 @@ type Query {
 		"Seleccionar los elementos de manera aleatoria"
 		random: Boolean = false
 	): ResultShopProduct
+	"Detalles de un producto Unico"
+	shopProductDetails(id: Int!): ResultShopProduct
 }

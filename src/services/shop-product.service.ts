@@ -105,6 +105,10 @@ class ShopProductsService extends ResolversOperationsService {
 			shopProducts: result,
 		};
 	}
+	//Detalles del productoseleccionado
+	async details(){
+		console.log(this.getVariables().id);
+	}
 }
 
 export default ShopProductsService;
