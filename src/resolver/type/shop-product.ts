@@ -1,6 +1,8 @@
+import { COLLECTIONS } from './../../config/constants';
 import { IResolvers } from 'graphql-tools';
 import PlatformService from '../../services/platform.service';
 import ProductsService from '../../services/product.service';
+import { findElements } from '../../lib/db-operations';
 
 const resolversShopProductType: IResolvers = {
 	ShopProduct: {
@@ -28,6 +30,19 @@ const resolversShopProductType: IResolvers = {
 			).details();
 			return result.platform;
 		},
+		// Relacionar productos
+		relationalProducts: async (parent, __, { db }) => {
+			return findElements(
+				db,
+				COLLECTIONS.SHOP_PRODUCT,
+				{
+					$and: [
+						{ product_id: parent.product_id},
+						{ id: {$ne: parent.id}}
+					]
+				}
+			);
+		}
 	},
 };
 
