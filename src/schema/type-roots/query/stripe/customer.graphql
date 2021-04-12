@@ -1,0 +1,4 @@
+type Query {
+    "Obtenemos la lista de usuarios por defecto 5"
+    customers(limit: Int = 5): ResultStripeCustomer
+}
