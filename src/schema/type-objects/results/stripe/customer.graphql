@@ -7,6 +7,6 @@ type ResultStripeCustomer implements Result {
 	hasMore: Boolean!
 	"Para el Cliente Info"
 	customer: StripeCustomer
-    "Para obtener lista de cliente Info"
-    customers: [StripeCustomer]
+	"Para obtener lista de cliente Info"
+	customers: [StripeCustomer]
 }
