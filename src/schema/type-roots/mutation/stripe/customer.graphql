@@ -1,0 +1,7 @@
+type Mutations {
+	"Crea un cliente de Stripe"
+	createCustomer(
+		email: String!
+		name: String!
+	): ResultStripeCustomer
+}

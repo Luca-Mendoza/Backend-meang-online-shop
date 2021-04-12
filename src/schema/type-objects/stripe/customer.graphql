@@ -1,0 +1,14 @@
+type StripeCustomer {
+    "id del cliente"
+    id: ID!
+    "Nombre del cliente"
+    name: String!
+    "descripcion del cliente"
+    description: String!
+    "Email del cliente"
+    email: String!
+    "Fuente predeterminada donde almacenamos la información de la tarjeta de credito o metodo de pago"
+    defaultSource: ID!
+    "Divisa con la que trabajamos"
+    currecy: String
+}
