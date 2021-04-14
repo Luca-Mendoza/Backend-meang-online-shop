@@ -1,6 +1,9 @@
 import { IResolvers } from 'graphql-tools';
 import { IStripeCustomer } from '../../../interfaces/stripe/customer.interface';
-import StripeApi from '../../../lib/stripe-api';
+import StripeApi, {
+	STRIPE_ACTION,
+	STRIPE_OBJECTS,
+} from '../../../lib/stripe-api';
 
 const resolversStipeCustomerQuery: IResolvers = {
 	Query: {
@@ -8,7 +11,6 @@ const resolversStipeCustomerQuery: IResolvers = {
 			_,
 			{ limit, startingAfter, endingBefore },
 		) {
-			console.log(limit);
 			let pagination;
 			if (startingAfter !== '' && endingBefore === '') {
 				pagination = { starting_after: startingAfter };
@@ -20,13 +22,13 @@ const resolversStipeCustomerQuery: IResolvers = {
 			} else {
 				pagination = {};
 			}
-			console.log(pagination);
-			const stripe = new StripeApi().stripe;
-			return await stripe.customers
-				.list({
-					limit,
-					...pagination,
-				}) // Respuesta satisfactoria (Result: Tipo de dato que nos esta devolviendo)
+			return await new StripeApi()
+				.execute(
+					STRIPE_OBJECTS.CUSTOMERS,
+					STRIPE_ACTION.LIST,
+					{ limit, ...pagination },
+				)
+				// Respuesta satisfactoria (Result: Tipo de dato que nos esta devolviendo)
 				.then(
 					(result: {
 						// Valor traido de la API Stripe 'true' habrá más datos disponibles.

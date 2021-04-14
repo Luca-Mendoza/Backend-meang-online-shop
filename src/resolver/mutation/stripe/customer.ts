@@ -1,16 +1,23 @@
 import { IResolvers } from 'graphql-tools';
-import StripeApi from '../../../lib/stripe-api';
+import StripeApi, {
+	STRIPE_ACTION,
+	STRIPE_OBJECTS,
+} from '../../../lib/stripe-api';
 
 const resolversStipeCustomerMutation: IResolvers = {
 	Mutation: {
 		async createCustomer(_, { name, email }) {
-			const stripe = new StripeApi().stripe;
-			return await stripe.customers
-				.create({
-					name,
-					email,
-					description: `${name} (${email})`,
-				})
+			return await new StripeApi()
+				.execute(
+					STRIPE_OBJECTS.CUSTOMERS,
+					STRIPE_ACTION.CREARTE,
+					{
+						name,
+						email,
+						description: `${name} (${email})`,
+					},
+				)
+
 				.then((result: object) => {
 					return {
 						status: true,
