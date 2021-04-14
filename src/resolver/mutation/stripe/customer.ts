@@ -70,6 +70,9 @@ const resolversStipeCustomerMutation: IResolvers = {
 					};
 				});
 		},
+		async upDateCustomer(_, { id, customer }) {
+			console.log(id, customer);
+		},
 	},
 };
 

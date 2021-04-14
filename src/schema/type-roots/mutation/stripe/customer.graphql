@@ -4,4 +4,9 @@ type Mutation {
 		email: String!
 		name: String!
 	): ResultStripeCustomer
+	"Actualizar Cliente"
+	upDateCustomer(
+		id: ID!
+		customer: CustomerInput!
+	): ResultStripeCustomer
 }
