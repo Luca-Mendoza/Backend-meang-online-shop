@@ -7,6 +7,7 @@ export const STRIPE_OBJECTS = {
 export const STRIPE_ACTION = {
 	CREARTE: 'create',
 	LIST: 'list',
+	GET: 'retrieve',
 };
 
 class StripeApi {

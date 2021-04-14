@@ -53,6 +53,27 @@ const resolversStipeCustomerQuery: IResolvers = {
 					};
 				});
 		},
+		async customer(_, { id }) {
+			return await new StripeApi()
+				.execute(
+					STRIPE_OBJECTS.CUSTOMERS,
+					STRIPE_ACTION.GET,
+					id,
+				)
+				.then(async (result: IStripeCustomer) => {
+					return {
+						status: true,
+						message: `El cliente ${result.name} se ha obtenido correctamente`,
+						customer: result,
+					};
+				})
+				.catch((error: Error) => {
+					return {
+						status: false,
+						message: `Error: `.concat(error.message),
+					};
+				});
+		},
 	},
 };
 
