@@ -9,4 +9,5 @@ type Mutation {
 		id: ID!
 		customer: CustomerInput!
 	): ResultStripeCustomer
+
 }

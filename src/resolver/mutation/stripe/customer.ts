@@ -72,6 +72,25 @@ const resolversStipeCustomerMutation: IResolvers = {
 		},
 		async upDateCustomer(_, { id, customer }) {
 			console.log(id, customer);
+			return await new StripeApi()
+				.execute(
+					STRIPE_OBJECTS.CUSTOMERS,
+					STRIPE_ACTION.UPDATE,
+					id,
+					customer,
+				)
+				.then((result: IStripeCustomer) => {
+					return {
+						status: true,
+						message: `Usuario ${id} actualizado correctamente`,
+					};
+				})
+				.catch((error: Error) => {
+					return {
+						status: false,
+						message: 'Error: '.concat(error.message),
+					};
+				});
 		},
 	},
 };

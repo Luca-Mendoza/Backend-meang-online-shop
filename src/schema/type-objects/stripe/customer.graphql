@@ -11,4 +11,6 @@ type StripeCustomer {
 	defaultSource: ID!
 	"Divisa con la que trabajamos"
 	currency: String
+	"Telefono del cliente"
+	phone: String
 }

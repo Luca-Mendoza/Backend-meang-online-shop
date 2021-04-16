@@ -4,5 +4,6 @@ export interface IStripeCustomer {
 	email:           string;
 	description:     string;
 	default_source?: string;
-	currency?:        string;
+	currency?:       string;
+	phone?:          string;
 }
