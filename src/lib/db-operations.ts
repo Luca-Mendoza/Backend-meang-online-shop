@@ -76,9 +76,7 @@ export const deleteOneElement = async (
 	collection: string,
 	filter: object = {},
 ) => {
-	return await database
-		.collection(collection)
-		.deleteOne(filter);
+	return await database.collection(collection).deleteOne(filter);
 };
 
 /**Buscar varios Elemento */

@@ -30,15 +30,11 @@ const resolversStipeCustomerMutation: IResolvers = {
 			}
 			// Crea un nuevo usuario en el sistema de stripe
 			return await new StripeApi()
-				.execute(
-					STRIPE_OBJECTS.CUSTOMERS,
-					STRIPE_ACTION.CREARTE,
-					{
-						name,
-						email,
-						description: `${name} (${email})`,
-					},
-				)
+				.execute(STRIPE_OBJECTS.CUSTOMERS, STRIPE_ACTION.CREARTE, {
+					name,
+					email,
+					description: `${name} (${email})`,
+				})
 
 				.then(async (result: IStripeCustomer) => {
 					// Actualizar en nuestra base de datos con la nueva propiedad,
@@ -83,6 +79,44 @@ const resolversStipeCustomerMutation: IResolvers = {
 					return {
 						status: true,
 						message: `Usuario ${id} actualizado correctamente`,
+						customer: result,
+					};
+				})
+				.catch((error: Error) => {
+					return {
+						status: false,
+						message: 'Error: '.concat(error.message),
+					};
+				});
+		},
+		async deleteCustomer(_, { id }, { db }) {
+			return await new StripeApi()
+				.execute(STRIPE_OBJECTS.CUSTOMERS, STRIPE_ACTION.DELETE, id)
+				.then(async (result: { id: string; deleted: boolean }) => {
+					if (result.deleted) {
+						const resultOperation = await db
+							.collection(COLLECTIONS.USERS)
+							.updateOne(
+								{
+									stripeCustomer: result.id,
+								},
+								{
+									$unset: {
+										stripeCustomer: result.id,
+									},
+								},
+							);
+						return {
+							status: result.deleted && resultOperation ? true : false,
+							message:
+								result.deleted && resultOperation
+									? `Usuario ${id} eliminado correctamente`
+									: `Usuario no se ha actualizado en la base de dato nuestra`,
+						};
+					}
+					return {
+						status: false,
+						message: `Usuario ${id} no se ha actualizado. Compruebalo`,
 					};
 				})
 				.catch((error: Error) => {

@@ -9,5 +9,6 @@ type Mutation {
 		id: ID!
 		customer: CustomerInput!
 	): ResultStripeCustomer
-
+	"Eliminar un Cliente"
+	deleteCustomer(id: ID!): ResultStripeCustomer
 }

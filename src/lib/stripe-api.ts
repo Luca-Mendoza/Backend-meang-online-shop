@@ -5,10 +5,11 @@ export const STRIPE_OBJECTS = {
 
 // Referencia para la acción Crear / Editat / Actualizar / etc..
 export const STRIPE_ACTION = {
-	CREARTE: 'create', 		// Crear cliente
-	LIST: 'list', 			// Obtener lista de usuario
-	GET: 'retrieve', 		//  Obtener detalles existentes
-	UPDATE: 'update', 		// Actualizar un cliente
+	CREARTE: 'create', // Crear cliente
+	LIST: 'list', // Obtener lista de usuario
+	GET: 'retrieve', //  Obtener detalles existentes
+	UPDATE: 'update',// Actualizar un cliente
+	DELETE: 'del', // Elimina un cliente
 };
 
 class StripeApi {
