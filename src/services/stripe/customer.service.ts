@@ -82,7 +82,7 @@ class StripeCustomerService extends StripeApi {
 		}
 		// Crea un nuevo usuario en el sistema de stripe
 		return await new StripeApi()
-			.execute(STRIPE_OBJECTS.CUSTOMERS, STRIPE_ACTION.CREARTE, {
+			.execute(STRIPE_OBJECTS.CUSTOMERS, STRIPE_ACTION.CREATE, {
 				name,
 				email,
 				description: `${name} (${email})`,
