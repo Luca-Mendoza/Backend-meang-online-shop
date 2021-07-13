@@ -1,0 +1,7 @@
+input CardInput {
+	number: String!
+	expYear: Int!
+	expMonth: Int!
+	cvc: String!
+	currency: CurrencyEnum = ARS
+}

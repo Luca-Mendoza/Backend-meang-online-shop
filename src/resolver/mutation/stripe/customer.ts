@@ -16,4 +16,3 @@ const resolversStipeCustomerMutation: IResolvers = {
 };
 
 export default resolversStipeCustomerMutation;
-1;
