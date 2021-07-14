@@ -10,6 +10,7 @@ export const STRIPE_ACTION = {
 	CREATE_SOURCE: 'createSource', // crear token para unificar cliente y tarjeta
 	LIST: 'list', // Obtener lista de usuario
 	GET: 'retrieve', //  Obtener detalles existentes
+	GET_RETRIEVE_SOURCE: 'retrieveSource', // Obtener detalles de la tarjeta y cliente
 	UPDATE: 'update', // Actualizar un cliente
 	DELETE: 'del', // Elimina un cliente
 };

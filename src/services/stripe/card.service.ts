@@ -27,7 +27,7 @@ class StripeCardService extends StripeApi {
 				};
 			})
 			.catch((error: Error) => {
-				console.log(error.message);
+				this.getError(error);
 			});
 	}
 	async create(customer: string, tokenCard: string) {
@@ -41,17 +41,24 @@ class StripeCardService extends StripeApi {
 			customer,
 			{ source: tokenCard },
 		)
-			.then((result: { id: string }) => {
+			.then((result: IStripeCard) => {
 				return {
 					status: true,
 					message: `Tarjeta con ${result.id} creado correctamente`,
-					card: result.id,
+					id: result.id,
+					card: result
 				};
 			})
 			.catch((error: Error) => {
-				console.log(error.message);
+				this.getError(error);
+				
 			});
 	}
+	// card = await stripe.customers.retrieveSource(
+	// 	'cus_JqUZcxRGJbvxP3',
+	// 	'card_1JCnacLcAMPJSB0N6rlb3UkD',
+	// );
+	get(customer: string, card: string) {}
 }
 
 export default StripeCardService;
