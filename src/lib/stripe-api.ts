@@ -6,7 +6,8 @@ export const STRIPE_OBJECTS = {
 
 // Referencia para la acción Crear / Editat / Actualizar / etc..
 export const STRIPE_ACTION = {
-	CREATE: 'create', // Crear cliente
+	CREATE: 'create', // Crear cliente y tarjeta
+	CREATE_SOURCE: 'createSource', // crear token para unificar cliente y tarjeta
 	LIST: 'list', // Obtener lista de usuario
 	GET: 'retrieve', //  Obtener detalles existentes
 	UPDATE: 'update', // Actualizar un cliente
