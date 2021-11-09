@@ -117,6 +117,15 @@ class StripeCardService extends StripeApi {
         this.getError(error);
       });
   }
+
+  async list() {}
+
+  /*
+   *  listSources(
+   *   'cus_KZ84D2KGhXslr2',
+   *  {object: 'card', limit: 3}
+   *);
+   **/
 }
 
 export default StripeCardService;
