@@ -24,10 +24,6 @@ class StripeCardService extends StripeApi {
       });
   }
   async create(customer: string, tokenCard: string) {
-    // const card = await stripe.customers.createSource(
-    // 	'cus_JqUZcxRGJbvxP3',
-    // 	{ source: 'tok_mastercard' },
-    // );
     return await this.execute(
       STRIPE_OBJECTS.CUSTOMERS,
       STRIPE_ACTION.CREATE_SOURCE,
@@ -46,10 +42,7 @@ class StripeCardService extends StripeApi {
         this.getError(error);
       });
   }
-  // card = await stripe.customers.retrieveSource(
-  // 	'cus_JqUZcxRGJbvxP3',
-  // 	'card_1JCnacLcAMPJSB0N6rlb3UkD',
-  // );
+
   async get(customer: string, card: string) {
     return await this.execute(
       STRIPE_OBJECTS.CUSTOMERS,
@@ -89,12 +82,6 @@ class StripeCardService extends StripeApi {
       .catch((error: Error) => {
         this.getError(error);
       });
-
-    // customers.updateSource(
-    // 'cus_4QE0wwLkjwjOjH',
-    // 'card_1JtuuS2eZvKYlo2CNqAJ9tt7',
-    // {name: 'Jenny Rosen'}
-    //  )
   }
 
   async delete(customer: string, card: string) {
@@ -118,14 +105,31 @@ class StripeCardService extends StripeApi {
       });
   }
 
-  async list() {}
-
-  /*
-   *  listSources(
-   *   'cus_KZ84D2KGhXslr2',
-   *  {object: 'card', limit: 3}
-   *);
-   **/
+  async list(
+    customer: string,
+    limit: number,
+    startingAfter: string,
+    endingBefore: string
+  ) {
+    const pagination = this.getPagination(startingAfter, endingBefore);
+    return await new StripeApi()
+      .execute(STRIPE_OBJECTS.CUSTOMERS, STRIPE_ACTION.LIST_SOURCE, customer, {
+        object: "card",
+        limit: 3,
+        ...pagination,
+      })
+      .then((result: { has_more: boolean; data: Array<IStripeCard> }) => {
+        return {
+          status: true,
+          message: `Lista de tarjeta mostrado correctamente`,
+          card: result.data,
+          hasmore: result.has_more,
+        };
+      })
+      .catch((error: Error) => {
+        this.getError(error);
+      });
+  }
 }
 
 export default StripeCardService;

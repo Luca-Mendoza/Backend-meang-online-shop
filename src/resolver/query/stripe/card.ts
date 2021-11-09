@@ -10,7 +10,14 @@ const resolversStipeCardQuery: IResolvers = {
     },
 
     // Card Lista del cliente seleccionado
-    async cards(_, { limit, startingAfter, endingBefore }) {},
+    async cards(_, { customer, limit, startingAfter, endingBefore }) {
+      return new StripeCardService().list(
+        customer,
+        limit,
+        startingAfter,
+        endingBefore
+      );
+    },
   },
 };
 

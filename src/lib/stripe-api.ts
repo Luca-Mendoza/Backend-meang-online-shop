@@ -43,6 +43,18 @@ class StripeApi {
       message: `Error: `.concat(error.message),
     };
   }
+
+  protected getPagination(startingAfter: string, endingBefore: string) {
+    let pagination;
+    if (startingAfter !== "" && endingBefore === "") {
+      pagination = { starting_after: startingAfter };
+    } else if (startingAfter === "" && endingBefore !== "") {
+      pagination = { ending_before: endingBefore };
+    } else {
+      pagination = {};
+    }
+    return pagination;
+  }
 }
 
 export default StripeApi;
