@@ -1,9 +1,9 @@
-export interface Icontext {
-    req: Irequest;
+export interface IContext {
+    req: IRequest;
     connection: IConnection;
 }
 
-interface Irequest {
+interface IRequest {
     headers: {
         authorization: string;
     };

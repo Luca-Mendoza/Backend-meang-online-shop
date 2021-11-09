@@ -1,4 +1,4 @@
-import { Icontext } from './interfaces/context.interface';
+import { IContext } from './interfaces/context.interface';
 /*Creación del servidor Node Express con ajustes básicos y visualizar*/
 
 import express from 'express';
@@ -13,7 +13,7 @@ import Database from './lib/database';
 import chalk from 'chalk';
 
 
-// Configuracion de las variables del entorno (Lecturas)
+// Configuration de las variables del enteron (Lectures)
 if (process.env.NODE_ENV !== 'production') {
     const env = environment;
     console.log(env);
@@ -30,7 +30,7 @@ async function init() {
 
     const db = await database.init();
 
-    const context = async ({ req, connection }: Icontext) => {
+    const context = async ({ req, connection }: IContext) => {
         const token = (req) ? req.headers.authorization : connection.authorization;
         return { db, token };
     };
@@ -47,10 +47,10 @@ async function init() {
         endpoint: '/graphql'
     }));
 
-    const httoServer = createServer(app);
+    const httpServer = createServer(app);
     const PORT = process.env.PORT || 2002;
 
-    httoServer.listen(
+    httpServer.listen(
         {
             port: PORT
         },
