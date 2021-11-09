@@ -87,7 +87,6 @@ class StripeCardService extends StripeApi {
         };
       })
       .catch((error: Error) => {
-		 
         this.getError(error);
       });
 
@@ -96,6 +95,27 @@ class StripeCardService extends StripeApi {
     // 'card_1JtuuS2eZvKYlo2CNqAJ9tt7',
     // {name: 'Jenny Rosen'}
     //  )
+  }
+
+  async delete(customer: string, card: string) {
+    return await this.execute(
+      STRIPE_OBJECTS.CUSTOMERS,
+      STRIPE_ACTION.DELETE_SOURCE,
+      customer,
+      card
+    )
+      .then((result: { id: string; deleted: boolean }) => {
+        return {
+          status: true,
+          message: result.deleted
+            ? `El item ${result.id} eliminado correctamente`
+            : `El item ${result.id} no eliminado correctamente`,
+          id: result.id,
+        };
+      })
+      .catch((error: Error) => {
+        this.getError(error);
+      });
   }
 }
 

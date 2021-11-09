@@ -14,6 +14,7 @@ export const STRIPE_ACTION = {
   UPDATE: "update", // Actualizar un cliente
   DELETE: "del", // Elimina un cliente
   UPDATE_SOURCE: "updateSource", // Actualizar una tarjeta
+  DELETE_SOURCE: "deleteSource" // Elimina un tarjeta
 };
 
 class StripeApi {

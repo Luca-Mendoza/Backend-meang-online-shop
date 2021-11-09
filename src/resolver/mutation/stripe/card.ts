@@ -12,6 +12,9 @@ const resolversStipeCardMutation: IResolvers = {
     async updateCard(_, { customer, card, details }) {
       return new StripeCardService().update(customer, card, details);
     },
+    async deleteCard(_, { customer, card }) {
+      return new StripeCardService().delete(customer, card);
+    },
   },
 };
 
