@@ -1,0 +1,6 @@
+type ResultStripeCharge implements Result {
+  status: Boolean!
+  message: String!
+  ""
+  charge: StripeCharge
+}

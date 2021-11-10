@@ -105,6 +105,8 @@ class StripeCardService extends StripeApi {
       });
   }
 
+
+  
   async list(
     customer: string,
     limit: number,

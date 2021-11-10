@@ -1,0 +1,4 @@
+type Mutation {
+  "Definicion para procesar el pago"
+  chargeOrder( payment: ChargeInput!) : ResultStripeCharge
+}
