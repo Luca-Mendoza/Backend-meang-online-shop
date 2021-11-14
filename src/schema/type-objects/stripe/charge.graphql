@@ -1,3 +1,24 @@
 type StripeCharge {
+	"Id del pago"
 	id: ID!
+	"Cantidad que emos pagado en auro"
+	amount: Float!
+	"Estado del pedido"
+	status: String!
+	"Email donde se va aenviar la factura"
+	receiptEmail: String!
+	"Factura con laurl asociada del pedido"
+	receiptUrl: String!
+	"Pagado o no"
+	paid: Boolean!
+	"Fecha de creacion del pedido"
+	created: String!
+	"Operación que se realiza - Pago o suscriptión"
+	typeOrder: String!
+	" "
+	description: String!
+	"Id de la tarjeta - Payment_method"
+	card: ID!
+	"Cliente ID"
+	customer: ID!
 }
