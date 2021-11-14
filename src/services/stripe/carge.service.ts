@@ -6,12 +6,25 @@ import StripeApi, {
 
 class StripeChargeService extends StripeApi {
 	async orden(payment: IPayment) {
-		//REDONDEA AL VALOR MAS CERCANO ENTERO
+		// Convertir de 0 a decimal
 		payment.amount = Math.round(
 			((+payment.amount + Number.EPSILON) * 100) / 100,
 		);
 		payment.amount *= 100;
-		console.log(payment);
+
+		// Pago
+		return await this.execute(
+			STRIPE_OBJECTS.CHARGES,
+			STRIPE_ACTION.CREATE,
+			payment,
+		)
+			.then((_: object) => {
+				return {
+					status: true,
+					message: 'Pago realizado correctamente',
+				};
+			})
+			.catch((error: Error) => this.getError(error));
 	}
 }
 
