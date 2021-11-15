@@ -1,5 +1,5 @@
 import { IResolvers } from 'graphql-tools';
-import StripeChargeService from '../../../services/stripe/carge.service';
+import StripeChargeService from '../../../services/stripe/charge.service';
 
 const resolversStipeChargeMutation: IResolvers = {
 	Mutation: {
