@@ -2,6 +2,6 @@ export interface IPayment {
 	amount: string | number;
 	description: string;
 	currency: string;
-	tokem: string;
+	token?: string;
 	customer: string;
 }

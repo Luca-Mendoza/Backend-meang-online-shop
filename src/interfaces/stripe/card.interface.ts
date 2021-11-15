@@ -8,3 +8,4 @@ export interface IStripeCard {
 	expYear: number;
 	cvc: string;
 }
+

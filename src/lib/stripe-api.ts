@@ -6,7 +6,7 @@ export const STRIPE_OBJECTS = {
 };
 
 // Referencia para la acción Crear / Editat / Actualizar / etc..
-export const STRIPE_ACTION = {
+export const STRIPE_ACTIONS = {
 	CREATE: 'create', // Crear cliente y tarjeta
 	CREATE_SOURCE: 'createSource', // crear token para unificar cliente y tarjeta
 	LIST: 'list', // Obtener lista de usuario
@@ -45,10 +45,11 @@ class StripeApi {
 	protected async getError(error: Error) {
 		return {
 			status: false,
-			message: `Error: `.concat(error.message),
+			message: 'Error: '.concat(error.message),
 			hasMore: false,
 			customer: undefined,
 			card: undefined,
+			cards: undefined,
 		};
 	}
 
