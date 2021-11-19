@@ -2,9 +2,10 @@ export interface IStripeCharge {
 	id: string;
 	amount: number;
 	status: string;
+	paid: boolean;
 	receiptEmail: string;
 	receiptUrl: string;
-	paid: boolean;
+
 	created: string;
 	typeOrder: string;
 	description: string;

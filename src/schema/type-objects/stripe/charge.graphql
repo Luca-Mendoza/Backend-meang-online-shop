@@ -17,7 +17,7 @@ type StripeCharge {
 	typeOrder: String!
 	" "
 	description: String!
-	"Id de la tarjeta - Payment_method"
+	"Id de la tarjeta - Payment_method "
 	card: ID!
 	"Cliente ID"
 	customer: ID!
