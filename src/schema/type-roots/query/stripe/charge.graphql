@@ -2,7 +2,7 @@ type Query {
 	"Mostrar la información de los pagos por cliente con paginación"
 	chargesByCustomer(
 		"Cliente seleccionado"
-		customers: ID!
+		customer: ID!
 		"Para limitar los resultados, de 1 a 100 (incluido)"
 		limit: Int = 5
 		"Para especificar la primera posición posterior a la selección del usuario"
