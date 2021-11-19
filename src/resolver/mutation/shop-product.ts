@@ -1,11 +1,13 @@
 import { IResolvers } from 'graphql-tools';
-import UsersService from '../../services/users.service';
+import ShopProductsService from '../../services/shop-product.service';
 
 const resolversShopProductMutation: IResolvers = {
 	Mutation: {
 		updateStock(_, { update }, { db }) {
 			console.log(update);
-			// return new UsersService(_, { user }, context).register();
+			return new ShopProductsService(_, {}, [db]).updateStock(
+				update,
+			);
 		},
 	},
 };

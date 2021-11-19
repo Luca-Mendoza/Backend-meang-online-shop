@@ -1,18 +1,18 @@
-import { randomItems } from './../lib/db-operations';
+import {
+	manageStockUpdate,
+	randomItems,
+} from './../lib/db-operations';
 import {
 	ACTIVE_VALUES_FILTER,
 	COLLECTIONS,
 } from './../config/constants';
 import ResolversOperationsService from './resolvers-operations.service';
+import { IStock } from '../interfaces/stock.interface';
 
 class ShopProductsService extends ResolversOperationsService {
 	collection = COLLECTIONS.SHOP_PRODUCT;
 
-	constructor(
-		root: object,
-		variables: object,
-		context: object,
-	) {
+	constructor(root: object, variables: object, context: object) {
 		super(root, variables, context);
 	}
 	//Lista de productos
@@ -46,8 +46,7 @@ class ShopProductsService extends ResolversOperationsService {
 		// Obtenemos el valor de la página
 		const page = this.getVariables().pagination?.page;
 		//Obtenemos los items por página
-		const itemsPage = this.getVariables().pagination
-			?.itemsPage;
+		const itemsPage = this.getVariables().pagination?.itemsPage;
 		// Obtener el sistema de paginacion por defecto normalmente
 		if (!random) {
 			// Obtenemos el resultado llamamos a la función "list"
@@ -105,14 +104,30 @@ class ShopProductsService extends ResolversOperationsService {
 			shopProducts: result,
 		};
 	}
-	//Detalles del productoseleccionado
-	async details(){
+	//Detalles del producto seleccionado
+	async details() {
 		const result = await this.get(this.collection);
 		return {
 			status: result.status,
 			message: result.message,
 			shopProduct: result.item,
 		};
+	}
+	//  Detalles de productos en Stock 'Shop-Product'
+	async updateStock(updateList: Array<IStock>) {
+		try {
+			updateList.map(async (item: IStock) => {
+				await manageStockUpdate(
+					this.getDb(),
+					COLLECTIONS.SHOP_PRODUCT,
+					{ id: +item.id },
+					{ stock: item.increment },
+				);
+			});
+		} catch (e) {
+			console.log('hola error', e);
+			return false;
+		}
 	}
 }
 
