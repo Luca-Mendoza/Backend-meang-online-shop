@@ -1,13 +1,16 @@
 import {
+	findOneElement,
 	manageStockUpdate,
 	randomItems,
 } from './../lib/db-operations';
 import {
 	ACTIVE_VALUES_FILTER,
 	COLLECTIONS,
+	SUBSCRIPTION_EVENT,
 } from './../config/constants';
 import ResolversOperationsService from './resolvers-operations.service';
 import { IStock } from '../interfaces/stock.interface';
+import { PubSub } from 'graphql-subscriptions';
 
 class ShopProductsService extends ResolversOperationsService {
 	collection = COLLECTIONS.SHOP_PRODUCT;
@@ -114,18 +117,37 @@ class ShopProductsService extends ResolversOperationsService {
 		};
 	}
 	//  Detalles de productos en Stock 'Shop-Product'
-	async updateStock(updateList: Array<IStock>) {
+	async updateStock(updateList: Array<IStock>, pubsub: PubSub) {
 		try {
 			updateList.map(async (item: IStock) => {
+				console.log(item);
+				const itemDetails = await findOneElement(
+					this.getDb(),
+					COLLECTIONS.SHOP_PRODUCT,
+					{ id: +item.id },
+				);
+				if (
+					item.increment < 0 &&
+					item.increment + itemDetails.stock < 0
+				) {
+					item.increment = -itemDetails.stock;
+				}
 				await manageStockUpdate(
 					this.getDb(),
 					COLLECTIONS.SHOP_PRODUCT,
 					{ id: +item.id },
 					{ stock: item.increment },
 				);
+				// Actualizamos el stock en la base de datos
+				itemDetails.stock += item.increment;
+				pubsub.publish(SUBSCRIPTION_EVENT.UPDATE_STOCK_PRODUCT, {
+					selectProductStockUpdate: itemDetails,
+				});
 			});
+
+			return true;
 		} catch (e) {
-			console.log('hola error', e);
+			console.log(e);
 			return false;
 		}
 	}
