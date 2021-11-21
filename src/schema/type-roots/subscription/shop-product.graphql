@@ -1,3 +1,6 @@
 type Subscription {
+	""
 	updateStockProduct: ShopProduct
+	"Obtener la informacion correspondiente a ID seleccionado"
+	selectStockProductupdate(id: Int!): ShopProduct
 }

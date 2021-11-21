@@ -6,8 +6,8 @@ import {
 import {
 	ACTIVE_VALUES_FILTER,
 	COLLECTIONS,
-	SUBSCRIPTION_EVENT,
 } from './../config/constants';
+import { SUBSCRIPTIONS_EVENT } from './../config/constants';
 import ResolversOperationsService from './resolvers-operations.service';
 import { IStock } from '../interfaces/stock.interface';
 import { PubSub } from 'graphql-subscriptions';
@@ -123,7 +123,7 @@ class ShopProductsService extends ResolversOperationsService {
 				console.log(item);
 				const itemDetails = await findOneElement(
 					this.getDb(),
-					COLLECTIONS.SHOP_PRODUCT,
+					this.collection,
 					{ id: +item.id },
 				);
 				if (
@@ -134,20 +134,17 @@ class ShopProductsService extends ResolversOperationsService {
 				}
 				await manageStockUpdate(
 					this.getDb(),
-					COLLECTIONS.SHOP_PRODUCT,
+					this.collection,
 					{ id: +item.id },
 					{ stock: item.increment },
 				);
-				// Actualizamos el stock en la base de datos
 				itemDetails.stock += item.increment;
-				pubsub.publish(SUBSCRIPTION_EVENT.UPDATE_STOCK_PRODUCT, {
-					selectProductStockUpdate: itemDetails,
+				pubsub.publish(SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT, {
+					selectStockProductupdate: itemDetails,
 				});
 			});
-
 			return true;
-		} catch (e) {
-			console.log(e);
+		} catch (err) {
 			return false;
 		}
 	}
