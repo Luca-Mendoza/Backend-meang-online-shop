@@ -5,12 +5,12 @@ const resolversStipeChargeMutation: IResolvers = {
 	Mutation: {
 		async chargeOrder(
 			_,
-			{ payment, stockChange },
+			{ payment, stockCharge },
 			{ db, pubsub },
 		) {
-			return new StripeChargeService().orden(
+			return new StripeChargeService().order(
 				payment,
-				stockChange,
+				stockCharge,
 				db,
 				pubsub,
 			);

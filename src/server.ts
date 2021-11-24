@@ -1,27 +1,23 @@
 import { IContext } from './interfaces/context.interface';
-/*Creación del servidor Node Express con ajustes básicos y visualizar*/
-
 import express from 'express';
-import cors from 'cors'; /*CORS es un paquete node.js para proporcionar un middleware Connect / Express que se puede usar para habilitar CORS con varias opciones.*/
+import cors from 'cors';
 import compression from 'compression';
-import environment from './config/environments';
+import { createServer } from 'http';
+import environments from './config/environments';
+import { ApolloServer, PubSub } from 'apollo-server-express';
 import schema from './schema';
 import expressPlayground from 'graphql-playground-middleware-express';
-import { createServer } from 'http';
-import { ApolloServer, PubSub } from 'apollo-server-express';
 import Database from './lib/database';
 import chalk from 'chalk';
-
-// Configuration de las variables del enteron (Lectures)
+// Configuración de las variables de entorno (lectura)
 if (process.env.NODE_ENV !== 'production') {
-	const env = environment;
+	const env = environments;
 	console.log(env);
 }
 
 async function init() {
 	const app = express();
 	const pubsub = new PubSub();
-
 	app.use('*', cors());
 
 	app.use(compression());
@@ -53,31 +49,29 @@ async function init() {
 	);
 
 	const httpServer = createServer(app);
-
 	server.installSubscriptionHandlers(httpServer);
-
 	const PORT = process.env.PORT || 2002;
-
 	httpServer.listen(
 		{
 			port: PORT,
 		},
 		() => {
 			console.log(
-				'=============================SERVER API GRAPHQL=============================',
+				'==================SERVER API GRAPHQL====================',
 			);
 			console.log(`STATUS: ${chalk.greenBright('ONLINE')}`);
 			console.log(
-				`MESSAGE: ${chalk.greenBright('MAILER CONNECT')}`,
+				`MESSAGE: ${chalk.greenBright(
+					'API MEANG - Online Shop CONNECT!!',
+				)}`,
 			);
 			console.log(
-				` GraphQL Serve => @: http://localhost:${PORT}/graphql`,
+				`GraphQL Server => @: http://localhost:${PORT}/graphql `,
 			);
 			console.log(
-				` WS Connection => @: ws://localhost:${PORT}/graphql`,
+				`WS Connection => @: ws://localhost:${PORT}/graphql `,
 			);
 		},
 	);
 }
-
 init();

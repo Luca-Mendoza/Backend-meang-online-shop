@@ -1,4 +1,4 @@
 type Mutation {
   "Definicion para procesar el pago - Definición del producto a actualizar "
-  chargeOrder( payment: ChargeInput!,  stockChange: [ShopProductStockInput!]!) : ResultStripeCharge
+  chargeOrder( payment: ChargeInput!,  stockCharge: [ShopProductStockInput!]!) : ResultStripeCharge
 }
