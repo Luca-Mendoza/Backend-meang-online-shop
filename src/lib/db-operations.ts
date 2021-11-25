@@ -1,10 +1,9 @@
-import { Resolver } from 'dns';
 import { Db } from 'mongodb';
 import { IPaginationOptions } from '../interfaces/pagination-options.interface';
 
 /**
  * Obtener el Id que vamos a utilizar en el nuevo usuario
- * @param databas Base de datos con la que estamos trabajando
+ * @param database  Base de datos con la que estamos trabajando
  * @param collection Collección donde queremos buscar el último elemento
  * @param sort Como queremos ordenarlo { <propiedad>: -1 }
  */
@@ -145,12 +144,12 @@ export const randomItems = async (
 
 // Gestión del stock de productos
 export const manageStockUpdate = async (
-  database: Db,
-  collection: string,
-  filter: object,
-  updateObject: object
+	database: Db,
+	collection: string,
+	filter: object,
+	updateObject: object,
 ) => {
-  return await database
-    .collection(collection)
-    .updateOne(filter, { $inc: updateObject });
+	return await database
+		.collection(collection)
+		.updateOne(filter, { $inc: updateObject });
 };

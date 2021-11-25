@@ -123,9 +123,10 @@ class ShopProductsService extends ResolversOperationsService {
 				console.log(item);
 				const itemDetails = await findOneElement(
 					this.getDb(), //obtener de referencia la base de dato
-					this.collection, //ontenemos la collecion shop-product
+					COLLECTIONS.SHOP_PRODUCT, //ontenemos la collecion shop-product
 					{ id: +item.id },
 				);
+
 				if (
 					item.increment < 0 &&
 					item.increment + itemDetails.stock < 0
@@ -134,13 +135,13 @@ class ShopProductsService extends ResolversOperationsService {
 				}
 				await manageStockUpdate(
 					this.getDb(), //obtener de referencia la base de dato
-					this.collection, //ontenemos la collecion shop-product
+					COLLECTIONS.SHOP_PRODUCT, //ontenemos la collecion shop-product
 					{ id: +item.id },
 					{ stock: item.increment },
 				);
 				itemDetails.stock += item.increment;
 				pubsub.publish(SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT, {
-					selectProductStockUpdate: itemDetails,
+					selectStockProductupdate: itemDetails,
 				});
 			});
 			return true;
