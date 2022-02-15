@@ -1,3 +1,6 @@
+import { PubSub } from 'apollo-server-express';
+import { Db } from 'mongodb';
+import { IStock } from '../../interfaces/stock.interface';
 import { IStripeCard } from '../../interfaces/stripe/card.interface';
 import { IStripeCharge } from '../../interfaces/stripe/charge.interface';
 import { IPayment } from '../../interfaces/stripe/payment.interface';
@@ -5,6 +8,7 @@ import StripeApi, {
 	STRIPE_ACTIONS,
 	STRIPE_OBJECTS,
 } from '../../lib/stripe-api';
+import ShopProductsService from '../shop-product.service';
 import StripeCardService from './card.service';
 import StripeCustomerService from './customer.service';
 
@@ -13,7 +17,12 @@ class StripeChargeService extends StripeApi {
 		return new StripeCustomerService().get(customer);
 	}
 
-	async orden(payment: IPayment) {
+	async orden(
+		payment: IPayment,
+		stockChange: Array<IStock>,
+		db: Db,
+		pubsub: PubSub,
+	) {
 		// Comprobar que existe el cliente
 		const userData = await this.getClient(payment.customer);
 		if (userData && userData.status) {
@@ -64,6 +73,10 @@ class StripeChargeService extends StripeApi {
 			payment,
 		)
 			.then((result: object) => {
+				new ShopProductsService({}, {}, { db }).updateStock(
+					stockChange,
+					pubsub,
+				);
 				return {
 					status: true,
 					message: 'Pago realizado correctamente!',

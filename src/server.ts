@@ -7,7 +7,7 @@ import compression from 'compression';
 import environment from './config/environments';
 import schema from './schema';
 import expressPlayground from 'graphql-playground-middleware-express';
-import { createServer, Server } from 'http';
+import { createServer } from 'http';
 import { ApolloServer, PubSub } from 'apollo-server-express';
 import Database from './lib/database';
 import chalk from 'chalk';
