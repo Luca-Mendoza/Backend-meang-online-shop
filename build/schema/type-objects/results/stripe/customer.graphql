@@ -1,0 +1,12 @@
+type ResultStripeCustomer implements Result {
+	"Estado"
+	status: Boolean!
+	"Mensaje"
+	message: String!
+	"Para obtener la informacion cuando obtenemos la lista"
+	hasMore: Boolean!
+	"Para el Cliente Info"
+	customer: StripeCustomer
+	"Para obtener lista de cliente Info"
+	customers: [StripeCustomer]
+}

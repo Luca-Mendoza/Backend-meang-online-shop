@@ -1,0 +1,43 @@
+type Query {
+	"Obtener la lista de los Productos de la tienda / status"
+	shopProducts(
+		"Página seleccionada para acceder a ella"
+		page: Int = 1
+		"Products de la tienda (juegos) que se obtendrán por página"
+		itemsPage: Int = 20
+		"Especificar el estado del producto que queremos mostrar"
+		active: ActiveFilterEnum = ACTIVE
+	): ResultShopProduct
+
+	"Obtener Item del producto  seleccionado por Plataforma/ "
+	shopProductsPlatforms(
+		"Página seleccionada para acceder a ella"
+		page: Int = 1
+		"Products de la tienda (juegos) que se obtendrán por página"
+		itemsPage: Int = 20
+		"Especificar el estado del producto que queremos mostrar"
+		active: ActiveFilterEnum = ACTIVE
+		"Especificar las plataformas seleccionadas"
+		platform: [ID!]!
+		"Seleccionar los elementos de manera aleatoria"
+		random: Boolean = false
+	): ResultShopProduct
+
+	"Obtener Item del producto  Ofertas con ultimas unidades/ "
+	shopProductsOffersLast(
+		"Página seleccionada para acceder a ella"
+		page: Int = 1
+		"Products de la tienda (juegos) que se obtendrán por página"
+		itemsPage: Int = 20
+		"Especificar el estado del producto que queremos mostrar"
+		active: ActiveFilterEnum = ACTIVE
+		"Tope del precio para considerar como oferta"
+		topPrice: Float = -1
+		"Ultimas Unidades - Tope para especificar por debajo que hay poco stock"
+		lastUnits: Int = -1
+		"Seleccionar los elementos de manera aleatoria"
+		random: Boolean = false
+	): ResultShopProduct
+	"Detalles de un producto Unico"
+	shopProductDetails(id: Int!): ResultShopProduct
+}

@@ -1,0 +1,14 @@
+type Mutation {
+	"Crea un cliente de Stripe"
+	createCustomer(
+		email: String!
+		name: String!
+	): ResultStripeCustomer
+	"Actualizar Cliente"
+	upDateCustomer(
+		id: ID!
+		customer: CustomerInput!
+	): ResultStripeCustomer
+	"Eliminar un Cliente"
+	deleteCustomer(id: ID!): ResultStripeCustomer
+}

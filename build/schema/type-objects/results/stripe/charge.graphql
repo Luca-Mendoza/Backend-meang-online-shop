@@ -1,0 +1,10 @@
+type ResultStripeCharge implements Result {
+  status: Boolean!
+  message: String!
+  "Trabajar con lapaginación"
+  hasMore: Boolean
+  ""
+  charge: StripeCharge
+  "listas"
+  charges: [StripeCharge!]
+}

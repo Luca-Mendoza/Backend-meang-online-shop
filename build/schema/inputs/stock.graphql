@@ -1,0 +1,14 @@
+""
+input ShopProductStockInput {
+	"Id del producto de la tienda"
+	id: ID!
+	"""
+	Cantidad de productos en stock -
+	aumentará cuando se agrega / diminuye cuando se vende.
+	P.J. Tenemos 40 productos / increment = +40 => 80.
+	Si tenemos + (valor positivo) => aumentará.
+	P.J. Tenemos 40 productos / increment = -5 => 35.
+	Si tenemos - (valor negativos) => aumentará.
+	"""
+	increment: Int!
+}

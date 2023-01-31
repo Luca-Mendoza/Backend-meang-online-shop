@@ -1,0 +1,23 @@
+"""
+ * Type de datos que utilizamos para especificar, los datos que utilizamos en el parametro y introducir en un resolver 
+
+ * Input para añadir los datos del usuario en el registro 
+"""
+input  UserInput {
+    "Identificador eb este caso no Obligatorio"
+    id: ID
+    "Nombre/s de pila"
+    name: String!
+    "Apellido/s de pila"
+    lastname: String!
+    "Correo electrónico único"
+    email: String!
+    "Contraseña del usuario asociado a la cuenta"
+    password: String
+    "Fecha de nacimiento - Solo mayores de 18 años"
+    birthday: String!
+    "Permisos del Usuario"
+    role: Role=CLIENT
+    "Activo o no activo"
+    active: Boolean
+}

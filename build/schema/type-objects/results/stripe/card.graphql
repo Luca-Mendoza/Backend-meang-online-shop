@@ -1,0 +1,10 @@
+type ResultStripeCard implements Result {
+  status: Boolean!
+  message: String!
+  "Para obtener la informacion cuando obtenemos la lista"
+  hasMore: Boolean!
+  token: String
+  id: ID
+  card: StripeCard
+  cards: [StripeCard!]
+}
