@@ -1,10 +1,17 @@
 {
   "version": 2,
   "builds": [
-    { "src": "*.js", "use": "@vercel/node" },
+    { "src": "*.ts", "use": "@vercel/node" },
     { "src": "*.css", "use": "@vercel/node-sass" }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/api/graphql",
+      "dest": "/api/graphql.ts"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
