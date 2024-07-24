@@ -5,7 +5,7 @@
       "src": "build/server.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiler": ["dist/schema/**/*.graphql"]
+        "includeFiler": ["build/schema/**/*.graphql"]
       }
     }
   ],
