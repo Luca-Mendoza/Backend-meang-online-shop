@@ -2,17 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "build/server.js",
+      "src": "src/server.ts",
       "use": "@vercel/node",
       "config": {
-        "includeFiler": ["build/schema/**/*.graphql"]
+        "includeFiles": ["src/schema/**/*.graphql"]
       }
     }
   ],
   "routes": [
     {
-      "src": "/.*",
-      "dest": "build/server.js"
+      "src": "/(.*)",
+      "dest": "src/server.ts"
     }
   ],
   "env": {

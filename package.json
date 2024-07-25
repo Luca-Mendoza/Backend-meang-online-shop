@@ -56,8 +56,7 @@
     "nodemailer": "^6.4.17",
     "slugify": "^1.4.6",
     "stripe": "^8.186.1",
-    "subscriptions-transport-ws": "^0.11.0",
-    "vercel": "^35.2.0"
+    "subscriptions-transport-ws": "^0.11.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",

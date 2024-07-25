@@ -1,14 +1,23 @@
 export interface IContext {
-    req: IRequest;
-    connection: IConnection;
+  req: IRequest;
+  connection: IConnection;
 }
 
 interface IRequest {
-    headers: {
-        authorization: string;
-    };
+  headers: {
+    authorization: string;
+  };
 }
 
 interface IConnection {
-    authorization: string;
+  authorization: string;
+}
+
+interface ErrorResult {
+  status: boolean;
+  message: string;
+  hasMore: boolean;
+  customer?: any;
+  card?: any;
+  cards?: any;
 }
