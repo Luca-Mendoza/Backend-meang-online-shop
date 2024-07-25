@@ -1,5 +1,6 @@
-import { IResolvers } from 'graphql-tools';
-import TagsService from '../../services/tags.service';
+import { IResolvers } from "@graphql-tools/utils";
+
+import TagsService from "../../services/tags.service";
 
 const resolversTagMutation: IResolvers = {
   Mutation: {
