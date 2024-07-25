@@ -23,9 +23,9 @@ class UsersService extends resolvers_operations_service_1.default {
         super(root, variables, context);
         this.collection = constants_1.COLLECTIONS.USERS;
     }
-    items(active = constants_1.ACTIVE_VALUES_FILTER.ACTIVE) {
-        var _a, _b;
-        return __awaiter(this, void 0, void 0, function* () {
+    items() {
+        return __awaiter(this, arguments, void 0, function* (active = constants_1.ACTIVE_VALUES_FILTER.ACTIVE) {
+            var _a, _b;
             let filter = { active: { $ne: false } };
             if (active == constants_1.ACTIVE_VALUES_FILTER.ALL) {
                 filter = {};
@@ -65,7 +65,7 @@ class UsersService extends resolvers_operations_service_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const variables = this.getVariables().user;
-                const user = yield db_operations_1.findOneElement(this.getDb(), this.collection, {
+                const user = yield (0, db_operations_1.findOneElement)(this.getDb(), this.collection, {
                     email: variables === null || variables === void 0 ? void 0 : variables.email,
                 });
                 if (user === null) {
@@ -119,7 +119,7 @@ class UsersService extends resolvers_operations_service_1.default {
                     user: null,
                 };
             }
-            const userCheck = yield db_operations_1.findOneElement(this.getDb(), this.collection, {
+            const userCheck = yield (0, db_operations_1.findOneElement)(this.getDb(), this.collection, {
                 email: user === null || user === void 0 ? void 0 : user.email,
             });
             if (userCheck !== null) {
@@ -129,7 +129,7 @@ class UsersService extends resolvers_operations_service_1.default {
                     user: null,
                 };
             }
-            user.id = yield db_operations_1.asignDocumentId(this.getDb(), this.collection, {
+            user.id = yield (0, db_operations_1.asignDocumentId)(this.getDb(), this.collection, {
                 registerDate: -1,
             });
             user.registerDate = new Date().toISOString();
@@ -212,8 +212,8 @@ class UsersService extends resolvers_operations_service_1.default {
         });
     }
     active() {
-        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
             const id = (_a = this.getVariables().user) === null || _a === void 0 ? void 0 : _a.id;
             const email = ((_b = this.getVariables().user) === null || _b === void 0 ? void 0 : _b.email) || '';
             if (email === undefined || email === '') {

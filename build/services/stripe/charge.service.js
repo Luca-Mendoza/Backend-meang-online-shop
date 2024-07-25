@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -42,8 +46,8 @@ class StripeChargeService extends stripe_api_1.default {
         });
     }
     order(payment, stockChange, pubsub, db) {
-        var _a, _b, _c;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b, _c;
             const userData = yield this.getClient(payment.customer);
             if (userData && userData.status) {
                 console.log('Cliente encontrado');

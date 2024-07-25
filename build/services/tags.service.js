@@ -22,8 +22,8 @@ class TagsService extends resolvers_operations_service_1.default {
         this.collection = constants_1.COLLECTIONS.TAGS;
     }
     items() {
-        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
             const page = (_a = this.getVariables().pagination) === null || _a === void 0 ? void 0 : _a.page;
             const itemsPage = (_b = this.getVariables().pagination) === null || _b === void 0 ? void 0 : _b.itemsPage;
             console.log(this.getVariables().pagination);
@@ -56,9 +56,9 @@ class TagsService extends resolvers_operations_service_1.default {
                 };
             }
             const tagObject = {
-                id: yield db_operations_1.asignDocumentId(this.getDb(), this.collection, { id: -1 }),
+                id: yield (0, db_operations_1.asignDocumentId)(this.getDb(), this.collection, { id: -1 }),
                 name: tag,
-                slug: slugify_1.default(tag || '', { lower: true })
+                slug: (0, slugify_1.default)(tag || '', { lower: true })
             };
             const result = yield this.add(this.collection, tagObject, 'tag');
             return { status: result.status, message: result.message, tag: result.item };
@@ -84,7 +84,7 @@ class TagsService extends resolvers_operations_service_1.default {
             }
             const objectUpdate = {
                 name: tag,
-                slug: slugify_1.default(tag || '', { lower: true })
+                slug: (0, slugify_1.default)(tag || '', { lower: true })
             };
             const result = yield this.update(this.collection, { id }, objectUpdate, 'genero');
             return { status: result.status, message: result.message, tag: result.item };
@@ -126,7 +126,7 @@ class TagsService extends resolvers_operations_service_1.default {
     }
     checkInDatabase(value) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield db_operations_1.findOneElement(this.getDb(), this.collection, {
+            return yield (0, db_operations_1.findOneElement)(this.getDb(), this.collection, {
                 name: value
             });
         });

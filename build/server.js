@@ -22,22 +22,20 @@ const schema_1 = __importDefault(require("./schema"));
 const graphql_playground_middleware_express_1 = __importDefault(require("graphql-playground-middleware-express"));
 const database_1 = __importDefault(require("./lib/database"));
 const chalk_1 = __importDefault(require("chalk"));
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== "production") {
     const env = environments_1.default;
     console.log(env);
 }
 function init() {
     return __awaiter(this, void 0, void 0, function* () {
-        const app = express_1.default();
+        const app = (0, express_1.default)();
         const pubsub = new apollo_server_express_1.PubSub();
-        app.use('*', cors_1.default());
-        app.use(compression_1.default());
+        app.use("*", (0, cors_1.default)());
+        app.use((0, compression_1.default)());
         const database = new database_1.default();
         const db = yield database.init();
-        const context = ({ req, connection }) => __awaiter(this, void 0, void 0, function* () {
-            const token = req
-                ? req.headers.authorization
-                : connection.authorization;
+        const context = (_a) => __awaiter(this, [_a], void 0, function* ({ req, connection }) {
+            const token = req ? req.headers.authorization : connection.authorization;
             return { db, token, pubsub };
         });
         const server = new apollo_server_express_1.ApolloServer({
@@ -46,18 +44,18 @@ function init() {
             context,
         });
         server.applyMiddleware({ app });
-        app.get('/', graphql_playground_middleware_express_1.default({
-            endpoint: '/graphql',
+        app.get("/", (0, graphql_playground_middleware_express_1.default)({
+            endpoint: "/graphql",
         }));
-        const httpServer = http_1.createServer(app);
+        const httpServer = (0, http_1.createServer)(app);
         server.installSubscriptionHandlers(httpServer);
         const PORT = process.env.PORT || 2002;
         httpServer.listen({
             port: PORT,
         }, () => {
-            console.log('==================SERVER API GRAPHQL====================');
-            console.log(`STATUS: ${chalk_1.default.greenBright('ONLINE')}`);
-            console.log(`MESSAGE: ${chalk_1.default.greenBright('API MEANG - Online Shop CONNECT!!')}`);
+            console.log("==================SERVER API GRAPHQL====================");
+            console.log(`STATUS: ${chalk_1.default.greenBright("ONLINE")}`);
+            console.log(`MESSAGE: ${chalk_1.default.greenBright("API MEANG - Online Shop CONNECT!!")}`);
             console.log(`GraphQL Server => @: http://localhost:${PORT}/graphql `);
             console.log(`WS Connection => @: ws://localhost:${PORT}/graphql `);
         });

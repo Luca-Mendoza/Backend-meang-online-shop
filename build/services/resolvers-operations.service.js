@@ -26,10 +26,10 @@ class ResolversOperationsService {
     getVariables() {
         return this.variables;
     }
-    list(collection, listElement, page = 1, itemsPage = 20, filter = { active: { $ne: false } }) {
-        return __awaiter(this, void 0, void 0, function* () {
+    list(collection_1, listElement_1) {
+        return __awaiter(this, arguments, void 0, function* (collection, listElement, page = 1, itemsPage = 20, filter = { active: { $ne: false } }) {
             try {
-                const paginationData = yield pagination_1.pagination(this.getDb(), collection, page, itemsPage, filter);
+                const paginationData = yield (0, pagination_1.pagination)(this.getDb(), collection, page, itemsPage, filter);
                 return {
                     info: {
                         page: paginationData.page,
@@ -39,7 +39,7 @@ class ResolversOperationsService {
                     },
                     status: true,
                     message: `Lista de ${listElement} correctamente cargada`,
-                    items: yield db_operations_1.findElements(this.getDb(), collection, filter, paginationData),
+                    items: yield (0, db_operations_1.findElements)(this.getDb(), collection, filter, paginationData),
                 };
             }
             catch (error) {
@@ -56,7 +56,7 @@ class ResolversOperationsService {
         return __awaiter(this, void 0, void 0, function* () {
             const collectionLabel = collection.toLocaleLowerCase();
             try {
-                return yield db_operations_1.findOneElement(this.getDb(), collection, {
+                return yield (0, db_operations_1.findOneElement)(this.getDb(), collection, {
                     id: this.variables.id,
                 }).then((result) => {
                     if (result) {
@@ -85,7 +85,7 @@ class ResolversOperationsService {
     add(collection, document, item) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield db_operations_1.insertOneElement(this.getDb(), collection, document).then((res) => {
+                return yield (0, db_operations_1.insertOneElement)(this.getDb(), collection, document).then((res) => {
                     if (res.result.ok === 1) {
                         return {
                             status: true,
@@ -112,7 +112,7 @@ class ResolversOperationsService {
     update(collection, filter, objectUpdate, item) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield db_operations_1.updateOneElement(this.getDb(), collection, filter, objectUpdate).then((res) => {
+                return yield (0, db_operations_1.updateOneElement)(this.getDb(), collection, filter, objectUpdate).then((res) => {
                     if (res.result.nModified === 1 && res.result.ok) {
                         return {
                             status: true,
@@ -139,7 +139,7 @@ class ResolversOperationsService {
     del(collection, filter, item) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield db_operations_1.deleteOneElement(this.getDb(), collection, filter).then((res) => {
+                return yield (0, db_operations_1.deleteOneElement)(this.getDb(), collection, filter).then((res) => {
                     if (res.deletedCount === 1) {
                         return {
                             status: true,

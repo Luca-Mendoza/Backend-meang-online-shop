@@ -23,7 +23,7 @@ const resolversStripeChargeType = {
                 return parent.receipt_email;
             }
             const userData = yield new customer_service_1.default().get(parent.customer);
-            return ((_a = userData.customer) === null || _a === void 0 ? void 0 : _a.email) ? (_b = userData.customer) === null || _b === void 0 ? void 0 : _b.email : '';
+            return ((_a = userData.customer) === null || _a === void 0 ? void 0 : _a.email) ? (_b = userData.customer) === null || _b === void 0 ? void 0 : _b.email : "";
         }),
         receiptUrl: (parent) => parent.receipt_url,
         card: (parent) => parent.payment_method,

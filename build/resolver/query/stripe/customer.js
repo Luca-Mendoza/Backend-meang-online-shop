@@ -15,13 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const customer_service_1 = __importDefault(require("../../../services/stripe/customer.service"));
 const resolversStipeCustomerQuery = {
     Query: {
-        customers(_, { limit, startingAfter, endingBefore }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        customers(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { limit, startingAfter, endingBefore }) {
                 return new customer_service_1.default().list(limit, startingAfter, endingBefore);
             });
         },
-        customer(_, { id }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        customer(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { id }) {
                 return new customer_service_1.default().get(id);
             });
         },

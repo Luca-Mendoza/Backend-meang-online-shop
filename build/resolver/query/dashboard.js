@@ -12,9 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_operations_1 = require("../../lib/db-operations");
 const resolverDashboardQuery = {
     Query: {
-        totalElements(_, { collection }, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
-                return yield db_operations_1.countElements(db, collection);
+        totalElements(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { collection }, { db }) {
+                return yield (0, db_operations_1.countElements)(db, collection);
             });
         },
     },

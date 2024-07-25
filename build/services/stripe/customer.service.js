@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -82,7 +86,7 @@ class StripeCustomerService extends stripe_api_1.default {
                 description: `${name} (${email})`,
             })
                 .then((result) => __awaiter(this, void 0, void 0, function* () {
-                const user = yield db_operations_1.findOneElement(db, constants_1.COLLECTIONS.USERS, {
+                const user = yield (0, db_operations_1.findOneElement)(db, constants_1.COLLECTIONS.USERS, {
                     email,
                 });
                 if (user) {

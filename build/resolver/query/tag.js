@@ -15,18 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tags_service_1 = __importDefault(require("../../services/tags.service"));
 const resolversTagQuery = {
     Query: {
-        tags(_, variables, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        tags(_1, variables_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, variables, { db }) {
                 return new tags_service_1.default(_, {
-                    pagination: variables
+                    pagination: variables,
                 }, { db }).items();
             });
         },
-        tag(_, { id }, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        tag(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { id }, { db }) {
                 return new tags_service_1.default(_, { id }, { db }).details();
             });
-        }
-    }
+        },
+    },
 };
 exports.default = resolversTagQuery;

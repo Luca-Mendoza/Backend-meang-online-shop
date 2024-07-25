@@ -19,18 +19,18 @@ const email_service_1 = __importDefault(require("../../services/email.service"))
 const password_service_1 = __importDefault(require("../../services/password.service"));
 const resolversEmailMutation = {
     Mutation: {
-        sendEmail(_, { mail }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        sendEmail(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { mail }) {
                 return new email_service_1.default().send(mail);
             });
         },
-        activeUserEmail(_, { id, email }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        activeUserEmail(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { id, email }) {
                 return new users_service_1.default(_, { user: { id, email } }, {}).active();
             });
         },
-        activeUserAction(_, { id, birthday, password }, { token, db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        activeUserAction(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { id, birthday, password }, { token, db }) {
                 const verify = verifyToken(token, id);
                 if ((verify === null || verify === void 0 ? void 0 : verify.status) === false) {
                     return {
@@ -41,13 +41,13 @@ const resolversEmailMutation = {
                 return new users_service_1.default(_, { id, user: { birthday, password } }, { token, db }).unblock(true, false);
             });
         },
-        resetPassword(_, { email }, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        resetPassword(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { email }, { db }) {
                 return new password_service_1.default(_, { user: { email } }, { db }).SendEmail();
             });
         },
-        changePassword(_, { id, password }, { token, db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        changePassword(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { id, password }, { token, db }) {
                 const verify = verifyToken(token, id);
                 if ((verify === null || verify === void 0 ? void 0 : verify.status) === false) {
                     return {

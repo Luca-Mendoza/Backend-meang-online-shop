@@ -15,13 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const genre_service_1 = __importDefault(require("../../services/genre.service"));
 const resolversGenreQuery = {
     Query: {
-        genres(_, variables, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        genres(_1, variables_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, variables, { db }) {
                 return new genre_service_1.default(_, { pagination: variables }, { db }).items();
             });
         },
-        genre(_, { id }, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        genre(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { id }, { db }) {
                 return new genre_service_1.default(_, { id }, { db }).details();
             });
         },

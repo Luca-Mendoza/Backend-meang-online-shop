@@ -8,13 +8,13 @@ const index_1 = __importDefault(require("./../resolver/index"));
 const graphql_tools_1 = require("graphql-tools");
 const load_files_1 = require("@graphql-tools/load-files");
 const merge_1 = require("@graphql-tools/merge");
-const loadedFiles = load_files_1.loadFilesSync(`${__dirname}/**/*.graphql`);
-const typeDefs = merge_1.mergeTypeDefs(loadedFiles);
-const schema = graphql_tools_1.makeExecutableSchema({
+const loadedFiles = (0, load_files_1.loadFilesSync)(`${__dirname}/**/*.graphql`);
+const typeDefs = (0, merge_1.mergeTypeDefs)(loadedFiles);
+const schema = (0, graphql_tools_1.makeExecutableSchema)({
     typeDefs,
     resolvers: index_1.default,
     resolverValidationOptions: {
-        requireResolversForResolveType: false
-    }
+        requireResolversForResolveType: "ignore",
+    },
 });
 exports.default = schema;

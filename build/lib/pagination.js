@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.pagination = void 0;
+exports.pagination = pagination;
 const db_operations_1 = require("./db-operations");
-function pagination(db, collection, page = 1, itemsPage = 20, filter = {}) {
-    return __awaiter(this, void 0, void 0, function* () {
+function pagination(db_1, collection_1) {
+    return __awaiter(this, arguments, void 0, function* (db, collection, page = 1, itemsPage = 20, filter = {}) {
         if (itemsPage < 1 || itemsPage > 20) {
             itemsPage = 20;
         }
         if (page < 1) {
             page = 1;
         }
-        const total = yield db_operations_1.countElements(db, collection, filter);
+        const total = yield (0, db_operations_1.countElements)(db, collection, filter);
         const pages = Math.ceil(total / itemsPage);
         return {
             page,
@@ -30,4 +30,3 @@ function pagination(db, collection, page = 1, itemsPage = 20, filter = {}) {
         };
     });
 }
-exports.pagination = pagination;

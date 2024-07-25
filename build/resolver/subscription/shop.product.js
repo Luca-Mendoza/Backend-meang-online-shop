@@ -8,7 +8,7 @@ const resolversShopProductsSubcription = {
             subscribe: (_, __, { pubsub }) => pubsub.asyncIterator(constants_1.SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT),
         },
         selectStockProductupdate: {
-            subscribe: apollo_server_express_1.withFilter((_, __, { pubsub }) => pubsub.asyncIterator(constants_1.SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT), (payload, variables) => {
+            subscribe: (0, apollo_server_express_1.withFilter)((_, __, { pubsub }) => pubsub.asyncIterator(constants_1.SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT), (payload, variables) => {
                 return (console.log(payload, variables),
                     +payload.selectStockProductupdate.id === +variables.id);
             }),

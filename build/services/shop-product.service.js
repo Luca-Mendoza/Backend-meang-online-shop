@@ -21,9 +21,9 @@ class ShopProductsService extends resolvers_operations_service_1.default {
         super(root, variables, context);
         this.collection = constants_1.COLLECTIONS.SHOP_PRODUCT;
     }
-    items(active = constants_1.ACTIVE_VALUES_FILTER.ACTIVE, platform = ['-1'], random = false, otherFilters = {}) {
-        var _a, _b;
-        return __awaiter(this, void 0, void 0, function* () {
+    items() {
+        return __awaiter(this, arguments, void 0, function* (active = constants_1.ACTIVE_VALUES_FILTER.ACTIVE, platform = ["-1"], random = false, otherFilters = {}) {
+            var _a, _b;
             let filter = { active: { $ne: false } };
             if (active == constants_1.ACTIVE_VALUES_FILTER.ALL) {
                 filter = {};
@@ -31,16 +31,16 @@ class ShopProductsService extends resolvers_operations_service_1.default {
             else if (active === constants_1.ACTIVE_VALUES_FILTER.INACTIVE) {
                 filter = { active: false };
             }
-            if (platform[0] !== '-1' && platform !== undefined) {
+            if (platform[0] !== "-1" && platform !== undefined) {
                 filter = Object.assign(Object.assign({}, filter), { platform_id: { $in: platform } });
             }
-            if (otherFilters !== {} && otherFilters !== undefined) {
+            if (otherFilters !== null && otherFilters !== undefined) {
                 filter = Object.assign(Object.assign({}, filter), otherFilters);
             }
             const page = (_a = this.getVariables().pagination) === null || _a === void 0 ? void 0 : _a.page;
             const itemsPage = (_b = this.getVariables().pagination) === null || _b === void 0 ? void 0 : _b.itemsPage;
             if (!random) {
-                const result = yield this.list(this.collection, 'productos de la tienda', page, itemsPage, filter);
+                const result = yield this.list(this.collection, "productos de la tienda", page, itemsPage, filter);
                 return {
                     info: result.info,
                     status: result.status,
@@ -48,12 +48,12 @@ class ShopProductsService extends resolvers_operations_service_1.default {
                     shopProducts: result.items,
                 };
             }
-            const result = yield db_operations_1.randomItems(this.getDb(), this.collection, filter, itemsPage);
+            const result = yield (0, db_operations_1.randomItems)(this.getDb(), this.collection, filter, itemsPage);
             if (result.length === 0 || result.length !== itemsPage) {
                 return {
                     info: { page: 1, pages: 1, itemsPage, total: 0 },
                     status: false,
-                    message: 'La información que hemos pedido no se ha obtenido tal y como deseabamos',
+                    message: "La información que hemos pedido no se ha obtenido tal y como deseabamos",
                     shopProducts: [],
                 };
             }
@@ -65,7 +65,7 @@ class ShopProductsService extends resolvers_operations_service_1.default {
                     total: itemsPage,
                 },
                 status: true,
-                message: 'La información que hemos pedido se ha obtenido tal y como deseabamos',
+                message: "La información que hemos pedido se ha obtenido tal y como deseabamos",
                 shopProducts: result,
             };
         });
@@ -85,12 +85,11 @@ class ShopProductsService extends resolvers_operations_service_1.default {
             try {
                 updateList.map((item) => __awaiter(this, void 0, void 0, function* () {
                     console.log(item);
-                    const itemDetails = yield db_operations_1.findOneElement(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { id: +item.id });
-                    if (item.increment < 0 &&
-                        item.increment + itemDetails.stock < 0) {
+                    const itemDetails = yield (0, db_operations_1.findOneElement)(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { id: +item.id });
+                    if (item.increment < 0 && item.increment + itemDetails.stock < 0) {
                         item.increment = -itemDetails.stock;
                     }
-                    yield db_operations_1.manageStockUpdate(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { id: +item.id }, { stock: item.increment });
+                    yield (0, db_operations_1.manageStockUpdate)(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { id: +item.id }, { stock: item.increment });
                     itemDetails.stock += item.increment;
                     pubsub.publish(constants_2.SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT, {
                         selectStockProductupdate: itemDetails,

@@ -17,7 +17,7 @@ const resolversUserMutation = {
         },
         blockUser(_, { id, unblock, admin }, context) {
             return new users_service_1.default(_, { id }, context).unblock(unblock, admin);
-        }
+        },
     },
 };
 exports.default = resolversUserMutation;

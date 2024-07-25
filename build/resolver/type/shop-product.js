@@ -20,22 +20,19 @@ const resolversShopProductType = {
     ShopProduct: {
         productId: (parent) => parent.product_id,
         platformId: (parent) => parent.platform_id,
-        product: (parent, __, { db }) => __awaiter(void 0, void 0, void 0, function* () {
+        product: (parent_1, __1, _a) => __awaiter(void 0, [parent_1, __1, _a], void 0, function* (parent, __, { db }) {
             const result = yield new product_service_1.default({}, { id: parent.product_id }, { db }).details();
             return result.product;
         }),
-        platform: (parent, __, { db }) => __awaiter(void 0, void 0, void 0, function* () {
+        platform: (parent_1, __1, _a) => __awaiter(void 0, [parent_1, __1, _a], void 0, function* (parent, __, { db }) {
             const result = yield new platform_service_1.default({}, { id: parent.platform_id }, { db }).details();
             return result.platform;
         }),
-        relationalProducts: (parent, __, { db }) => __awaiter(void 0, void 0, void 0, function* () {
-            return db_operations_1.findElements(db, constants_1.COLLECTIONS.SHOP_PRODUCT, {
-                $and: [
-                    { product_id: parent.product_id },
-                    { id: { $ne: parent.id } }
-                ]
+        relationalProducts: (parent_1, __1, _a) => __awaiter(void 0, [parent_1, __1, _a], void 0, function* (parent, __, { db }) {
+            return (0, db_operations_1.findElements)(db, constants_1.COLLECTIONS.SHOP_PRODUCT, {
+                $and: [{ product_id: parent.product_id }, { id: { $ne: parent.id } }],
             });
-        })
+        }),
     },
 };
 exports.default = resolversShopProductType;

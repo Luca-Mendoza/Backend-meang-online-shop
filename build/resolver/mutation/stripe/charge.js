@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const charge_service_1 = __importDefault(require("../../../services/stripe/charge.service"));
 const resolversStipeChargeMutation = {
     Mutation: {
-        chargeOrder(_, { payment, stockCharge }, { db, pubsub }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        chargeOrder(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { payment, stockCharge }, { db, pubsub }) {
                 return new charge_service_1.default().order(payment, stockCharge, db, pubsub);
             });
         },

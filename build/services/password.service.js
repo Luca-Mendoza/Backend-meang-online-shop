@@ -24,8 +24,8 @@ class PasswordService extends resolvers_operations_service_1.default {
         this.collection = constants_1.COLLECTIONS.TAGS;
     }
     SendEmail() {
-        var _a;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a;
             const email = ((_a = this.getVariables().user) === null || _a === void 0 ? void 0 : _a.email) || '';
             if (email === undefined || email === '') {
                 return {
@@ -33,7 +33,7 @@ class PasswordService extends resolvers_operations_service_1.default {
                     message: 'El email no se ha definido correctamente.'
                 };
             }
-            const user = yield db_operations_1.findOneElement(this.getDb(), constants_1.COLLECTIONS.USERS, { email });
+            const user = yield (0, db_operations_1.findOneElement)(this.getDb(), constants_1.COLLECTIONS.USERS, { email });
             console.log(user);
             if (user === undefined || user === null) {
                 return {
@@ -56,8 +56,8 @@ class PasswordService extends resolvers_operations_service_1.default {
         });
     }
     chenge() {
-        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
+            var _a, _b;
             const id = (_a = this.getVariables().user) === null || _a === void 0 ? void 0 : _a.id;
             let password = (_b = this.getVariables().user) === null || _b === void 0 ? void 0 : _b.password;
             if (id === undefined || id === '') {

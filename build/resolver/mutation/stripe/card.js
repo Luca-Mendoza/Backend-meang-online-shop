@@ -15,23 +15,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const card_service_1 = __importDefault(require("../../../services/stripe/card.service"));
 const resolversStipeCardMutation = {
     Mutation: {
-        createCardToken(_, { card }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        createCardToken(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { card }) {
                 return new card_service_1.default().createToken(card);
             });
         },
-        createCard(_, { customer, tokenCard }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        createCard(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { customer, tokenCard }) {
                 return new card_service_1.default().create(customer, tokenCard);
             });
         },
-        updateCard(_, { customer, card, details }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        updateCard(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { customer, card, details }) {
                 return new card_service_1.default().update(customer, card, details);
             });
         },
-        deleteCard(_, { customer, card }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        deleteCard(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { customer, card }) {
                 return new card_service_1.default().delete(customer, card);
             });
         },

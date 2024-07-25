@@ -15,13 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const users_service_1 = __importDefault(require("../../services/users.service"));
 const resolversUserQuery = {
     Query: {
-        users(_, { page, itemsPage, active }, context) {
-            return __awaiter(this, void 0, void 0, function* () {
+        users(_1, _a, context_1) {
+            return __awaiter(this, arguments, void 0, function* (_, { page, itemsPage, active }, context) {
                 return new users_service_1.default(_, { pagination: { page, itemsPage } }, context).items(active);
             });
         },
-        login(_, { email, password }, context) {
-            return __awaiter(this, void 0, void 0, function* () {
+        login(_1, _a, context_1) {
+            return __awaiter(this, arguments, void 0, function* (_, { email, password }, context) {
                 return new users_service_1.default(_, { user: { email, password } }, context).login();
             });
         },

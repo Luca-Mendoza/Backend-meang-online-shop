@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -109,8 +113,8 @@ class StripeCardService extends stripe_api_1.default {
                 .catch((error) => this.getError(error));
         });
     }
-    list(customer, limit = 5, startingAfter = '', endingBefore = '') {
-        return __awaiter(this, void 0, void 0, function* () {
+    list(customer_1) {
+        return __awaiter(this, arguments, void 0, function* (customer, limit = 5, startingAfter = '', endingBefore = '') {
             const pagination = this.getPagination(startingAfter, endingBefore);
             return yield this.execute(stripe_api_1.STRIPE_OBJECTS.CUSTOMERS, stripe_api_1.STRIPE_ACTIONS.LIST_SOURCE, customer, Object.assign({ object: 'card', limit }, pagination))
                 .then((result) => {

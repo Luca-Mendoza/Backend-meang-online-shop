@@ -15,18 +15,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const customer_service_1 = __importDefault(require("../../../services/stripe/customer.service"));
 const resolversStipeCustomerMutation = {
     Mutation: {
-        createCustomer(_, { name, email }, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        createCustomer(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { name, email }, { db }) {
                 return new customer_service_1.default().add(name, email, db);
             });
         },
-        upDateCustomer(_, { id, customer }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        upDateCustomer(_1, _a) {
+            return __awaiter(this, arguments, void 0, function* (_, { id, customer }) {
                 return new customer_service_1.default().update(id, customer);
             });
         },
-        deleteCustomer(_, { id }, { db }) {
-            return __awaiter(this, void 0, void 0, function* () {
+        deleteCustomer(_1, _a, _b) {
+            return __awaiter(this, arguments, void 0, function* (_, { id }, { db }) {
                 return new customer_service_1.default().delete(id, db);
             });
         },
