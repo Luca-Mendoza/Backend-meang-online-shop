@@ -29,7 +29,7 @@
   },
   "homepage": "https://github.com/Luca-Mendoza/Backend-meang-online-shop#readme",
   "engines": {
-    "node": "18.17.1",
+    "node": "16.13.0",
     "npm": "7.20.3"
   },
   "dependencies": {
