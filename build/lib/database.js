@@ -18,7 +18,7 @@ class Database {
     init() {
         return __awaiter(this, void 0, void 0, function* () {
             const MONGO_DB = process.env.DATABASE ||
-                'mongodb://localhost:27017/meang-online-shop';
+                'mongodb+srv://localhost:27017/meang-online-shop';
             const client = yield mongodb_1.default.connect(MONGO_DB, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,

@@ -5,7 +5,7 @@ class Database {
 	async init() {
 		const MONGO_DB =
 			process.env.DATABASE ||
-			'mongodb://localhost:27017/meang-online-shop';
+			'mongodb+srv://localhost:27017/meang-online-shop';
 
 		const client = await MongoClient.connect(MONGO_DB, {
 			useNewUrlParser: true,

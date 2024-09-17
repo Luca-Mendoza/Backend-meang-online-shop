@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "build/server.js",
-      "use": "@vercel/node"
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": ["build/schema/**/*.graphql"]
+      }
     }
   ],
   "routes": [
