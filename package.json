@@ -4,8 +4,8 @@
   "description": "Proyecto Backend API GraphQL Tienda Online - MAN+G",
   "main": "build/serve.js",
   "scripts": {
-    "start": "node build/server.js",
     "build": "tsc -p . && ncp src/schema build/schema",
+    "start": "node build/server.js",
     "dev": "nodemon \"src/server.ts\" --exec \"ts-node\" \"src/server.ts\" -e ts,graphql,json",
     "publish": "npm run build && npx vercel --prod"
   },
