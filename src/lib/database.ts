@@ -1,5 +1,6 @@
 import chalk from 'chalk';
 import MongoClient from 'mongodb';
+import { syncFromProduction } from './sync-prod';
 
 class Database {
 	async init() {
@@ -22,6 +23,7 @@ class Database {
 			console.log(
 				`DATABASE: ${chalk.greenBright(db.databaseName)}`,
 			);
+			await syncFromProduction(db);
 		}
 		return db;
 	}
