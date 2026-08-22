@@ -70,10 +70,25 @@ class StripeCustomerService extends StripeApi {
 			{ email },
 		);
 		if (userCheckExiste.data.length > 0) {
-			// Usuario Existe
+			// Usuario ya existe en Stripe: asociar su stripeCustomer ID al usuario en MongoDB
+			const existingCustomer = userCheckExiste.data[0];
+			const user: IUser = await findOneElement(
+				db,
+				COLLECTIONS.USERS,
+				{ email },
+			);
+			if (user) {
+				user.stripeCustomer = existingCustomer.id;
+				await new UsersService(
+					{},
+					{ user },
+					{ db },
+				).modify();
+			}
 			return {
-				status: false,
-				message: `El usuario con el email ${email} ya existe en el sistema`,
+				status: true,
+				message: `El cliente ${name} ya existía en Stripe y fue vinculado correctamente.`,
+				customer: existingCustomer,
 			};
 		}
 		// Crea un nuevo usuario en el sistema de stripe

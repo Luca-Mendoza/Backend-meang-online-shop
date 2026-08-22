@@ -116,28 +116,32 @@ class ShopProductsService extends ResolversOperationsService {
   //  Detalles de productos en Stock 'Shop-Product'
   async updateStock(updateList: Array<IStock>, pubsub: PubSub) {
     try {
-      updateList.map(async (item: IStock) => {
+      for (const item of updateList) {
         console.log(item);
         const itemDetails = await findOneElement(
-          this.getDb(), //obtener de referencia la base de dato
-          COLLECTIONS.SHOP_PRODUCT, //ontenemos la collecion shop-product
-          { id: +item.id }
+          this.getDb(),
+          COLLECTIONS.SHOP_PRODUCT,
+          { $or: [{ id: +item.id }, { id: item.id.toString() }] }
         );
 
-        if (item.increment < 0 && item.increment + itemDetails.stock < 0) {
-          item.increment = -itemDetails.stock;
+        if (itemDetails) {
+          if (item.increment < 0 && item.increment + itemDetails.stock < 0) {
+            item.increment = -itemDetails.stock;
+          }
+          await manageStockUpdate(
+            this.getDb(),
+            COLLECTIONS.SHOP_PRODUCT,
+            { id: itemDetails.id },
+            { stock: item.increment }
+          );
+          itemDetails.stock += item.increment;
+          if (pubsub && typeof pubsub.publish === 'function') {
+            pubsub.publish(SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT, {
+              selectStockProductupdate: itemDetails,
+            });
+          }
         }
-        await manageStockUpdate(
-          this.getDb(), //obtener de referencia la base de dato
-          COLLECTIONS.SHOP_PRODUCT, //ontenemos la collecion shop-product
-          { id: +item.id },
-          { stock: item.increment }
-        );
-        itemDetails.stock += item.increment;
-        pubsub.publish(SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT, {
-          selectStockProductupdate: itemDetails,
-        });
-      });
+      }
       return true;
     } catch (e) {
       console.log(e);
