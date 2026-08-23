@@ -56,9 +56,11 @@ class ResolversOperationsService {
         return __awaiter(this, void 0, void 0, function* () {
             const collectionLabel = collection.toLocaleLowerCase();
             try {
-                return yield (0, db_operations_1.findOneElement)(this.getDb(), collection, {
-                    id: this.variables.id,
-                }).then((result) => {
+                const idVal = this.variables.id;
+                const filter = typeof idVal === 'number'
+                    ? { $or: [{ id: idVal }, { id: idVal.toString() }] }
+                    : { id: idVal };
+                return yield (0, db_operations_1.findOneElement)(this.getDb(), collection, filter).then((result) => {
                     if (result) {
                         return {
                             status: true,
@@ -113,7 +115,11 @@ class ResolversOperationsService {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 return yield (0, db_operations_1.updateOneElement)(this.getDb(), collection, filter, objectUpdate).then((res) => {
-                    if (res.result.nModified === 1 && res.result.ok) {
+                    const isSuccess = (res.matchedCount && res.matchedCount > 0) ||
+                        (res.modifiedCount && res.modifiedCount > 0) ||
+                        (res.result && (res.result.nModified > 0 || res.result.ok)) ||
+                        res.acknowledged;
+                    if (isSuccess) {
                         return {
                             status: true,
                             message: `Elemento del ${item} actualizado correctamente.`,

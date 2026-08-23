@@ -83,18 +83,22 @@ class ShopProductsService extends resolvers_operations_service_1.default {
     updateStock(updateList, pubsub) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                updateList.map((item) => __awaiter(this, void 0, void 0, function* () {
+                for (const item of updateList) {
                     console.log(item);
-                    const itemDetails = yield (0, db_operations_1.findOneElement)(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { id: +item.id });
-                    if (item.increment < 0 && item.increment + itemDetails.stock < 0) {
-                        item.increment = -itemDetails.stock;
+                    const itemDetails = yield (0, db_operations_1.findOneElement)(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { $or: [{ id: +item.id }, { id: item.id.toString() }] });
+                    if (itemDetails) {
+                        if (item.increment < 0 && item.increment + itemDetails.stock < 0) {
+                            item.increment = -itemDetails.stock;
+                        }
+                        yield (0, db_operations_1.manageStockUpdate)(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { id: itemDetails.id }, { stock: item.increment });
+                        itemDetails.stock += item.increment;
+                        if (pubsub && typeof pubsub.publish === 'function') {
+                            pubsub.publish(constants_2.SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT, {
+                                selectStockProductupdate: itemDetails,
+                            });
+                        }
                     }
-                    yield (0, db_operations_1.manageStockUpdate)(this.getDb(), constants_1.COLLECTIONS.SHOP_PRODUCT, { id: +item.id }, { stock: item.increment });
-                    itemDetails.stock += item.increment;
-                    pubsub.publish(constants_2.SUBSCRIPTIONS_EVENT.UPDATE_STOCK_PRODUCT, {
-                        selectStockProductupdate: itemDetails,
-                    });
-                }));
+                }
                 return true;
             }
             catch (e) {

@@ -17,7 +17,7 @@ const resolversStipeChargeMutation = {
     Mutation: {
         chargeOrder(_1, _a, _b) {
             return __awaiter(this, arguments, void 0, function* (_, { payment, stockCharge }, { db, pubsub }) {
-                return new charge_service_1.default().order(payment, stockCharge, db, pubsub);
+                return new charge_service_1.default().order(payment, stockCharge, pubsub, db);
             });
         },
     },

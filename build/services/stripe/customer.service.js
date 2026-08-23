@@ -74,9 +74,16 @@ class StripeCustomerService extends stripe_api_1.default {
         return __awaiter(this, void 0, void 0, function* () {
             const userCheckExiste = yield new stripe_api_1.default().execute(stripe_api_1.STRIPE_OBJECTS.CUSTOMERS, stripe_api_1.STRIPE_ACTIONS.LIST, { email });
             if (userCheckExiste.data.length > 0) {
+                const existingCustomer = userCheckExiste.data[0];
+                const user = yield (0, db_operations_1.findOneElement)(db, constants_1.COLLECTIONS.USERS, { email });
+                if (user) {
+                    user.stripeCustomer = existingCustomer.id;
+                    yield new users_service_1.default({}, { user }, { db }).modify();
+                }
                 return {
-                    status: false,
-                    message: `El usuario con el email ${email} ya existe en el sistema`,
+                    status: true,
+                    message: `El cliente ${name} ya existía en Stripe y fue vinculado correctamente.`,
+                    customer: existingCustomer,
                 };
             }
             return yield new stripe_api_1.default()

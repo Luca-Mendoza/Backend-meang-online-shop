@@ -152,7 +152,9 @@ class UsersService extends resolvers_operations_service_1.default {
                     user: null,
                 };
             }
-            const filter = { id: user === null || user === void 0 ? void 0 : user.id };
+            const idVal = user === null || user === void 0 ? void 0 : user.id;
+            const rawId = !isNaN(Number(idVal)) ? Number(idVal) : idVal;
+            const filter = { $or: [{ id: idVal }, { id: String(idVal) }, { id: rawId }] };
             const result = yield this.update(this.collection, filter, user || {}, 'usuario');
             return {
                 status: result.status,

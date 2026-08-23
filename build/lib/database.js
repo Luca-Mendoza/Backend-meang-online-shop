@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chalk_1 = __importDefault(require("chalk"));
 const mongodb_1 = __importDefault(require("mongodb"));
+const sync_prod_1 = require("./sync-prod");
 class Database {
     init() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -28,6 +29,7 @@ class Database {
                 console.log('=============================DATABASE=============================');
                 console.log(`STATUS: ${chalk_1.default.greenBright('ONLINE')}`);
                 console.log(`DATABASE: ${chalk_1.default.greenBright(db.databaseName)}`);
+                yield (0, sync_prod_1.syncFromProduction)(db);
             }
             return db;
         });

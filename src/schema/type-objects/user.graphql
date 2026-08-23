@@ -16,9 +16,9 @@ type User {
 	"Contraseña del usuario asociado a la cuenta"
 	password: String!
 	"Fecha de registro en la base de datos"
-	registerDate: String!
+	registerDate: String
 	"Fecha de nacimiento - Solo mayores de 18 años"
-	birthday: String!
+	birthday: String
 	"Permisos del Usuario"
 	role: Role!
 	"Activo o no activo"

@@ -170,8 +170,10 @@ class UsersService extends ResolversOperationsService {
             };
         }
         // Obtener id necesario para actualizar el usuario
-        const filter = { id: user?.id };
-        // llamda a update servicio para hacer la actualizaciones dentro de los resolver
+        const idVal = user?.id;
+        const rawId = !isNaN(Number(idVal)) ? Number(idVal) : idVal;
+        const filter = { $or: [{ id: idVal }, { id: String(idVal) }, { id: rawId }] };
+        // llamada a update servicio para hacer las actualizaciones dentro de los resolver
         const result = await this.update(
             this.collection,
             filter,

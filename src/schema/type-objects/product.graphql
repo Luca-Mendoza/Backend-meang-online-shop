@@ -6,7 +6,7 @@ type Product {
 	img: String!
 	clip: Clip
 	rating: Rating
-	screenshoot: [String!]!
+	screenshoot: [String!]
 }
 
 

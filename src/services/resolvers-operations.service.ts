@@ -80,9 +80,11 @@ class ResolversOperationsService {
 
 		try {
 			// Respuesta correcta
-			return await findOneElement(this.getDb(), collection, {
-				id: this.variables.id,
-			}).then((result) => {
+			const idVal = this.variables.id;
+			const filter = typeof idVal === 'number'
+				? { $or: [{ id: idVal }, { id: idVal.toString() }] }
+				: { id: idVal };
+			return await findOneElement(this.getDb(), collection, filter).then((result) => {
 				// Encuentra información
 				if (result) {
 					return {
@@ -153,8 +155,13 @@ class ResolversOperationsService {
 				collection,
 				filter,
 				objectUpdate,
-			).then((res) => {
-				if (res.result.nModified === 1 && res.result.ok) {
+			).then((res: any) => {
+				const isSuccess =
+					(res.matchedCount && res.matchedCount > 0) ||
+					(res.modifiedCount && res.modifiedCount > 0) ||
+					(res.result && (res.result.nModified > 0 || res.result.ok)) ||
+					res.acknowledged;
+				if (isSuccess) {
 					return {
 						status: true,
 						message: `Elemento del ${item} actualizado correctamente.`,
