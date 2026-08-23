@@ -82,7 +82,6 @@ class UsersService extends ResolversOperationsService {
             if (passwordCheck != null) {
                 delete user.password;
                 delete user.birthday;
-                delete user.registerDate;
             }
             return {
                 status: passwordCheck,
